@@ -4,8 +4,8 @@ const User=require('../database/models/users')
 const Product=require('../database/models/product')
 const Phone=require('../database/models/phone')
 const Solded=require('../database/models/solded')
-const db = new Sequelize('phony', 'root', 'root', {
-  host: '',
+const db = new Sequelize('phony', 'root', 'K=U3X=Z9z5Dg4yeDmhp6', {
+  host: '195.200.15.61',
   dialect: 'mysql'
 });
 
