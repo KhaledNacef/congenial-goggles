@@ -236,7 +236,7 @@ export default function Dashboard() {
                         >
                             <CancelIcon />
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
-                                Téléphones aujourd'hui
+                                Téléphones refusé aujourd'hui
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
                                 {inActive.length}
