@@ -68,11 +68,27 @@ export default function Dashboard() {
     const fetchActive = async (status) => {
         try {
             const response = await axios.get(`https://api.deviceshopleader.com/api/phone/status/${userIdFromCookie}/${status}`);
-            setActive(response.data);
+            
+            const today = new Date();
+            const todayYear = today.getFullYear();
+            const todayMonth = today.getMonth();
+            const todayDate = today.getDate();
+    
+            const phonesUpdatedToday = response.data.filter(phone => {
+                const updatedDate = new Date(phone.updatedAt); // Assuming `updatedAt` is the date field
+                return (
+                    updatedDate.getFullYear() === todayYear &&
+                    updatedDate.getMonth() === todayMonth &&
+                    updatedDate.getDate() === todayDate
+                );
+            });
+    
+            setActive(phonesUpdatedToday);
         } catch (error) {
-            console.log(error);
+            console.error("Error fetching active phones:", error);
         }
     };
+    
 
     useEffect(() => {
         fetchData();
