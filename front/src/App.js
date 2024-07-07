@@ -1,8 +1,9 @@
+// App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Signup from './home/signup.jsx';
-import Login from './home/login.jsx';
-import User from './user/user.jsx';
+import Signup from './home/signup';
+import Login from './home/login';
+import User from './user/user';
 import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -15,9 +16,7 @@ const App = () => {
           <Route path="/" element={<Login />} />
 
           {/* Use ProtectedRoute for routes that require authentication */}
-          <Route element={<ProtectedRoute />}>
-            <Route path="/user" element={<User />} />
-          </Route>
+          <ProtectedRoute path="/user" element={<User />} />
         </Routes>
       </Router>
     </AuthProvider>
