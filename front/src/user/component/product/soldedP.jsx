@@ -70,7 +70,6 @@ const SoldedP = ({ filteredData, setDataA }) => {
 
   return (
     <div>
-      <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, boxShadow: 4, marginLeft: 26, textAlign: 'center', fontWeight: 'bold', border: '1px Solid grey', backgroundColor: 'white', borderRadius: 15, width: '19%', padding: 1 }}>REVENUS</Typography>
       <Box sx={{ display: 'flex', flexDirection: 'row', width: '95%', margin: 'auto'}}>
         <Paper sx={{ boxShadow: 20, width: '70%', marginTop: 5, marginRight: 1, borderRadius: 5 }}>
           <TableContainer sx={{ maxHeight: 600 }}>
@@ -114,6 +113,8 @@ const SoldedP = ({ filteredData, setDataA }) => {
         </Paper>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '30%', marginTop: 10 }}>
+        <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, boxShadow: 4, textAlign: 'center', fontWeight: 'bold', border: '1px Solid grey', backgroundColor: 'white', borderRadius: 15, width: '85%', padding: 1 }}>REVENUS</Typography>
+
           <Box sx={{ width: '95%', border: '1px solid grey', height: 100, fontSize: 30, padding: 1, margin: 'auto', marginBottom: 1, marginTop: 1, borderRadius: 5, boxShadow: 2 }}>TOTAL DES REVENUS :
             <Typography sx={{ color: '#007300', fontFamily: 'Kanit', fontWeight: 500 }} variant='h4'><MonetizationOnIcon /> {totalIncome} DT</Typography>
           </Box>
