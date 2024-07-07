@@ -39,11 +39,7 @@ const Allphone = ({ searchQuery }) => {
 const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
 
 
-  const filteredData = data.filter((row) =>
-    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
+  
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -66,6 +62,13 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
     getall()
     ,[]
   )
+
+
+  const filteredData = data.filter((row) =>
+    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
 
   return (
     <div>
