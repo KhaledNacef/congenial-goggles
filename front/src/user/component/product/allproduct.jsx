@@ -132,13 +132,13 @@ const Allproduct = ({ filteredData, setDataA }) => {
                     </TableCell>
                     <TableCell align="center">
                       <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" color="primary" size="small">
-                        Update Quantity
+                        Mettre à jour la quantité
                       </Button>
                       <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained" color="secondary" size="small" sx={{ marginLeft: 1 }}>
-                        Sell
+                        Vendre
                       </Button>
                       <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1 }}>
-                        Edit Price
+                        Modifier le prix
                       </Button>
                     </TableCell>
                     {(view === 'sell' && selectedId === row.id) && (
