@@ -15,7 +15,6 @@ import Create from './create.jsx';
 import Fixedd from './fixed.jsx';
 import Allphone from './allphone.jsx';
 import Wat from './wating.jsx';
-import Cookies from 'js-cookie';
 
 const columns = [
   { id: 'id', label: 'ID', minWidth: 70 },
