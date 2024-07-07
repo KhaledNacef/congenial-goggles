@@ -278,7 +278,7 @@ const Signup = () => {
             </Grid>
           </Grid>
           <p style={{ textAlign: 'center', marginTop: '16px' }}>
-            Vous avez déjà un compte? <Link to="/login">Se connecter</Link>
+            Vous avez déjà un compte? <Link to="/">Se connecter</Link>
           </p>
         </div>
       </div>
