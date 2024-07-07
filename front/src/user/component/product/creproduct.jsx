@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import ProductIcon from '@mui/icons-material/LocalMall';
+import Cookies from 'js-cookie';
 
 export default function Creproduct() {
   // State variables to store form inputs
@@ -9,7 +10,7 @@ export default function Creproduct() {
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [image, setImage] = useState('');
-  const userIdFromCookie = localStorage.getItem('token');
+  const userIdFromCookie = Cookies.get('token');
 
   // Function to handle form submission
   const handleSubmit = async () => {

@@ -15,6 +15,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from '@mui/material/Typography';
+import Cookies from 'js-cookie';
 
 const TousLesTelephones = ({ filteredData }) => {
   const [page, setPage] = useState(0);

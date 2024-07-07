@@ -12,6 +12,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
+import Cookies from 'js-cookie';
 
 const Profile = () => {
     const [name, setName] = useState('');
@@ -31,7 +32,7 @@ const Profile = () => {
     const [update, setUpdate] = useState(false);
 
     useEffect(() => {
-        const userIdFromCookie = localStorage.getItem('token');
+        const userIdFromCookie = Cookies.get('token');
         if (userIdFromCookie) {
             setUserId(userIdFromCookie);
             fetchData(userIdFromCookie);

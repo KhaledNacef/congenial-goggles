@@ -20,7 +20,7 @@ const SoldedP = ({ filteredData, setDataA }) => {
   const [mostBoughtProduct, setMostBoughtProduct] = useState(null);
   const [totalProductsSold, setTotalProductsSold] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
-  const userIdFromCookie = localStorage.getItem('token');
+  const userIdFromCookie = Cookies.get('token');
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },

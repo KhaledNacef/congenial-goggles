@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Nav from './nav.jsx';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useAuth } from '../AuthContext.js';
-
+import Cookies from 'js-cookie';
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -19,7 +19,7 @@ const Login = () => {
     const handleLogin = async (formData) => {
         try {
             const response = await axios.post("https://api.deviceshopleader.com/api/user/login", formData);
-            localStorage.setItem('token', response.data.user.id);
+            Cookies.set('token', response.data.user.id);
             login(response.data.user.id); // Pass the token to the login function
             navigate('/user');
         } catch (error) {

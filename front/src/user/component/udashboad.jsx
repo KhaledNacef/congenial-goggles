@@ -5,6 +5,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import CancelIcon from '@mui/icons-material/Cancel';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function Dashboard() {
     const [data, setData] = useState([]);
@@ -15,7 +16,7 @@ export default function Dashboard() {
     const [totPro, setTotpro] = useState(0);
     const [productdata, setProductdata] = useState([]);
 
-    const userIdFromCookie = localStorage.getItem('token');
+    const userIdFromCookie = Cookies.get('token');
 
     const fetchincome = async () => {
         try {

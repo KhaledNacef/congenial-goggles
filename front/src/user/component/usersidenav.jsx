@@ -10,6 +10,7 @@ import StorefrontIcon from '@mui/icons-material/Storefront';
 import PersonIcon from '@mui/icons-material/Person';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const logo = require('../../logo1.png');
 
@@ -34,7 +35,7 @@ const UserSidebar = ({ changevie }) => {
   };
 
   useEffect(() => {
-    const userIdFromCookie = localStorage.getItem('token');
+    const userIdFromCookie = Cookies.get('token');
     fetchData(userIdFromCookie);
   }, []);
 

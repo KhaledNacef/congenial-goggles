@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
+import Cookies from 'js-cookie';
 
 const Create = () => {
-  const userIdFromCookie = localStorage.getItem('token');
+  const userIdFromCookie = Cookies.get('token');
   const [brand, setBrand] = useState('');
   const [clientName, setClientName] = useState('');
   const [clientNumber, setClientNumber] = useState('');

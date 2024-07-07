@@ -14,6 +14,7 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { Box, Typography } from '@mui/material';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import Cookies from 'js-cookie';
 
 const Fixedd = ({ filteredData, getBstatus }) => {
   const [page, setPage] = useState(0);
@@ -47,7 +48,7 @@ const Fixedd = ({ filteredData, getBstatus }) => {
     setView(!view);
   };
 
-  const userIdFromCookie = localStorage.getItem('token');
+  const userIdFromCookie = Cookies.get('token');
 
   const updatePrice = async () => {
     try {

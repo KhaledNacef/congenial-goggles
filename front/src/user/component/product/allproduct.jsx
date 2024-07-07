@@ -14,6 +14,7 @@ import UpdateIcon from '@mui/icons-material/Update';
 import SellIcon from '@mui/icons-material/Sell';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Allproduct = ({ filteredData, setDataA }) => {
   const [page, setPage] = useState(0);
@@ -33,7 +34,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
     { id: 'action', label: 'Action', minWidth: 200 },
   ];
 
-  const userIdFromCookie = localStorage.getItem('token');
+  const userIdFromCookie = Cookies.get('token');
 
   const fetchData = async () => {
     try {

@@ -15,6 +15,7 @@ import Create from './create.jsx';
 import Fixedd from './fixed.jsx';
 import Allphone from './allphone.jsx';
 import Wat from './wating.jsx';
+import Cookies from 'js-cookie';
 
 const columns = [
   { id: 'id', label: 'ID', minWidth: 70 },
@@ -27,7 +28,7 @@ const columns = [
   { id: 'createdAt', label: 'Créé le', minWidth: 70 },
 ];
 
-const userIdFromCookie = localStorage.getItem('token');
+const userIdFromCookie = Cookies.get('token');
 const baseUrl = 'https://api.deviceshopleader.com'; // Base URL for API
 
 export default function Phone() {

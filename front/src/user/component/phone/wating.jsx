@@ -13,12 +13,13 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { Typography, Box } from '@mui/material';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import Cookies from 'js-cookie';
 
 const Wat = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [data, setData] = useState([]);
-  const userIdFromCookie = localStorage.getItem('token');
+  const userIdFromCookie = Cookies.get('token');
 
   const filteredData = data.filter(
     (row) =>

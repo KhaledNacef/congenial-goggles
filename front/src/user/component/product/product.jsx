@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Creproduct from './creproduct.jsx';
 import Allproduct from './allproduct.jsx';
 import SoldedP from './soldedP.jsx';
+import Cookies from 'js-cookie';
 
 const Product = () => {
   const [searchQuery, setSearchQuery] = useState('');
