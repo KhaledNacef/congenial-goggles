@@ -35,7 +35,9 @@ const TousLesTelephones = ({ searchQuery }) => {
     { id: 'Created At', label: 'Créé le', minWidth: 70 },
   ];
 
-  
+  const userIdFromCookie = Cookies.get('token');
+const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
+
 
   const filteredData = data.filter((row) =>
     row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
