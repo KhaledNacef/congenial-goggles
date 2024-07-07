@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Nav from './nav.jsx';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../AuthContext.js';
 
 const Login = () => {
     const [email, setEmail] = useState("");
