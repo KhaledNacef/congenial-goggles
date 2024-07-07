@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,7 +13,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { Box, Typography } from '@mui/material';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import Cookies from 'js-cookie';
 
 const Fixedd = ({ searchQuery }) => {
@@ -61,8 +60,6 @@ const Fixedd = ({ searchQuery }) => {
     }
   };
 
-  const totalRevenue = filteredData.reduce((acc, curr) => acc + curr.price, 0);
-
   const getBstatus = async (status) => {
     try {
       const response = await axios.get(`https://api.deviceshopleader.com/api/phone/status/${userIdFromCookie}/${status}`);
@@ -76,25 +73,18 @@ const Fixedd = ({ searchQuery }) => {
     getBstatus('Fixed');
   }, []);
 
-
-
-
-  
-
-
   const filteredData = data.filter((row) =>
     row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
     row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-
+  const totalRevenue = filteredData.reduce((acc, curr) => acc + curr.price, 0);
 
   return (
     <div>
       <Box sx={{ justifyContent: 'center', boxShadow: 2, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto', marginBottom: 1, backgroundColor: 'white', borderRadius: 5, width: '55%', padding: 1, border: '1px solid grey' }}>
         <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', color: 'black', width: '100%', backgroundColor: 'white' }}>TÉLÉPHONES FIXÉS</Typography>
       </Box>
-
 
       <Paper sx={{ width: '95%', overflow: 'hidden', margin: 'auto', boxShadow: 8, borderRadius: 5 }}>
         <TableContainer sx={{ maxHeight: '75vh' }}>
@@ -157,6 +147,11 @@ const Fixedd = ({ searchQuery }) => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+
+      <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+        <Typography variant="h6" sx={{ fontFamily: 'Kanit', fontWeight: 'bold' }}>Revenu Total: {totalRevenue} DT</Typography>
+        <MonetizationOnIcon sx={{ marginLeft: '10px', color: 'gold' }} />
+      </Box>
     </div>
   );
 };

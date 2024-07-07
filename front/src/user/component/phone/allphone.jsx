@@ -58,8 +58,10 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
     }
   }
 
-  useEffect(
+  useEffect(()=>{
     getall()
+  }
+    
     ,[]
   )
 
