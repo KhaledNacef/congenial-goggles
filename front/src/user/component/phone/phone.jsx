@@ -1,72 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
+import React, {  useState } from 'react';
+
 import Button from '@mui/material/Button';
-import Cookies from 'js-cookie';
 import { Box } from '@mui/material';
-import axios from 'axios';
 import Create from './create.jsx';
 import Fixedd from './fixed.jsx';
 import Allphone from './allphone.jsx';
 import Wat from './wating.jsx';
+import Deliv from './deliv.jsx';
+import Refused from './refu.jsx';
 
-const columns = [
-  { id: 'id', label: 'ID', minWidth: 70 },
-  { id: 'name', label: 'Marque', minWidth: 70 },
-  { id: 'email', label: 'Nom du client', minWidth: 100 },
-  { id: 'password', label: 'Numéro du client', minWidth: 100 },
-  { id: 'createdAt', label: 'Problème', minWidth: 100 },
-  { id: 'deliveredOn', label: 'Livré le', minWidth: 100 },
-  { id: 'status', label: 'Statut', minWidth: 70 },
-  { id: 'createdAt', label: 'Créé le', minWidth: 70 },
-];
-
-const userIdFromCookie = Cookies.get('token');
-const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
 
 export default function Phone() {
-  const [data, setData] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [view, setView] = useState('paper');
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`${baseUrl}/phone/deliveredtoday/${userIdFromCookie}`);
-      setData(response.data);
-    } catch (error) {
-      console.error('Erreur lors de la récupération des données :', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const getBstatus = async (status) => {
-    try {
-      const response = await axios.get(`${baseUrl}/phone/status/${userIdFromCookie}/${status}`);
-      setData(response.data);
-    } catch (error) {
-      console.error('Erreur lors de la récupération des données de statut :', error);
-    }
-  };
 
   
 
@@ -78,18 +26,14 @@ export default function Phone() {
     setView(viewType);
   };
 
-  const filteredData = data.filter((row) =>
-    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
+ 
   return (
     <div style={{ width: '100%', minHeight: '100vh', backgroundColor: 'white', borderRadius: 20, marginLeft: 3, border: '1px solid black' }}>
       
       <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
         <Button onClick={() => handleViewChange('create')} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Ajouter un téléphone</Button>
-        <Button onClick={() => { fetchData(); handleViewChange('paper'); setPage(0); }} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Aujourd'hui</Button>
-        <Button onClick={() => { getBstatus('Refused'); handleViewChange('paper'); setPage(0); }} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Téléphone refusé</Button>
+        <Button onClick={() => { handleViewChange('paper'); setPage(0); }} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Aujourd'hui</Button>
+        <Button onClick={() => {  handleViewChange('ref'); setPage(0); }} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Téléphone refusé</Button>
         <Button onClick={() => { handleViewChange('fixed') }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Téléphone réparé</Button>
         <Button onClick={() => { handleViewChange('waiting'); }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Téléphone en attente</Button>
         <Button onClick={() => {handleViewChange('all'); }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Tous les téléphones</Button>
@@ -99,48 +43,8 @@ export default function Phone() {
 
       {view === 'create' ? <Create /> : null}
       {view === 'waiting' ? <Wat searchQuery={searchQuery} /> : null}
-      {view === 'paper' ?
-        <Paper sx={{ width: '95%', overflowX: 'auto', margin: 'auto', marginTop: 10, boxShadow: 9, borderRadius: 5 }}>
-          <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell key={column.id} align="center" style={{ minWidth: column.minWidth, fontWeight: 'bold' }}>
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredData
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                      <TableCell align="center">{row.id}</TableCell>
-                      <TableCell align="center">{row.brand}</TableCell>
-                      <TableCell align="center">{row.phoneHolder}</TableCell>
-                      <TableCell align="center">{row.holderNumber}</TableCell>
-                      <TableCell align="center">{row.problem}</TableCell>
-                      <TableCell align="center">{row.delivredOn.slice(0, 10)}</TableCell>
-                      <TableCell align="center" style={{ backgroundColor: row.status === 'Refused' ? '#f44336' : row.status === 'Fixed' ? '#99cc99' : '#fbef53', borderRadius: '30px', fontWeight: 'bold', color: 'black' }}>{row.status}</TableCell>
-                      <TableCell align="center">{row.createdAt}</TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={filteredData.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper> : null
-      }
+      {view === 'ref' ? <Refused searchQuery={searchQuery} /> : null}
+      {view === 'paper' ? <Deliv  searchQuery={searchQuery}/> : null }
       {view === 'fixed' ? <Fixedd  searchQuery={searchQuery} /> : null}
       {view === 'all' ? <Allphone searchQuery={searchQuery} /> : null}
     </div>

@@ -112,7 +112,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
-                  <TableCell key={column.id} align="center" style={{ fontFamily: 'Kanit', fontWeight: 500, minWidth: column.minWidth, fontWeight: 'bold' }}>
+                  <TableCell key={column.id} align="center" style={{ fontFamily: 'Kanit', fontWeight: 'bold', minWidth: column.minWidth }}>
                     {column.label}
                   </TableCell>
                 ))}
@@ -131,15 +131,15 @@ const Allproduct = ({ filteredData, setDataA }) => {
                       <img src={row.image} alt="Product" style={{ maxWidth: '100px', maxHeight: '100px' }} />
                     </TableCell>
                     <TableCell align="center">
-                      <IconButton onClick={() => { setSelectedId(row.id); setView('up'); }} aria-label="Update" size="small">
-                        <UpdateIcon />
-                      </IconButton>
-                      <IconButton onClick={() => { setSelectedId(row.id); setView('sell'); }} aria-label="Sell" size="small">
-                        <SellIcon />
-                      </IconButton>
-                      <IconButton onClick={() => { setSelectedId(row.id); setView('price'); }} aria-label="Edit Price" size="small">
-                        <EditIcon />
-                      </IconButton>
+                      <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" color="primary" size="small">
+                        Update Quantity
+                      </Button>
+                      <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained" color="secondary" size="small" sx={{ marginLeft: 1 }}>
+                        Sell
+                      </Button>
+                      <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1 }}>
+                        Edit Price
+                      </Button>
                     </TableCell>
                     {(view === 'sell' && selectedId === row.id) && (
                       <TableCell align="center" style={{ margin: '10px' }}>
