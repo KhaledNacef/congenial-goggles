@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const soldProductController = require('../contorler/solded');
+const soldProductController = require('../contorler/solded.js');
 
 // Route to get all sold products
 router.get('/soldproducts/:userId', soldProductController.getAllSoldProducts);

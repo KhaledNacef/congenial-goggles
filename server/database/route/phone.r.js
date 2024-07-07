@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const phoneController = require('../contorler/phone.c')
+const phoneController = require('../contorler/phone.c.js')
 
 // Create a new phone
 router.post('/crate', phoneController.createPhone);
