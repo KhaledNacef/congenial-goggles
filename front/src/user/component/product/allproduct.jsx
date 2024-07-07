@@ -125,7 +125,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                     <TableCell align="center">{row.id}</TableCell>
                     <TableCell align="center">{row.name}</TableCell>
-                    <TableCell align="center">{row.price}</TableCell>
+                    <TableCell align="center">{row.price}DT</TableCell>
                     <TableCell align="center">{row.quantity}</TableCell>
                     <TableCell align="center">
                       <img src={row.image} alt="Product" style={{ maxWidth: '100px', maxHeight: '100px' }} />

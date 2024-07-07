@@ -104,7 +104,7 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
                     <TableCell align="center">{row.holderNumber}</TableCell>
                     <TableCell align="center">{row.problem}</TableCell>
                     <TableCell align="center">{row.deliveredOn}</TableCell>
-                    <TableCell align="center" sx={{ color: '#007300', fontWeight: 'bold' }}>{row.price}</TableCell>
+                    <TableCell align="center" sx={{ color: '#007300', fontWeight: 'bold' }}>{row.price}DT</TableCell>
                     <TableCell align="center" sx={{ bgcolor: row.status === 'Refused' ? '#f44336' : row.status === 'Fixed' ? '#99cc99' : '#fbef53', borderRadius: 30, fontWeight: 'bold', color: 'black' }}>{row.status}</TableCell>
                     <TableCell align="center">{row.createdAt}</TableCell>
                     <TableCell align="center">
