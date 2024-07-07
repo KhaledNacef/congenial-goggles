@@ -71,7 +71,7 @@ const SoldedP = ({ filteredData, setDataA }) => {
   return (
     <div>
       <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, boxShadow: 4, marginLeft: 26, textAlign: 'center', fontWeight: 'bold', border: '1px Solid grey', backgroundColor: 'white', borderRadius: 15, width: '19%', padding: 1 }}>REVENUS</Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'row', width: '95%', margin: 'auto', marginTop: 10 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', width: '95%', margin: 'auto', marginTop: 3 }}>
         <Paper sx={{ boxShadow: 20, width: '70%', marginTop: 5, marginRight: 1, borderRadius: 5 }}>
           <TableContainer sx={{ maxHeight: 600 }}>
             <Table stickyHeader aria-label="sticky table">
