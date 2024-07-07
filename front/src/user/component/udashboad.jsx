@@ -118,7 +118,7 @@ export default function Dashboard() {
             const phoneMonth = fixDate.getMonth() + 1;
             const phoneDay = fixDate.getDate();
             return (
-                phone.status === 'Réparé' &&
+                phone.status === 'Fixed' &&
                 phoneYear === currentYear &&
                 phoneMonth === currentMonth &&
                 phoneDay === day
@@ -135,7 +135,7 @@ export default function Dashboard() {
         const phonesDeliveredInMonth = data.filter(phone => {
             const phoneDeliveryMonth = new Date(phone.updatedAt);
             return (
-                phone.status === 'Réparé' &&
+                phone.status === 'Fixed' &&
                 phoneDeliveryMonth.getFullYear() === currentYear &&
                 phoneDeliveryMonth.getMonth() === index
             );
