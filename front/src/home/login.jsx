@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Nav from './nav.jsx';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 
-const Login = () => {
+const Login = ({login}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -18,6 +18,7 @@ const Login = () => {
         try {
             const response = await axios.post("https://api.deviceshopleader.com/api/user/login", formData);
             localStorage.setItem('token', response.data.user.id);
+            login()
             navigate('/user');
         } catch (error) {
             console.error("Échec de la connexion", error);
