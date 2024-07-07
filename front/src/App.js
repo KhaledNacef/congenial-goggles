@@ -1,42 +1,26 @@
-// App.jsx
-import React,{useState} from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Signup from './home/signup.jsx';
 import Login from './home/login.jsx';
 import User from './user/user.jsx';
-import ProtectedRoute from './ProtectedRoute.js';
+import { AuthProvider } from './AuthContext';
+import ProtectedRoute from './ProtectedRoute';
 
 const App = () => {
-
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const login = () => {
-    setIsAuthenticated(true);
-    // You might want to set some authentication token or state here
-  };
-
-  const logout = () => {
-    setIsAuthenticated(false);
-    // Clear authentication token or state here if needed
-  };
-
-
   return (
-    
+    <AuthProvider>
       <Router>
         <Routes>
-        <Route path="/" element={<Login login={login} />} />
-          <Route path="/signup" element={<Signup />} />
-          
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/' element={<Login />} />
 
-          <ProtectedRoute
-          path="/user"
-          element={<User />}
-          isAuthenticated={isAuthenticated}
-        />
+          {/* Use ProtectedRoute for routes that require authentication */}
+          <Route path='/user' element={<ProtectedRoute />}>
+            <Route path='' element={<User />} />
+          </Route>
         </Routes>
       </Router>
-  
+    </AuthProvider>
   );
 };
 

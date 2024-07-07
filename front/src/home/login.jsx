@@ -5,11 +5,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Nav from './nav.jsx';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { useAuth } from './AuthContext';
 
-const Login = ({login}) => {
+const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -18,7 +20,7 @@ const Login = ({login}) => {
         try {
             const response = await axios.post("https://api.deviceshopleader.com/api/user/login", formData);
             localStorage.setItem('token', response.data.user.id);
-            login()
+            login(response.data.user.id); // Pass the token to the login function
             navigate('/user');
         } catch (error) {
             console.error("Échec de la connexion", error);
