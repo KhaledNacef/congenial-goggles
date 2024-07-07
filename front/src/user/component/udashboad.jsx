@@ -41,9 +41,24 @@ export default function Dashboard() {
     const fetchinActive = async (status) => {
         try {
             const response = await axios.get(`https://api.deviceshopleader.com/api/phone/status/${userIdFromCookie}/${status}`);
-            setInActive(response.data);
+            
+            const today = new Date();
+            const todayYear = today.getFullYear();
+            const todayMonth = today.getMonth();
+            const todayDate = today.getDate();
+    
+            const phonesUpdatedToday = response.data.filter(phone => {
+                const updatedDate = new Date(phone.updatedAt); // Assuming `updatedAt` is the date field
+                return (
+                    updatedDate.getFullYear() === todayYear &&
+                    updatedDate.getMonth() === todayMonth &&
+                    updatedDate.getDate() === todayDate
+                );
+            });
+    
+            setInActive(phonesUpdatedToday);
         } catch (error) {
-            console.log(error);
+            console.error("Error fetching active phones:", error);
         }
     };
 
@@ -198,7 +213,7 @@ export default function Dashboard() {
                         >
                             <PhoneIcon />
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
-                                Téléphones réparés
+                                Téléphones réparés aujourd'hui
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'green' }}>
                                 {active.length}
@@ -221,7 +236,7 @@ export default function Dashboard() {
                         >
                             <CancelIcon />
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
-                                Téléphones refusés
+                                Téléphones aujourd'hui
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
                                 {inActive.length}
