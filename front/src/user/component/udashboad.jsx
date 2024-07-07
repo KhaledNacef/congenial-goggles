@@ -76,8 +76,8 @@ export default function Dashboard() {
 
     useEffect(() => {
         fetchData();
-        fetchinActive('Refusé');
-        fetchActive('Réparé');
+        fetchinActive('Refused');
+        fetchActive('Fixed');
         watingg();
         fetchincome();
     }, []);
