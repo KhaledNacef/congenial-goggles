@@ -61,7 +61,7 @@ const Wat = ({ searchQuery }) => {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`https://api.deviceshopleader.com/phone/status/${userIdFromCookie}/${id}`, { status });
+      await axios.put(`https://api.deviceshopleader.com/api/phone/status/${userIdFromCookie}/${id}`, { status });
       // Mettre à jour le statut du téléphone directement dans l'état local
       getWaiting();
     } catch (error) {
@@ -71,7 +71,7 @@ const Wat = ({ searchQuery }) => {
 
   const getWaiting = async () => {
     try {
-      const response = await axios.get(`https://api.deviceshopleader.com/phone/waiting/${userIdFromCookie}`);
+      const response = await axios.get(`https://api.deviceshopleader.com/api/phone/waiting/${userIdFromCookie}`);
       setData(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des données en attente :', error);

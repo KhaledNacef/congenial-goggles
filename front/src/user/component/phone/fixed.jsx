@@ -52,7 +52,7 @@ const Fixedd = ({ filteredData, getBstatus }) => {
 
   const updatePrice = async () => {
     try {
-      await axios.put(`https://api.deviceshopleader.com/phone/price/${userIdFromCookie}/${selectedId}`, { price: price });
+      await axios.put(`https://api.deviceshopleader.com/api/phone/price/${userIdFromCookie}/${selectedId}`, { price: price });
       setSelectedId(null);
       setPrice(0);
       getBstatus('Fixed');

@@ -38,7 +38,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://api.deviceshopleader.com/product/products/${userIdFromCookie}`);
+      const response = await axios.get(`https://api.deviceshopleader.com/api/product/products/${userIdFromCookie}`);
       setDataA(response.data);
     } catch (error) {
       console.log(error);
@@ -54,7 +54,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
       setView('non');
     } else {
       try {
-        await axios.put(`https://api.deviceshopleader.com/product/sell/${id}/${userIdFromCookie}/${quantity}`);
+        await axios.put(`https://api.deviceshopleader.com/api/product/sell/${id}/${userIdFromCookie}/${quantity}`);
         setSellQuantity('');
         setView('non');
         fetchData();
@@ -69,7 +69,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
       setView('non');
     } else {
       try {
-        await axios.put(`https://api.deviceshopleader.com/product/products/${id}/${userIdFromCookie}/${quantity}`);
+        await axios.put(`https://api.deviceshopleader.com/api/product/products/${id}/${userIdFromCookie}/${quantity}`);
         setUpQuantity('');
         setView('non');
         fetchData();
@@ -84,7 +84,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
       setView('non');
     } else {
       try {
-        await axios.put(`https://api.deviceshopleader.com/product/price/${id}/${userIdFromCookie}/${price}`);
+        await axios.put(`https://api.deviceshopleader.com/api/product/price/${id}/${userIdFromCookie}/${price}`);
         setPricee('');
         setView('non');
         fetchData();

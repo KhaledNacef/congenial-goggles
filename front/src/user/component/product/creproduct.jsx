@@ -23,7 +23,7 @@ export default function Creproduct() {
     };
 
     try {
-      await axios.post('https://api.deviceshopleader.com/product/products', formData);
+      await axios.post('https://api.deviceshopleader.com/api/product/products', formData);
       // Reset form fields after successful submission
       setName('');
       setPrice(0);

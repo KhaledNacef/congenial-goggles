@@ -32,7 +32,7 @@ const SoldedP = ({ filteredData, setDataA }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://api.deviceshopleader.com/sold/soldproducts/${userIdFromCookie}`);
+      const response = await axios.get(`https://api.deviceshopleader.com/api/sold/soldproducts/${userIdFromCookie}`);
       setDataA(response.data);
       // Calculate most bought product, total products sold, and total income
       let maxQuantity = 0;

@@ -41,7 +41,7 @@ const Profile = () => {
 
     const fetchData = async (id) => {
         try {
-            const response = await axios.get(`https://api.deviceshopleader.com/user/${id}`);
+            const response = await axios.get(`https://api.deviceshopleader.com/api/user/${id}`);
             setData(response.data);
             setName(response.data.Name);
             setEmail(response.data.Email);
@@ -70,7 +70,7 @@ const Profile = () => {
         }
 
         try {
-            await axios.put(`https://api.deviceshopleader.com/user/${userId}`, data);
+            await axios.put(`https://api.deviceshopleader.com/api/user/${userId}`, data);
             fetchData(userId);
             setName('');
             setEmail('');

@@ -27,7 +27,7 @@ const UserSidebar = ({ changevie }) => {
 
   const fetchData = async (id) => {
     try {
-      const response = await axios.get(`https://api.deviceshopleader.com/user/${id}`);
+      const response = await axios.get(`https://api.deviceshopleader.com/api/user/${id}`);
       setData(response.data.Name);
     } catch (error) {
       console.log(error);

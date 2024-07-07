@@ -28,7 +28,7 @@ const columns = [
 ];
 
 const userIdFromCookie = Cookies.get('token');
-const baseUrl = 'https://api.deviceshopleader.com'; // Base URL for API
+const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
 
 export default function Phone() {
   const [data, setData] = useState([]);

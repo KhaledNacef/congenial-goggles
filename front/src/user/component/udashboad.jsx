@@ -20,7 +20,7 @@ export default function Dashboard() {
 
     const fetchincome = async () => {
         try {
-            const response = await axios.get(`https://api.deviceshopleader.com/sold/soldproducts/${userIdFromCookie}`);
+            const response = await axios.get(`https://api.deviceshopleader.com/api/sold/soldproducts/${userIdFromCookie}`);
             setProductdata(response.data);
             // Calculer le produit le plus acheté, le nombre total de produits vendus et le revenu total
             let totalIncome = 0;
@@ -40,7 +40,7 @@ export default function Dashboard() {
 
     const fetchinActive = async (status) => {
         try {
-            const response = await axios.get(`https://api.deviceshopleader.com/phone/status/${userIdFromCookie}/${status}`);
+            const response = await axios.get(`https://api.deviceshopleader.com/api/phone/status/${userIdFromCookie}/${status}`);
             setInActive(response.data);
         } catch (error) {
             console.log(error);
@@ -49,7 +49,7 @@ export default function Dashboard() {
 
     const watingg = async () => {
         try {
-            const response = await axios.get(`https://api.deviceshopleader.com/phone/waiting/${userIdFromCookie}`);
+            const response = await axios.get(`https://api.deviceshopleader.com/api/phone/waiting/${userIdFromCookie}`);
             setWating(response.data);
         } catch (error) {
             console.log(error);
@@ -58,7 +58,7 @@ export default function Dashboard() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`https://api.deviceshopleader.com/phone/all/${userIdFromCookie}`);
+            const response = await axios.get(`https://api.deviceshopleader.com/api/phone/all/${userIdFromCookie}`);
             setData(response.data);
         } catch (error) {
             console.log(error);
@@ -67,7 +67,7 @@ export default function Dashboard() {
 
     const fetchActive = async (status) => {
         try {
-            const response = await axios.get(`https://api.deviceshopleader.com/phone/status/${userIdFromCookie}/${status}`);
+            const response = await axios.get(`https://api.deviceshopleader.com/api/phone/status/${userIdFromCookie}/${status}`);
             setActive(response.data);
         } catch (error) {
             console.log(error);

@@ -25,7 +25,7 @@ const Create = () => {
     };
 
     try {
-      await axios.post('https://api.deviceshopleader.com/phone/crate', data);
+      await axios.post('https://api.deviceshopleader.com/api/phone/crate', data);
       setBrand('');
       setClientName('');
       setClientNumber('');
