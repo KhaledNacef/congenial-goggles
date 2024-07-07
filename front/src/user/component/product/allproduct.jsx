@@ -27,18 +27,18 @@ const Allproduct = ({ filteredData, setDataA }) => {
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
-    { id: 'name', label: 'Name', minWidth: 70 },
-    { id: 'price', label: 'Price', minWidth: 70 },
-    { id: 'quantity', label: 'Quantity', minWidth: 70 },
+    { id: 'name', label: 'Nom', minWidth: 70 },
+    { id: 'price', label: 'Prix', minWidth: 70 },
+    { id: 'quantity', label: 'Quantité', minWidth: 70 },
     { id: 'image', label: 'Image', minWidth: 100 },
     { id: 'action', label: 'Action', minWidth: 200 },
   ];
 
-  const userIdFromCookie = Cookies.get('token');
+  const userIdFromCookie = localStorage.getItem('token');
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://195.200.15.61/product/products/${userIdFromCookie}`);
+      const response = await axios.get(`https://api.deviceshopleader.com/product/products/${userIdFromCookie}`);
       setDataA(response.data);
     } catch (error) {
       console.log(error);
@@ -54,7 +54,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
       setView('non');
     } else {
       try {
-        await axios.put(`http://195.200.15.61/product/sell/${id}/${userIdFromCookie}/${quantity}`);
+        await axios.put(`https://api.deviceshopleader.com/product/sell/${id}/${userIdFromCookie}/${quantity}`);
         setSellQuantity('');
         setView('non');
         fetchData();
@@ -69,7 +69,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
       setView('non');
     } else {
       try {
-        await axios.put(`http://195.200.15.61/product/products/${id}/${userIdFromCookie}/${quantity}`);
+        await axios.put(`https://api.deviceshopleader.com/product/products/${id}/${userIdFromCookie}/${quantity}`);
         setUpQuantity('');
         setView('non');
         fetchData();
@@ -84,7 +84,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
       setView('non');
     } else {
       try {
-        await axios.put(`http://195.200.15.61/product/price/${id}/${userIdFromCookie}/${price}`);
+        await axios.put(`https://api.deviceshopleader.com/product/price/${id}/${userIdFromCookie}/${price}`);
         setPricee('');
         setView('non');
         fetchData();
@@ -105,7 +105,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
 
   return (
     <div>
-      <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, boxShadow: 12, marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', fontWeight: 'bold', border: '1px solid grey', backgroundColor: 'white', borderRadius: 15, width: '55%', padding: 1, marginBottom: 5 }}>ALL PRODUCTS</Typography>
+      <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, boxShadow: 12, marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', fontWeight: 'bold', border: '1px solid grey', backgroundColor: 'white', borderRadius: 15, width: '55%', padding: 1, marginBottom: 5 }}>TOUS LES PRODUITS</Typography>
       <Paper sx={{ boxShadow: 15, width: '90%', overflowX: 'auto', marginLeft: 'auto', marginRight: 'auto', borderRadius: 5 }}>
         <TableContainer sx={{ maxHeight: 600 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -144,7 +144,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                     {(view === 'sell' && selectedId === row.id) && (
                       <TableCell align="center" style={{ margin: '10px' }}>
                         <TextField
-                          label="Quantity to Sell"
+                          label="Quantité à vendre"
                           type="number"
                           value={sellQuantity}
                           onChange={(e) => setSellQuantity(e.target.value)}
@@ -155,7 +155,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                     {(view === 'up' && selectedId === row.id) && (
                       <TableCell align="center" style={{ margin: '10px' }}>
                         <TextField
-                          label="Quantity to Update"
+                          label="Quantité à mettre à jour"
                           type="number"
                           value={upQuantity}
                           onChange={(e) => setUpQuantity(e.target.value)}
@@ -166,7 +166,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                     {(view === 'price' && selectedId === row.id) && (
                       <TableCell align="center" style={{ margin: '10px' }}>
                         <TextField
-                          label="Price"
+                          label="Prix"
                           type="number"
                           value={pricee}
                           onChange={(e) => setPricee(e.target.value)}

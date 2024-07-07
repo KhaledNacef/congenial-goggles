@@ -8,7 +8,6 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PhoneIcon from '@mui/icons-material/Phone';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import PersonIcon from '@mui/icons-material/Person';
-import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,15 +18,15 @@ const UserSidebar = ({ changevie }) => {
   const navigate = useNavigate();
 
   const boxes = [
-    { text: 'Dashboard', icon: <DashboardIcon sx={{ fontSize: 40 }} />, action: () => changevie('dashboard') },
-    { text: 'Phones', icon: <PhoneIcon sx={{ fontSize: 40 }} />, action: () => changevie('phone') },
-    { text: 'Store', icon: <StorefrontIcon sx={{ fontSize: 40 }} />, action: () => changevie('Product') },
-    { text: 'Profile', icon: <PersonIcon sx={{ fontSize: 40 }} />, action: () => changevie('Uprofile') },
+    { text: 'Tableau de bord', icon: <DashboardIcon sx={{ fontSize: 40 }} />, action: () => changevie('dashboard') },
+    { text: 'Téléphones', icon: <PhoneIcon sx={{ fontSize: 40 }} />, action: () => changevie('phone') },
+    { text: 'Magasin', icon: <StorefrontIcon sx={{ fontSize: 40 }} />, action: () => changevie('Product') },
+    { text: 'Profil', icon: <PersonIcon sx={{ fontSize: 40 }} />, action: () => changevie('Uprofile') },
   ];
 
   const fetchData = async (id) => {
     try {
-      const response = await axios.get(`http://195.200.15.61/user/${id}`);
+      const response = await axios.get(`https://api.deviceshopleader.com/user/${id}`);
       setData(response.data.Name);
     } catch (error) {
       console.log(error);
@@ -35,16 +34,16 @@ const UserSidebar = ({ changevie }) => {
   };
 
   useEffect(() => {
-    const userIdFromCookie = Cookies.get('token');
+    const userIdFromCookie = localStorage.getItem('token');
     fetchData(userIdFromCookie);
   }, []);
 
   const handleLogout = () => {
-    // Remove token from cookies
-    Cookies.remove('token');
+    // Supprimer le token des cookies
+    localStorage.removeItem('token');
 
-    // Navigate to login page
-    navigate('/login');
+    // Rediriger vers la page de connexion
+    navigate('/');
   };
 
   return (
@@ -54,7 +53,7 @@ const UserSidebar = ({ changevie }) => {
       </Box>
 
       <Box sx={{ height: 'auto', width: '100%', marginTop: 6, justifyContent: 'center', alignItems: 'center' }}>
-        {/* Map over the boxes array to render each box */}
+        {/* Mapper sur le tableau "boxes" pour afficher chaque boîte */}
         {boxes.map((box, index) => (
           <Box
             key={index}
@@ -83,7 +82,7 @@ const UserSidebar = ({ changevie }) => {
 
       </Box>
       <Box sx={{ height: 'auto', width: 200, marginTop: 3, justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', borderRadius: 10 }}>
-        <Button variant="contained" color="primary" onClick={handleLogout}>Logout</Button>
+        <Button variant="contained" color="primary" onClick={handleLogout}>Déconnexion</Button>
         <img src={logo} style={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: 30 }} alt="logo" />
       </Box>
     </Container>

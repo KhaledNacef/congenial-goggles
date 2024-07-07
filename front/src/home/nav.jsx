@@ -7,7 +7,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from "react-router-dom";
 
-const navItems = ['SignUp', 'LOGIN'];
+const navItems = ['SignUp', ''];
 
 export default function Nav() {
   return (

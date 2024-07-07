@@ -28,7 +28,7 @@ const User = () => {
         {vie === 'phone' && <Phone />}
         {vie === 'dashboard' && <Dashboard />}
         {vie === 'Product' && <Product />}
-        {vie === 'forum' && <Forum />}
+        
       </Box>
     </Container>
   );

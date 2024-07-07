@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
-import Cookies from 'js-cookie';
 
 const Create = () => {
-  const userIdFromCookie = Cookies.get('token');
+  const userIdFromCookie = localStorage.getItem('token');
   const [brand, setBrand] = useState('');
   const [clientName, setClientName] = useState('');
   const [clientNumber, setClientNumber] = useState('');
@@ -25,7 +24,7 @@ const Create = () => {
     };
 
     try {
-      await axios.post('http://195.200.15.61/phone/crate', data);
+      await axios.post('https://api.deviceshopleader.com/phone/crate', data);
       setBrand('');
       setClientName('');
       setClientNumber('');
@@ -42,11 +41,11 @@ const Create = () => {
     <Container sx={{ marginTop: 5, width: '100%', maxWidth: 600 }}>
       <Box sx={{ maxWidth: 400, margin: 'auto', padding: 3 }}>
         <Typography variant='h3' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 3, textAlign: 'center' }}>
-          Create Phone <PhoneIcon />
+          Créer un téléphone <PhoneIcon />
         </Typography>
 
         <TextField
-          label="Brand"
+          label="Marque"
           value={brand}
           onChange={(e) => setBrand(e.target.value)}
           fullWidth
@@ -55,7 +54,7 @@ const Create = () => {
         />
 
         <TextField
-          label="Client Name"
+          label="Nom du client"
           value={clientName}
           onChange={(e) => setClientName(e.target.value)}
           fullWidth
@@ -64,7 +63,7 @@ const Create = () => {
         />
 
         <TextField
-          label="Client Number"
+          label="Numéro du client"
           value={clientNumber}
           onChange={(e) => setClientNumber(e.target.value)}
           fullWidth
@@ -73,7 +72,7 @@ const Create = () => {
         />
 
         <TextField
-          label="Problem"
+          label="Problème"
           value={problem}
           onChange={(e) => setProblem(e.target.value)}
           fullWidth
@@ -82,7 +81,7 @@ const Create = () => {
         />
 
         <TextField
-          label="Delivered On"
+          label="Date de livraison"
           type="date"
           value={deliveryDate}
           onChange={(e) => setDeliveryDate(e.target.value)}
@@ -98,7 +97,7 @@ const Create = () => {
           fullWidth
           sx={{ marginTop: 3 }}
         >
-          Submit
+          Soumettre
         </Button>
       </Box>
     </Container>

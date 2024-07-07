@@ -4,28 +4,25 @@ import { Typography, Box, Grid } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
 import CancelIcon from '@mui/icons-material/Cancel';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default function Dashboard() {
     const [data, setData] = useState([]);
     const [active, setActive] = useState([]);
-    const [productdata, setProductdata] = useState([]);
     const [inActive, setInActive] = useState([]);
     const [wating, setWating] = useState([]);
     const [totalIncome, setTotalIncome] = useState(0);
     const [totPro, setTotpro] = useState(0);
+    const [productdata, setProductdata] = useState([]);
 
-    const userIdFromCookie = Cookies.get('token');
+    const userIdFromCookie = localStorage.getItem('token');
 
     const fetchincome = async () => {
         try {
-            const response = await axios.get(`http://195.200.15.61/sold/soldproducts/${userIdFromCookie}`);
+            const response = await axios.get(`https://api.deviceshopleader.com/sold/soldproducts/${userIdFromCookie}`);
             setProductdata(response.data);
-            // Calculate most bought product, total products sold, and total income
+            // Calculer le produit le plus acheté, le nombre total de produits vendus et le revenu total
             let totalIncome = 0;
             let totalProduct = 0;
 
@@ -43,7 +40,7 @@ export default function Dashboard() {
 
     const fetchinActive = async (status) => {
         try {
-            const response = await axios.get(`http://195.200.15.61/phone/status/${userIdFromCookie}/${status}`);
+            const response = await axios.get(`https://api.deviceshopleader.com/phone/status/${userIdFromCookie}/${status}`);
             setInActive(response.data);
         } catch (error) {
             console.log(error);
@@ -52,7 +49,7 @@ export default function Dashboard() {
 
     const watingg = async () => {
         try {
-            const response = await axios.get(`http://195.200.15.61/phone/waiting/${userIdFromCookie}`);
+            const response = await axios.get(`https://api.deviceshopleader.com/phone/waiting/${userIdFromCookie}`);
             setWating(response.data);
         } catch (error) {
             console.log(error);
@@ -61,7 +58,7 @@ export default function Dashboard() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`http://195.200.15.61/phone/all/${userIdFromCookie}`);
+            const response = await axios.get(`https://api.deviceshopleader.com/phone/all/${userIdFromCookie}`);
             setData(response.data);
         } catch (error) {
             console.log(error);
@@ -70,7 +67,7 @@ export default function Dashboard() {
 
     const fetchActive = async (status) => {
         try {
-            const response = await axios.get(`http://195.200.15.61/phone/status/${userIdFromCookie}/${status}`);
+            const response = await axios.get(`https://api.deviceshopleader.com/phone/status/${userIdFromCookie}/${status}`);
             setActive(response.data);
         } catch (error) {
             console.log(error);
@@ -79,18 +76,18 @@ export default function Dashboard() {
 
     useEffect(() => {
         fetchData();
-        fetchinActive('Refused');
-        fetchActive('Fixed');
+        fetchinActive('Refusé');
+        fetchActive('Réparé');
         watingg();
         fetchincome();
     }, []);
 
-    // Generate month labels
-    const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    // Generate day labels from 1 to 31
+    // Labels des mois
+    const monthLabels = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
+    // Labels des jours de 1 à 31
     const dayLabels = Array.from({ length: 31 }, (_, i) => i + 1);
 
-    // Calculate daily product revenue
+    // Calculer le revenu quotidien des produits
     const dayProdRev = dayLabels.map(day => {
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
@@ -109,7 +106,7 @@ export default function Dashboard() {
         return totalPrice;
     });
 
-    // Calculate daily phone revenue
+    // Calculer le revenu quotidien des téléphones
     const dailyPhoneRevenue = dayLabels.map(day => {
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
@@ -121,7 +118,7 @@ export default function Dashboard() {
             const phoneMonth = fixDate.getMonth() + 1;
             const phoneDay = fixDate.getDate();
             return (
-                phone.status === 'Fixed' &&
+                phone.status === 'Réparé' &&
                 phoneYear === currentYear &&
                 phoneMonth === currentMonth &&
                 phoneDay === day
@@ -132,13 +129,13 @@ export default function Dashboard() {
         return totalPrice;
     });
 
-    // Calculate monthly phone revenue
+    // Calculer le revenu mensuel des téléphones
     const monthlyPhoneRevenue = monthLabels.map((month, index) => {
         const currentYear = new Date().getFullYear();
         const phonesDeliveredInMonth = data.filter(phone => {
             const phoneDeliveryMonth = new Date(phone.updatedAt);
             return (
-                phone.status === 'Fixed' &&
+                phone.status === 'Réparé' &&
                 phoneDeliveryMonth.getFullYear() === currentYear &&
                 phoneDeliveryMonth.getMonth() === index
             );
@@ -148,7 +145,7 @@ export default function Dashboard() {
         return totalPrice;
     });
 
-    // Calculate monthly product revenue
+    // Calculer le revenu mensuel des produits
     const monthlyProdRevenue = monthLabels.map((month, index) => {
         const currentYear = new Date().getFullYear();
         const productsSold = productdata.filter(product => {
@@ -164,9 +161,9 @@ export default function Dashboard() {
     });
 
     return (
-        <div style={{ padding: 10,backgroundColor:'white' }}>
+        <div style={{ padding: 10, backgroundColor: 'white' }}>
             <Typography variant='h3' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginTop: 3 }}>
-                Dashboard
+                Tableau de bord
             </Typography>
 
             <Grid container spacing={3} sx={{ marginTop: 3 }}>
@@ -185,7 +182,7 @@ export default function Dashboard() {
                         >
                             <PhoneIcon />
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
-                                Fixed Phones
+                                Téléphones réparés
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'green' }}>
                                 {active.length}
@@ -208,7 +205,7 @@ export default function Dashboard() {
                         >
                             <CancelIcon />
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
-                                Refused Phones
+                                Téléphones refusés
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
                                 {inActive.length}
@@ -231,7 +228,7 @@ export default function Dashboard() {
                         >
                             <HourglassEmptyIcon />
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
-                                Waiting For
+                                En attente de traitement
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
                                 {wating.length}
@@ -244,7 +241,7 @@ export default function Dashboard() {
                     <Box sx={{ height: 500 }}>
                         <BarChart
                             xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                            series={[{ data: dayProdRev, label: 'Daily Product Revenue' }]}
+                            series={[{ data: dayProdRev, label: 'Revenu quotidien des produits', color: ['#3366CC'] }]}
                             width={800}
                             sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                             height={500}
@@ -255,7 +252,7 @@ export default function Dashboard() {
                     <Box sx={{ height: 500 }}>
                         <BarChart
                             xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                            series={[{ data: dailyPhoneRevenue, label: 'Daily Phone Revenue' }]}
+                            series={[{ data: dailyPhoneRevenue, label: 'Revenu quotidien des téléphones', color: ['#DC3912'] }]}
                             width={800}
                             sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                             height={500}
@@ -267,7 +264,7 @@ export default function Dashboard() {
                     <Box sx={{ height: 500 }}>
                         <BarChart
                             xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                            series={[{ data: monthlyPhoneRevenue, label: 'Monthly Phone Revenue' }]}
+                            series={[{ data: monthlyPhoneRevenue, label: 'Revenu mensuel des téléphones', color: ['#FF9900'] }]}
                             width={800}
                             sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                             height={500}
@@ -280,7 +277,7 @@ export default function Dashboard() {
                     <Box sx={{ height: 500 }}>
                         <BarChart
                             xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                            series={[{ data: monthlyProdRevenue, label: 'Monthly Product Revenue' }]}
+                            series={[{ data: monthlyProdRevenue, label: 'Revenu mensuel des produits', color: ['#109618'] }]}
                             width={800}
                             sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                             height={500}
@@ -293,4 +290,3 @@ export default function Dashboard() {
         </div>
     );
 }
-

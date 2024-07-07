@@ -14,7 +14,6 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { Box, Typography } from '@mui/material';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import Cookies from 'js-cookie';
 
 const Fixedd = ({ filteredData, getBstatus }) => {
   const [page, setPage] = useState(0);
@@ -24,15 +23,15 @@ const Fixedd = ({ filteredData, getBstatus }) => {
   const [selectedId, setSelectedId] = useState(null);
 
   const columns = [
-    { id: 'id', label: 'id', minWidth: 20 },
-    { id: 'Brand', label: 'Brand', minWidth: 70 },
-    { id: 'Client Name', label: 'Client Name', minWidth: 100 },
-    { id: 'Clint Number', label: 'Clint Number', minWidth: 70 },
-    { id: 'Problem', label: 'Problem', minWidth: 100 },
-    { id: 'delivredOn', label: 'delivred On', minWidth: 70 },
-    { id: 'price', label: 'price', minWidth: 30 },
-    { id: 'status', label: 'status', minWidth: 30 },
-    { id: 'CreatedAt', label: 'CreatedAt', minWidth: 70 },
+    { id: 'id', label: 'ID', minWidth: 20 },
+    { id: 'Brand', label: 'Marque', minWidth: 70 },
+    { id: 'Client Name', label: 'Nom du client', minWidth: 100 },
+    { id: 'Client Number', label: 'Numéro du client', minWidth: 70 },
+    { id: 'Problem', label: 'Problème', minWidth: 100 },
+    { id: 'Delivered On', label: 'Livré le', minWidth: 70 },
+    { id: 'Price', label: 'Prix', minWidth: 30 },
+    { id: 'Status', label: 'Statut', minWidth: 30 },
+    { id: 'Created At', label: 'Créé le', minWidth: 70 },
   ];
 
   const handleChangePage = (event, newPage) => {
@@ -48,11 +47,11 @@ const Fixedd = ({ filteredData, getBstatus }) => {
     setView(!view);
   };
 
-  const userIdFromCookie = Cookies.get('token');
+  const userIdFromCookie = localStorage.getItem('token');
 
   const updatePrice = async () => {
     try {
-      await axios.put(`http://195.200.15.61/phone/price/${userIdFromCookie}/${selectedId}`, { price: price });
+      await axios.put(`https://api.deviceshopleader.com/phone/price/${userIdFromCookie}/${selectedId}`, { price: price });
       setSelectedId(null);
       setPrice(0);
       getBstatus('Fixed');
@@ -66,8 +65,7 @@ const Fixedd = ({ filteredData, getBstatus }) => {
   return (
     <div>
       <Box sx={{ justifyContent: 'center', boxShadow: 2, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto', marginBottom: 1, backgroundColor: 'white', borderRadius: 5, width: '55%', padding: 1, border: '1px solid grey' }}>
-        <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', color: 'black', width: '100%', backgroundColor: 'white' }}>FIXED PHONES</Typography>
-        
+        <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', color: 'black', width: '100%', backgroundColor: 'white' }}>TÉLÉPHONES FIXÉS</Typography>
       </Box>
 
       <Paper sx={{ width: '95%', overflow: 'hidden', margin: 'auto', boxShadow: 8, borderRadius: 5 }}>
@@ -104,7 +102,7 @@ const Fixedd = ({ filteredData, getBstatus }) => {
                       {(view && selectedId === row.id) && (
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
                           <TextField
-                            label="Price"
+                            label="Prix"
                             type="number"
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}

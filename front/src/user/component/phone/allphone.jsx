@@ -16,20 +16,20 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from '@mui/material/Typography';
 
-const Allphone = ({ filteredData }) => {
+const TousLesTelephones = ({ filteredData }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
-    { id: 'Brand', label: 'Brand', minWidth: 70 },
-    { id: 'Client Name', label: 'Client Name', minWidth: 100 },
-    { id: 'Client Number', label: 'Client Number', minWidth: 70 },
-    { id: 'Problem', label: 'Problem', minWidth: 100 },
-    { id: 'Delivered On', label: 'Delivered On', minWidth: 70 },
-    { id: 'Price', label: 'Price', minWidth: 30 },
-    { id: 'Status', label: 'Status', minWidth: 30 },
-    { id: 'Created At', label: 'Created At', minWidth: 70 },
+    { id: 'Brand', label: 'Marque', minWidth: 70 },
+    { id: 'Client Name', label: 'Nom du Client', minWidth: 100 },
+    { id: 'Client Number', label: 'Numéro du Client', minWidth: 70 },
+    { id: 'Problem', label: 'Problème', minWidth: 100 },
+    { id: 'Delivered On', label: 'Livré le', minWidth: 70 },
+    { id: 'Price', label: 'Prix', minWidth: 30 },
+    { id: 'Status', label: 'Statut', minWidth: 30 },
+    { id: 'Created At', label: 'Créé le', minWidth: 70 },
   ];
 
   const handleChangePage = (event, newPage) => {
@@ -44,7 +44,7 @@ const Allphone = ({ filteredData }) => {
   return (
     <div>
       <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', boxShadow: 2, width: 300, margin: 'auto', backgroundColor: 'white', border: '1px solid grey', padding: 0.5, borderRadius: 4, marginTop: 5 }}>
-        ALL PHONES
+        TOUS LES TÉLÉPHONES
       </Typography>
       <Paper sx={{ fontFamily: 'Kanit', fontWeight: 500, width: '95%', overflow: 'hidden', boxShadow: 8, margin: 'auto', marginTop: 5, borderRadius: 5 }}>
         <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500, maxHeight: '70vh' }}>
@@ -102,4 +102,4 @@ const Allphone = ({ filteredData }) => {
   );
 };
 
-export default Allphone;
+export default TousLesTelephones;

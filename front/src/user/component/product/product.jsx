@@ -25,10 +25,10 @@ const Product = () => {
   return (
     <div style={{ width: '100%', height: '100vh', backgroundColor: 'white', borderRadius: 20, marginLeft: 3, border: '1px solid black' }}>
       <Box sx={{ boxShadow: 20, display: 'flex', flexDirection: 'row', marginLeft: 'auto', marginRight: 'auto', border: '1px solid grey', borderRadius: 10, padding: 1, backgroundColor: 'white', margin: 'auto', height: 65, marginBottom: 5, width: '95%', maxWidth: 1200, marginTop: 10 }}>
-        <Button onClick={() => changeview('create')} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px', flex: 1 }}>ADD PRODUCT</Button>
-        <Button onClick={() => changeview('all')} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px', flex: 1 }}>ALL PRODUCT</Button>
-        <Button onClick={() => changeview('sold')} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px', flex: 1 }}>PRODUCTS INCOME</Button>
-        <input type="text" onChange={handleSearchChange} placeholder="Search by name" style={{ margin: '10px', padding: '8px', flex: 2 }} />
+        <Button onClick={() => changeview('create')} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px', flex: 1 }}>AJOUTER UN PRODUIT</Button>
+        <Button onClick={() => changeview('all')} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px', flex: 1 }}>TOUS LES PRODUITS</Button>
+        <Button onClick={() => changeview('sold')} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px', flex: 1 }}>PRODUITS VENDUS</Button>
+        <input type="text" onChange={handleSearchChange} placeholder="Rechercher par nom" style={{ margin: '10px', padding: '8px', flex: 2 }} />
       </Box>
 
       {view === 'create' ? <Creproduct /> : null}

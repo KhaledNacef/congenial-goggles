@@ -19,6 +19,7 @@ const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [verifyPassword, setVerifyPassword] = useState('');
   const [image, setImage] = useState(null);
   const [facebook, setFacebook] = useState('');
   const [company, setCompany] = useState('');
@@ -28,7 +29,7 @@ const Signup = () => {
   const [government, setGovernment] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [err, setErr] = useState(false);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
   const handleRegister = async () => {
@@ -37,6 +38,8 @@ const Signup = () => {
       name === '' ||
       email === '' ||
       password === '' ||
+      verifyPassword === '' ||
+      password !== verifyPassword ||
       image === null ||
       facebook === '' ||
       company === '' ||
@@ -46,7 +49,7 @@ const Signup = () => {
       government === '' ||
       phoneNumber === ''
     ) {
-      console.error("Please fill out all fields");
+      console.error("Veuillez remplir tous les champs correctement");
       setErr(true);
       return;
     }
@@ -72,10 +75,10 @@ const Signup = () => {
       });
 
       // Redirect to login page after successful registration
-      Navigate('/login');
-      console.log("Registration successful", response.data);
+      navigate('/');
+      console.log("Inscription réussie", response.data);
     } catch (error) {
-      console.error("Registration failed", error);
+      console.error("Échec de l'inscription", error);
     }
   };
 
@@ -84,25 +87,26 @@ const Signup = () => {
       <Nav />
       <div style={{ display: 'flex', marginTop: '80px' }}>
         <div style={{ flex: '1', paddingRight: '20px' }}>
-        <img
-                        style={{
-                            height: 'auto',
-                            width: '100%',
-                            maxHeight: 600,
-                            backgroundSize: 'cover',
-                            border: '1px solid black',
-                            borderRadius: 20,
-                            margin:10
-                        }}
-                        src="https://i.pinimg.com/736x/03/14/a0/0314a00783171a72b5bdbd5004675a43.jpg"
-                        alt=""
-                    />        </div>
+          <img
+            style={{
+              height: 'auto',
+              width: '100%',
+              maxHeight: 600,
+              backgroundSize: 'cover',
+              border: '1px solid black',
+              borderRadius: 20,
+              margin: 10
+            }}
+            src="https://i.pinimg.com/736x/03/14/a0/0314a00783171a72b5bdbd5004675a43.jpg"
+            alt=""
+          />
+        </div>
         <div style={{ flex: '1', padding: '16px' }}>
-          <h2 style={{ textAlign: 'center' }}>Sign Up</h2>
+          <h2 style={{ textAlign: 'center' }}>Inscription</h2>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                label="Name"
+                label="Nom"
                 variant="outlined"
                 name="name"
                 value={name}
@@ -127,12 +131,25 @@ const Signup = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                label="Password"
+                label="Mot de passe"
                 variant="outlined"
                 type="password"
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                fullWidth
+                InputProps={{ startAdornment: <LockIcon sx={{ color: 'grey' }} /> }}
+                error={err}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Vérifier le mot de passe"
+                variant="outlined"
+                type="password"
+                name="verifyPassword"
+                value={verifyPassword}
+                onChange={(e) => setVerifyPassword(e.target.value)}
                 fullWidth
                 InputProps={{ startAdornment: <LockIcon sx={{ color: 'grey' }} /> }}
                 error={err}
@@ -172,7 +189,7 @@ const Signup = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                label="Company"
+                label="Entreprise"
                 variant="outlined"
                 type="text"
                 name="company"
@@ -185,7 +202,7 @@ const Signup = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                label="Address"
+                label="Adresse"
                 variant="outlined"
                 type="text"
                 name="address"
@@ -198,7 +215,7 @@ const Signup = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
-                label="City"
+                label="Ville"
                 variant="outlined"
                 type="text"
                 name="city"
@@ -211,7 +228,7 @@ const Signup = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
-                label="Country"
+                label="Pays"
                 variant="outlined"
                 type="text"
                 name="country"
@@ -224,7 +241,7 @@ const Signup = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
-                label="Government"
+                label="Gouvernement"
                 variant="outlined"
                 type="text"
                 name="government"
@@ -237,7 +254,7 @@ const Signup = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Phone Number"
+                label="Numéro de téléphone"
                 variant="outlined"
                 type="number"
                 name="phoneNumber"
@@ -256,12 +273,12 @@ const Signup = () => {
                 fullWidth
                 sx={{ marginTop: '20px' }}
               >
-                Sign Up
+                S'inscrire
               </Button>
             </Grid>
           </Grid>
           <p style={{ textAlign: 'center', marginTop: '16px' }}>
-            Already have an account? <Link to="/login">Login</Link>
+            Vous avez déjà un compte? <Link to="/login">Se connecter</Link>
           </p>
         </div>
       </div>

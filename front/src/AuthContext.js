@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import Cookies from 'js-cookie';
 
 const AuthContext = createContext();
 
@@ -7,17 +6,17 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        const token = Cookies.get('token');
-        setIsAuthenticated(!!token);
+        const token = localStorage.getItem('token');
+        setIsAuthenticated(!!token); // Convert token presence to boolean
     }, []);
 
     const login = (token) => {
-        Cookies.set('token', token);
+        localStorage.setItem('token', token);
         setIsAuthenticated(true);
     };
 
     const logout = () => {
-        Cookies.remove('token');
+        localStorage.removeItem('token');
         setIsAuthenticated(false);
     };
 

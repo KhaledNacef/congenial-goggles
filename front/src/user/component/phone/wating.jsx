@@ -13,13 +13,12 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { Typography, Box } from '@mui/material';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import Cookies from 'js-cookie';
 
 const Wat = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [data, setData] = useState([]);
-  const userIdFromCookie = Cookies.get('token');
+  const userIdFromCookie = localStorage.getItem('token');
 
   const filteredData = data.filter(
     (row) =>
@@ -40,13 +39,13 @@ const Wat = ({ searchQuery }) => {
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
-    { id: 'brand', label: 'Brand', minWidth: 70 },
-    { id: 'phoneHolder', label: 'Client Name', minWidth: 100 },
-    { id: 'holderNumber', label: 'Client Number', minWidth: 70 },
-    { id: 'problem', label: 'Problem', minWidth: 100 },
-    { id: 'delivredOn', label: 'Delivered On', minWidth: 70 },
-    { id: 'status', label: 'Status', minWidth: 30 },
-    { id: 'createdAt', label: 'Created At', minWidth: 70 },
+    { id: 'brand', label: 'Marque', minWidth: 70 },
+    { id: 'phoneHolder', label: 'Nom du client', minWidth: 100 },
+    { id: 'holderNumber', label: 'Numéro du client', minWidth: 70 },
+    { id: 'problem', label: 'Problème', minWidth: 100 },
+    { id: 'delivredOn', label: 'Livré le', minWidth: 70 },
+    { id: 'status', label: 'Statut', minWidth: 30 },
+    { id: 'createdAt', label: 'Créé le', minWidth: 70 },
     { id: 'actions', label: 'Actions', minWidth: 30 },
   ];
 
@@ -61,20 +60,20 @@ const Wat = ({ searchQuery }) => {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`http://195.200.15.61/phone/status/${userIdFromCookie}/${id}`, { status });
-      // Update the status of the stopped account directly in the state
+      await axios.put(`https://api.deviceshopleader.com/phone/status/${userIdFromCookie}/${id}`, { status });
+      // Mettre à jour le statut du téléphone directement dans l'état local
       getWaiting();
     } catch (error) {
-      console.error('Error updating status:', error);
+      console.error('Erreur lors de la mise à jour du statut :', error);
     }
   };
 
   const getWaiting = async () => {
     try {
-      const response = await axios.get(`http://195.200.15.61/phone/waiting/${userIdFromCookie}`);
+      const response = await axios.get(`https://api.deviceshopleader.com/phone/waiting/${userIdFromCookie}`);
       setData(response.data);
     } catch (error) {
-      console.error('Error fetching waiting data:', error);
+      console.error('Erreur lors de la récupération des données en attente :', error);
     }
   };
 
@@ -84,11 +83,11 @@ const Wat = ({ searchQuery }) => {
 
   return (
     <div>
-      <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, margin:'auto', boxShadow: 2, textAlign: 'center', border: '1px Solid grey', backgroundColor: 'white', borderRadius: 15, width: '55%', padding: 1 }}>WAITING <HourglassEmptyIcon /></Typography>
+      <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, margin:'auto', boxShadow: 2, textAlign: 'center', border: '1px Solid grey', backgroundColor: 'white', borderRadius: 15, width: '55%', padding: 1 }}>EN ATTENTE <HourglassEmptyIcon /></Typography>
 
       <Paper sx={{ width: '95%', boxShadow: 9, overflowX: 'auto', margin: 'auto', marginTop: 3, borderRadius: 5 }}>
         <TableContainer sx={{ maxHeight: 600 }}>
-          <Table stickyHeader aria-label="sticky table">
+          <Table stickyHeader aria-label="tableau fixe">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (

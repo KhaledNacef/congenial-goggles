@@ -10,7 +10,7 @@ export default function Dashboard() {
 
   const fetchinActive = async (status) => {
     try {
-      const response = await axios.get(`http://localhost:3000/user/act/${status}`);
+      const response = await axios.get(`http://195.200.15.61/user/act/${status}`);
       
         setInActive(response.data);
      
@@ -31,7 +31,7 @@ export default function Dashboard() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/user/all");
+      const response = await axios.get("http://195.200.15.61/user/all");
       setData(response.data);
     } catch (error) {
       console.log(error);
@@ -40,7 +40,7 @@ export default function Dashboard() {
 
   const fetchActive = async (status) => {
     try {
-      const response = await axios.get(`http://localhost:3000/user/act/${status}`);
+      const response = await axios.get(`http://195.200.15.61/user/act/${status}`);
       
         setActive(response.data);
      

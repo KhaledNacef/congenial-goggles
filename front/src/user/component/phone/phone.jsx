@@ -18,16 +18,17 @@ import Wat from './wating.jsx';
 
 const columns = [
   { id: 'id', label: 'ID', minWidth: 70 },
-  { id: 'name', label: 'Brand', minWidth: 70 },
-  { id: 'email', label: 'Client Name', minWidth: 100 },
-  { id: 'password', label: 'Client Number', minWidth: 100 },
-  { id: 'createdAt', label: 'Problem', minWidth: 100 },
-  { id: 'deliveredOn', label: 'Delivered On', minWidth: 100 },
-  { id: 'status', label: 'Status', minWidth: 70 },
-  { id: 'createdAt', label: 'Created At', minWidth: 70 },
+  { id: 'name', label: 'Marque', minWidth: 70 },
+  { id: 'email', label: 'Nom du client', minWidth: 100 },
+  { id: 'password', label: 'Numéro du client', minWidth: 100 },
+  { id: 'createdAt', label: 'Problème', minWidth: 100 },
+  { id: 'deliveredOn', label: 'Livré le', minWidth: 100 },
+  { id: 'status', label: 'Statut', minWidth: 70 },
+  { id: 'createdAt', label: 'Créé le', minWidth: 70 },
 ];
 
-const userIdFromCookie = Cookies.get('token');
+const userIdFromCookie = localStorage.getItem('token');
+const baseUrl = 'https://api.deviceshopleader.com'; // Base URL for API
 
 export default function Phone() {
   const [data, setData] = useState([]);
@@ -47,10 +48,10 @@ export default function Phone() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://195.200.15.61/phone/deliveredtoday/${userIdFromCookie}`);
+      const response = await axios.get(`${baseUrl}/phone/deliveredtoday/${userIdFromCookie}`);
       setData(response.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Erreur lors de la récupération des données :', error);
     }
   };
 
@@ -60,19 +61,19 @@ export default function Phone() {
 
   const getBstatus = async (status) => {
     try {
-      const response = await axios.get(`http://195.200.15.61/phone/status/${userIdFromCookie}/${status}`);
+      const response = await axios.get(`${baseUrl}/phone/status/${userIdFromCookie}/${status}`);
       setData(response.data);
     } catch (error) {
-      console.error('Error fetching status data:', error);
+      console.error('Erreur lors de la récupération des données de statut :', error);
     }
   };
 
   const getall = async () => {
     try {
-      const response = await axios.get(`http://195.200.15.61/phone/all/${userIdFromCookie}`);
+      const response = await axios.get(`${baseUrl}/phone/all/${userIdFromCookie}`);
       setData(response.data);
     } catch (error) {
-      console.error('Error fetching all data:', error);
+      console.error('Erreur lors de la récupération de toutes les données :', error);
     }
   };
 
@@ -93,14 +94,14 @@ export default function Phone() {
     <div style={{ width: '100%', minHeight: '100vh', backgroundColor: 'white', borderRadius: 20, marginLeft: 3, border: '1px solid black' }}>
       
       <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
-        <Button onClick={() => handleViewChange('create')} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>ADD Phone</Button>
-        <Button onClick={() => { fetchData(); handleViewChange('paper'); setPage(0); }} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Today</Button>
-        <Button onClick={() => { getBstatus('Refused'); handleViewChange('paper'); setPage(0); }} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Refused Phone</Button>
-        <Button onClick={() => { handleViewChange('fixed'); getBstatus('Fixed'); }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Fixed Phone</Button>
-        <Button onClick={() => { handleViewChange('waiting'); }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Waiting Phone</Button>
-        <Button onClick={() => { getall(); handleViewChange('all'); }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>All Phone</Button>
+        <Button onClick={() => handleViewChange('create')} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Ajouter un téléphone</Button>
+        <Button onClick={() => { fetchData(); handleViewChange('paper'); setPage(0); }} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Aujourd'hui</Button>
+        <Button onClick={() => { getBstatus('Refused'); handleViewChange('paper'); setPage(0); }} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Téléphone refusé</Button>
+        <Button onClick={() => { handleViewChange('fixed'); getBstatus('Fixed'); }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Téléphone réparé</Button>
+        <Button onClick={() => { handleViewChange('waiting'); }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Téléphone en attente</Button>
+        <Button onClick={() => { getall(); handleViewChange('all'); }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Tous les téléphones</Button>
 
-        <input type="text" onChange={handleSearchChange} placeholder="Search by name or number" style={{ margin: '10px', padding: '8px', minWidth: '200px' }} />
+        <input type="text" onChange={handleSearchChange} placeholder="Rechercher par nom ou numéro" style={{ margin: '10px', padding: '8px', minWidth: '200px' }} />
       </Box>
 
       {view === 'create' ? <Create /> : null}
