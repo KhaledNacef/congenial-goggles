@@ -1,17 +1,12 @@
-// ProtectedRoute.jsx
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Outlet , Navigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
-const ProtectedRoute = ({ element: Element, ...rest }) => {
+const ProtectedRoute = () => {
   const { isAuthenticated } = useAuth();
 
-  return (
-    <Route
-      {...rest}
-      element={isAuthenticated ? <Element /> : <Navigate to="/" />}
-    />
-  );
+  
+    return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default ProtectedRoute;
