@@ -12,7 +12,7 @@ cloudinary.config({
   api_secret: 'eKsF-xtI-2ks2w5z6Y4jBSScWHU'
 });
 
-const secretKey =process.env.JWT_SECRET
+const secretKey ="Nacef030599?"
 // Controller function to get all users
 exports.getAllUsers = async (req, res) => {
   try {
