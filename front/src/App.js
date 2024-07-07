@@ -7,15 +7,9 @@ import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 
 const App = () => {
-  useEffect(() => {
-    // Check if token exists in localStorage or sessionStorage
-    const token = localStorage.getItem('token');
+  
 
-    if (!token) {
-      // Redirect to login page or handle unauthenticated state
-      Navigate('/');
-    }
-  }, []);
+  
 
   return (
     <AuthProvider>
