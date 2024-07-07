@@ -17,7 +17,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from '@mui/material/Typography';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-const TousLesTelephones = ({ searchQuery }) => {
+const Allphone = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -129,4 +129,4 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
   );
 };
 
-export default TousLesTelephones;
+export default Allphone;

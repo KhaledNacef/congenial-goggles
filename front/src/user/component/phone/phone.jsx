@@ -141,8 +141,8 @@ export default function Phone() {
           />
         </Paper> : null
       }
-      {view === 'fixed' ? <Fixedd   /> : null}
-      {view === 'all' ? <Allphone  /> : null}
+      {view === 'fixed' ? <Fixedd  searchQuery={searchQuery} /> : null}
+      {view === 'all' ? <Allphone searchQuery={searchQuery} /> : null}
     </div>
   );
 }
