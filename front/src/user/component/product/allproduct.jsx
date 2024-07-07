@@ -14,7 +14,6 @@ import UpdateIcon from '@mui/icons-material/Update';
 import SellIcon from '@mui/icons-material/Sell';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const Allproduct = ({ filteredData, setDataA }) => {
   const [page, setPage] = useState(0);

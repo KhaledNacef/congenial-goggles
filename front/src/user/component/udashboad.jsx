@@ -5,7 +5,6 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import CancelIcon from '@mui/icons-material/Cancel';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 export default function Dashboard() {
     const [data, setData] = useState([]);

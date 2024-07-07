@@ -1,9 +1,9 @@
 // App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Signup from './home/signup';
-import Login from './home/login';
-import User from './user/user';
+import Signup from './home/signup.jsx';
+import Login from './home/login.jsx';
+import User from './user/user.jsx';
 import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -12,8 +12,9 @@ const App = () => {
     <AuthProvider>
       <Router>
         <Routes>
+        <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<Login />} />
+          
 
           {/* Use ProtectedRoute for routes that require authentication */}
           <ProtectedRoute path="/user" element={<User />} />
