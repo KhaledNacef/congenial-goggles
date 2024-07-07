@@ -68,14 +68,7 @@ export default function Phone() {
     }
   };
 
-  const getall = async () => {
-    try {
-      const response = await axios.get(`${baseUrl}/phone/all/${userIdFromCookie}`);
-      setData(response.data);
-    } catch (error) {
-      console.error('Erreur lors de la récupération de toutes les données :', error);
-    }
-  };
+  
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -97,9 +90,9 @@ export default function Phone() {
         <Button onClick={() => handleViewChange('create')} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Ajouter un téléphone</Button>
         <Button onClick={() => { fetchData(); handleViewChange('paper'); setPage(0); }} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Aujourd'hui</Button>
         <Button onClick={() => { getBstatus('Refused'); handleViewChange('paper'); setPage(0); }} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Téléphone refusé</Button>
-        <Button onClick={() => { handleViewChange('fixed'); getBstatus('Fixed'); }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Téléphone réparé</Button>
+        <Button onClick={() => { handleViewChange('fixed') }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Téléphone réparé</Button>
         <Button onClick={() => { handleViewChange('waiting'); }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Téléphone en attente</Button>
-        <Button onClick={() => { getall(); handleViewChange('all'); }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Tous les téléphones</Button>
+        <Button onClick={() => {handleViewChange('all'); }} variant="contained" color="secondary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Tous les téléphones</Button>
 
         <input type="text" onChange={handleSearchChange} placeholder="Rechercher par nom ou numéro" style={{ margin: '10px', padding: '8px', minWidth: '200px' }} />
       </Box>
@@ -148,8 +141,8 @@ export default function Phone() {
           />
         </Paper> : null
       }
-      {view === 'fixed' ? <Fixedd getBstatus={getBstatus} filteredData={filteredData} /> : null}
-      {view === 'all' ? <Allphone filteredData={filteredData} /> : null}
+      {view === 'fixed' ? <Fixedd   /> : null}
+      {view === 'all' ? <Allphone  /> : null}
     </div>
   );
 }

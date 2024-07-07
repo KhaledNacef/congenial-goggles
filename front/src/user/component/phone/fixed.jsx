@@ -16,13 +16,13 @@ import { Box, Typography } from '@mui/material';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import Cookies from 'js-cookie';
 
-const Fixedd = ({ filteredData, getBstatus }) => {
+const Fixedd = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [view, setView] = useState(false);
+  const [data, setData] = useState([]);
   const [price, setPrice] = useState(0);
   const [selectedId, setSelectedId] = useState(null);
-
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
     { id: 'Brand', label: 'Marque', minWidth: 70 },
@@ -63,11 +63,38 @@ const Fixedd = ({ filteredData, getBstatus }) => {
 
   const totalRevenue = filteredData.reduce((acc, curr) => acc + curr.price, 0);
 
+  const getBstatus = async (status) => {
+    try {
+      const response = await axios.get(`${baseUrl}/phone/status/${userIdFromCookie}/${status}`);
+      setData(response.data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données de statut :', error);
+    }
+  };
+
+  useEffect(() => {
+    getBstatus('Fixed');
+  }, []);
+
+
+
+
+  
+
+
+  const filteredData = data.filter((row) =>
+    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+
+
   return (
     <div>
       <Box sx={{ justifyContent: 'center', boxShadow: 2, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto', marginBottom: 1, backgroundColor: 'white', borderRadius: 5, width: '55%', padding: 1, border: '1px solid grey' }}>
         <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', color: 'black', width: '100%', backgroundColor: 'white' }}>TÉLÉPHONES FIXÉS</Typography>
       </Box>
+
 
       <Paper sx={{ width: '95%', overflow: 'hidden', margin: 'auto', boxShadow: 8, borderRadius: 5 }}>
         <TableContainer sx={{ maxHeight: '75vh' }}>

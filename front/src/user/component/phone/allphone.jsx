@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,10 +16,12 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from '@mui/material/Typography';
 import Cookies from 'js-cookie';
-
-const TousLesTelephones = ({ filteredData }) => {
+import axios from 'axios';
+const TousLesTelephones = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const[data,setData]=useState([])
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
@@ -33,6 +35,13 @@ const TousLesTelephones = ({ filteredData }) => {
     { id: 'Created At', label: 'Créé le', minWidth: 70 },
   ];
 
+  
+
+  const filteredData = data.filter((row) =>
+    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -42,11 +51,26 @@ const TousLesTelephones = ({ filteredData }) => {
     setPage(0);
   };
 
+  const getall = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/phone/all/${userIdFromCookie}`);
+      setData(response.data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération de toutes les données :', error);
+    }
+  }
+
+  useEffect(
+    getall()
+    ,[]
+  )
+
   return (
     <div>
       <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', boxShadow: 2, width: 300, margin: 'auto', backgroundColor: 'white', border: '1px solid grey', padding: 0.5, borderRadius: 4, marginTop: 5 }}>
         TOUS LES TÉLÉPHONES
       </Typography>
+
       <Paper sx={{ fontFamily: 'Kanit', fontWeight: 500, width: '95%', overflow: 'hidden', boxShadow: 8, margin: 'auto', marginTop: 5, borderRadius: 5 }}>
         <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500, maxHeight: '70vh' }}>
           <Table stickyHeader aria-label="sticky table">
