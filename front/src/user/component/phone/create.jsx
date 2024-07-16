@@ -39,7 +39,7 @@ const Create = () => {
   };
 
   return (
-    <Container sx={{ marginTop: 5, width: '100%', maxWidth: 600 }}>
+    <Container sx={{ marginTop: 5, width: '100%', maxWidth: 600,backgroundColor:'#FCF6F5FF' }}>
       <Box sx={{ maxWidth: 400, margin: 'auto', padding: 3 }}>
         <Typography variant='h3' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 3, textAlign: 'center' }}>
           Créer un téléphone <PhoneIcon />
@@ -96,7 +96,7 @@ const Create = () => {
           variant="contained"
           
           fullWidth
-          sx={{ marginTop: 3 ,backgroundColor: '#89ABE3FF'}}
+          sx={{ marginTop: 3 ,backgroundColor: '#89ABE3FF',color:'black'}}
         >
           Soumettre
         </Button>

@@ -23,4 +23,7 @@ router.get('/waiting/:userId', phoneController.getWaitingPhones);
 // Get phones by phoneHolder or holderNumber
 router.put('/price/:userId/:id', phoneController.updatePhonePrice);
 
+router.delete('/delete/:userId/:id', phoneController.deletePhone);
+
+
 module.exports = router;

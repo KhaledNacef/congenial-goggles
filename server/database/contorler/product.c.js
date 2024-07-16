@@ -66,7 +66,7 @@ exports.updateProductById = async (req, res) => {
 
 // Delete product by ID
 exports.deleteProductById = async (req, res) => {
-  const { id,userId } = req.params;
+  const { userId,id } = req.params;
   try {
     const product = await Product.findOne({ where: { id:id, userId:userId } });
     if (!product) {

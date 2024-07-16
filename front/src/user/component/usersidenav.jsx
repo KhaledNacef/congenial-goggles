@@ -48,7 +48,7 @@ const UserSidebar = ({ changevie }) => {
   };
 
   return (
-    <Container sx={{ boxShadow: 20, bgcolor: '#FCF6F5FF', height: 'auto', maxWidth: 250, borderRadius: 10, marginTop: 2, justifyContent: 'center', alignItems: 'center' }}>
+    <Container sx={{ boxShadow: 20, bgcolor: '#89ABE3FF', height: 'auto', maxWidth: 250, borderRadius: 10, marginTop: 2, justifyContent: 'center', alignItems: 'center' }}>
       <Box sx={{ height: 'auto', width: 200, marginTop: 3, justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', borderRadius: 10 }}>
         <img src={logo} style={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: 30 }} alt="logo" />
       </Box>
@@ -68,22 +68,23 @@ const UserSidebar = ({ changevie }) => {
               transition: 'background-color 0.3s',
               cursor: 'pointer',
               '&:hover': {
-                backgroundColor: '#89ABE3FF',
-                borderRadius: 10
+                backgroundColor: '#FCF6F5FF',
+                borderRadius: 10,
+                color:'#89ABE3FF'
               }
             }}
             onClick={box.action}
           >
-            <IconButton sx={{ width: 80, height: 60 }} color="#89ABE3FF" aria-label={box.text.toLowerCase()}>
+            <IconButton sx={{ width: 80, height: 60 }} color="#FCF6F5FF" aria-label={box.text.toLowerCase()}>
               {box.icon}
             </IconButton>
-            <Typography sx={{ fontSize: 18, textAlign: 'center', marginLeft: 2,color: '#89ABE3FF' }}>{box.text}</Typography>
+            <Typography sx={{ fontSize: 18, textAlign: 'center', marginLeft: 2,color: '#FCF6F5FF' }}>{box.text}</Typography>
           </Box>
         ))}
 
       </Box>
       <Box sx={{ height: 'auto', width: 200, marginTop: 3, justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', borderRadius: 10 }}>
-        <Button variant="contained" sx={{backgroundColor: '#89ABE3FF'}} onClick={handleLogout}>Déconnexion</Button>
+        <Button variant="contained" sx={{backgroundColor: '#FCF6F5FF',color:'black'}} onClick={handleLogout}>Déconnexion</Button>
       </Box>
     </Container>
   );

@@ -31,12 +31,12 @@ export default function Phone() {
     <div style={{ width: '100%', minHeight: '100vh', backgroundColor: '#FCF6F5FF', borderRadius: 20, marginLeft: 3, border: '1px solid black' }}>
       
       <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
-        <Button onClick={() => handleViewChange('create')} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px',backgroundColor: '#89ABE3FF' }}>Ajouter un téléphone</Button>
-        <Button onClick={() => { handleViewChange('paper') }} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px',backgroundColor: '#89ABE3FF' }}>Aujourd'hui</Button>
-        <Button onClick={() => {  handleViewChange('ref')}} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px',backgroundColor: '#89ABE3FF' }}>Téléphone refusé</Button>
-        <Button onClick={() => { handleViewChange('fixed') }} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px',backgroundColor: '#89ABE3FF' }}>Téléphone réparé</Button>
-        <Button onClick={() => { handleViewChange('waiting') }} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px',backgroundColor: '#89ABE3FF' }}>Téléphone en attente</Button>
-        <Button onClick={() => {handleViewChange('all'); }} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px',backgroundColor: '#89ABE3FF' }}>Tous les téléphones</Button>
+        <Button onClick={() => handleViewChange('create')} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px',backgroundColor: '#89ABE3FF',color:'black' }}>Ajouter un téléphone</Button>
+        <Button onClick={() => { handleViewChange('paper') }} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px',backgroundColor: '#89ABE3FF',color:'black' }}>Aujourd'hui</Button>
+        <Button onClick={() => {  handleViewChange('ref')}} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px',backgroundColor: '#89ABE3FF',color:'black' }}>Téléphone refusé</Button>
+        <Button onClick={() => { handleViewChange('fixed') }} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px',backgroundColor: '#89ABE3FF',color:'black' }}>Téléphone réparé</Button>
+        <Button onClick={() => { handleViewChange('waiting') }} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px',backgroundColor: '#89ABE3FF',color:'black' }}>Téléphone en attente</Button>
+        <Button onClick={() => {handleViewChange('all'); }} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px',backgroundColor: '#89ABE3FF',color:'black' }}>Tous les téléphones</Button>
 
         <input type="text" onChange={handleSearchChange} placeholder="Rechercher par nom ou numéro" style={{ margin: '10px', padding: '8px', minWidth: '200px' }} />
       </Box>

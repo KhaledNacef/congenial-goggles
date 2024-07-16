@@ -91,7 +91,7 @@ const Fixedd = ({ searchQuery }) => {
 
 
   return (
-    <div>
+    <div style={{backgroundColor:'#FCF6F5FF'}}>
       <Box sx={{ justifyContent: 'center', boxShadow: 2, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto', marginBottom: 1, backgroundColor: 'white', borderRadius: 5, width: '55%', padding: 1, border: '1px solid grey' }}>
         <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', color: 'black', width: '100%', backgroundColor: 'white' }}>TÉLÉPHONES FIXÉS</Typography>
       </Box>
@@ -137,7 +137,7 @@ const Fixedd = ({ searchQuery }) => {
                             onChange={(e) => setPrice(e.target.value)}
                             sx={{ marginRight: '10px' }}
                           />
-                          <Button onClick={updatePrice} variant="contained" color="primary">
+                          <Button onClick={updatePrice} variant="contained" sx={{backgroundColor:'#FCF6F5FF'}}>
                             OK
                           </Button>
                         </Box>

@@ -15,7 +15,7 @@ router.put('/price/:id/:userId/:price', productController.getProductByIdadnprice
 router.put('/products/:id/:userId/:quantity', productController.updateProductById);
 
 // Route to delete product by ID
-router.delete('/products/:userId/:id', productController.deleteProductById);
+router.delete('/deleteproduct/:userId/:id', productController.deleteProductById);
 
 // Route to get a product by name
 router.get('/solded', productController.getProductByName);

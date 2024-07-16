@@ -70,7 +70,7 @@ const Refused = ({searchQuery}) => {
 
 
   return (
-    <div>
+    <div style={{backgroundColor:''}}>
 
 <Paper sx={{ width: '95%', overflowX: 'auto', margin: 'auto', marginTop: 10, boxShadow: 9, borderRadius: 5 }}>
           <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>

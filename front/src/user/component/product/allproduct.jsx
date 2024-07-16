@@ -13,6 +13,9 @@ import { Typography, IconButton, Box } from '@mui/material';
 import UpdateIcon from '@mui/icons-material/Update';
 import SellIcon from '@mui/icons-material/Sell';
 import EditIcon from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -94,6 +97,17 @@ const Allproduct = ({ filteredData, setDataA }) => {
     }
   };
 
+
+  const deleteProduct = async (id) => {
+    try {
+      const response = await axios.delete(`https://api.deviceshopleader.com/api/product/deleteproduct/${userIdFromCookie}/${id}`);
+      console.log('Phone deleted successfully:', response.data);
+      // Optionally, handle UI updates or further actions here
+    } catch (error) {
+      console.error('Error while deleting the phone record:', error);
+    }
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -104,7 +118,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
   };
 
   return (
-    <div>
+    <div style={{backgroundColor:'#FCF6F5FF'}}>
       <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, boxShadow: 12, marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', fontWeight: 'bold', border: '1px solid grey', backgroundColor: 'white', borderRadius: 15, width: '55%', padding: 1, marginBottom: 2 }}>TOUS LES PRODUITS</Typography>
       <Paper sx={{ boxShadow: 15, width: '90%', overflowX: 'auto', marginLeft: 'auto', marginRight: 'auto', borderRadius: 5 }}>
         <TableContainer sx={{ maxHeight: 600 }}>
@@ -131,12 +145,15 @@ const Allproduct = ({ filteredData, setDataA }) => {
                       <img src={row.image} alt="Product" style={{ maxWidth: '100px', maxHeight: '100px' }} />
                     </TableCell>
                     <TableCell align="center">
-                      <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" color="#89ABE3FF" size="small">
+                      <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" sx={{backgroundColor:'#89ABE3FF',color:'black' }} size="small">
                         Mettre à jour la quantité
                       </Button>
-                      <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained" color="#89ABE3FF" size="small" sx={{ marginLeft: 1 }}>
+                      <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained"  size="small" sx={{ marginLeft: 1 ,backgroundColor:'#89ABE3FF',color:'black' }}>
                         Vendre
                       </Button>
+                      <IconButton onClick={()=>deleteProduct(row.id)} aria-label="delete" color="secondary">
+                        <DeleteIcon />
+                      </IconButton>
                       <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1 }}>
                         Modifier le prix
                       </Button>
@@ -149,7 +166,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={sellQuantity}
                           onChange={(e) => setSellQuantity(e.target.value)}
                         />
-                        <Button onClick={() => { sellProduct(row.id, sellQuantity); }} variant="contained" color="primary" style={{ marginLeft: '10px' }}>OK</Button>
+                        <Button onClick={() => { sellProduct(row.id, sellQuantity); }} variant="contained"  style={{ marginLeft: '10px',backgroundColor:'#89ABE3FF',color:'black' }}>OK</Button>
                       </TableCell>
                     )}
                     {(view === 'up' && selectedId === row.id) && (
@@ -160,7 +177,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={upQuantity}
                           onChange={(e) => setUpQuantity(e.target.value)}
                         />
-                        <Button onClick={() => { updateQuantity(row.id, upQuantity); }} variant="contained" color="primary" style={{ marginLeft: '10px' }}>OK</Button>
+                        <Button onClick={() => { updateQuantity(row.id, upQuantity); }} variant="contained"  style={{ marginLeft: '10px',backgroundColor:'#89ABE3FF',color:'black'  }}>OK</Button>
                       </TableCell>
                     )}
                     {(view === 'price' && selectedId === row.id) && (
@@ -171,7 +188,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={pricee}
                           onChange={(e) => setPricee(e.target.value)}
                         />
-                        <Button onClick={() => { updatePrice(row.id, pricee); }} variant="contained" color="primary" style={{ marginLeft: '10px' }}>OK</Button>
+                        <Button onClick={() => { updatePrice(row.id, pricee); }} variant="contained"  style={{ marginLeft: '10px',backgroundColor:'#89ABE3FF',color:'black'  }}>OK</Button>
                       </TableCell>
                     )}
                   </TableRow>

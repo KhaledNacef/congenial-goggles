@@ -66,6 +66,18 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
   )
 
 
+  const deletePhone = async (id) => {
+    try {
+      const response = await axios.delete(`${baseUrl}/phone/delete/${userIdFromCookie}/${id}`);
+      console.log('Phone deleted successfully:', response.data);
+      // Optionally, handle UI updates or further actions here
+    } catch (error) {
+      console.error('Error while deleting the phone record:', error);
+    }
+  };
+
+
+
   const filteredData = data.filter((row) =>
     row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
     row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase())
@@ -73,7 +85,7 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
 
 
   return (
-    <div>
+    <div style={{backgroundColor:'#FCF6F5FF'}}>
       <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', boxShadow: 2, width: '55%', margin: 'auto', backgroundColor: 'white', border: '1px solid grey', padding: 0.5, borderRadius: 4, marginTop: 5 }}>
         TOUS LES TÉLÉPHONES
       </Typography>
@@ -111,7 +123,7 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
                       <IconButton aria-label="edit" color="primary">
                         <EditIcon />
                       </IconButton>
-                      <IconButton aria-label="delete" color="secondary">
+                      <IconButton onClick={()=>deletephone(row.id)} aria-label="delete" color="secondary">
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
