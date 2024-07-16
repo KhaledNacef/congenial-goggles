@@ -16,7 +16,8 @@ const Product = () => {
   };
 
   const filteredData = dataA.filter((row) =>
-    row.name.toLowerCase().includes(searchQuery.toLowerCase())
+    row.name.toLowerCase().includes(searchQuery.toLowerCase())||
+  row.id.toString().includes(searchQuery)
   );
 
   const changeview = (name) => {

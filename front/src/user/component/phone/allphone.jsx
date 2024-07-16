@@ -91,8 +91,10 @@ const Allphone = ({ searchQuery }) => {
 
   const filteredData = data.filter((row) =>
     row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase())
+    row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.id.toString().includes(searchQuery)
   );
+  
 
   return (
     <div style={{ backgroundColor: '#FCF6F5FF' }}>
@@ -125,7 +127,7 @@ const Allphone = ({ searchQuery }) => {
                     <TableCell align="center">{row.phoneHolder}</TableCell>
                     <TableCell align="center">{row.holderNumber}</TableCell>
                     <TableCell align="center">{row.problem}</TableCell>
-                    <TableCell align="center">{row.deliveredOn}</TableCell>
+                    <TableCell align="center">{row.delivredOn.slice(0, 10)}</TableCell>
                     <TableCell align="center" sx={{ color: '#007300', fontWeight: 'bold' }}>{row.price}DT</TableCell>
                     <TableCell align="center" sx={{ bgcolor: row.status === 'Refused' ? '#f44336' : row.status === 'Fixed' ? '#99cc99' : '#fbef53', borderRadius: 30, fontWeight: 'bold', color: 'black' }}>{row.status}</TableCell>
                     <TableCell align="center">{row.createdAt}</TableCell>

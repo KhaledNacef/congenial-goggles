@@ -21,11 +21,12 @@ const Wat = ({ searchQuery }) => {
   const [data, setData] = useState([]);
   const userIdFromCookie = Cookies.get('token');
 
-  const filteredData = data.filter(
-    (row) =>
-      row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredData = data.filter((row) =>
+    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.id.toString().includes(searchQuery)
   );
+  
 
   const ActionsButtons = ({ id, updateStatus }) => (
     <>

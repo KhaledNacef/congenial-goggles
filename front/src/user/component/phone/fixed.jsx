@@ -83,8 +83,10 @@ const Fixedd = ({ searchQuery }) => {
 
   const filteredData = data.filter((row) =>
     row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase())
+    row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.id.toString().includes(searchQuery)
   );
+  
   
   const totalRevenue = filteredData.reduce((acc, curr) => acc + curr.price, 0);
 
