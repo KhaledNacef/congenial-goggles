@@ -84,7 +84,7 @@ const Wat = ({ searchQuery }) => {
 
   return (
     <div style={{backgroundColor:'#FCF6F5FF'}}>
-      <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, margin:'auto', boxShadow: 2, textAlign: 'center', border: '1px Solid grey',color: '#FCF6F5FF',backgroundColor:'##89ABE3FF', borderRadius: 15, width: '55%', padding: 1 }}>EN ATTENTE <HourglassEmptyIcon /></Typography>
+      <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, margin:'auto', boxShadow: 2, textAlign: 'center', border: '1px Solid grey',color: '#FCF6F5FF',backgroundColor:'#89ABE3FF', borderRadius: 15, width: '55%', padding: 1 }}>EN ATTENTE <HourglassEmptyIcon /></Typography>
 
       <Paper sx={{ width: '95%', boxShadow: 9, overflowX: 'auto', margin: 'auto', marginTop: 3, borderRadius: 5 }}>
         <TableContainer sx={{ maxHeight: 600 }}>
