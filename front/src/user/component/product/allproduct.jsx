@@ -133,7 +133,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
         TOUS LES PRODUITS
       </Typography>
       <Paper sx={{ boxShadow: 15, width: '90%', overflowX: 'auto', marginLeft: 'auto', marginRight: 'auto', borderRadius: 5 }}>
-        <TableContainer sx={{ maxHeight: 600 }}>
+        <TableContainer sx={{  fontFamily: 'Kanit', fontWeight: 500, maxHeight: '75vh' }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>

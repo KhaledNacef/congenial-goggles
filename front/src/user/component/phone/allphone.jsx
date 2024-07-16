@@ -97,12 +97,13 @@ const Allphone = ({ searchQuery }) => {
 
   return (
     <div style={{ backgroundColor: '#FCF6F5FF' }}>
-      <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', boxShadow: 2, width: '55%', margin: 'auto', color: '#FCF6F5FF', backgroundColor: '#89ABE3FF', border: '1px solid grey', padding: 0.5, borderRadius: 4, marginTop: 5 }}>
-        TOUS LES TÉLÉPHONES
-      </Typography>
+      
+      <Box sx={{ justifyContent: 'center', boxShadow: 2, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto', marginBottom: 1, backgroundColor:'#89ABE3FF', borderRadius: 5, width: '55%', padding: 1, border: '1px solid grey' }}>
+        <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', color: '#FCF6F5FF', width: '100%'}}>TOUS LES TÉLÉPHONES</Typography>
+      </Box>
 
       <Paper sx={{ width: '95%', overflowX: 'auto', margin: 'auto', marginTop: 10, boxShadow: 9, borderRadius: 5 }}>
-        <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500, maxHeight: '70vh' }}>
+        <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500, maxHeight: '75vh' }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
