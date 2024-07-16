@@ -101,7 +101,7 @@ const Allphone = ({ searchQuery }) => {
         TOUS LES TÉLÉPHONES
       </Typography>
 
-      <Paper sx={{ fontFamily: 'Kanit', fontWeight: 500, width: '95%', overflow: 'hidden', boxShadow: 8, margin: 'auto', marginTop: 5, borderRadius: 5 }}>
+      <Paper sx={{ width: '95%', overflowX: 'auto', margin: 'auto', marginTop: 10, boxShadow: 9, borderRadius: 5 }}>
         <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500, maxHeight: '70vh' }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>

@@ -98,7 +98,7 @@ const Fixedd = ({ searchQuery }) => {
       </Box>
 
 
-      <Paper sx={{ width: '95%', overflow: 'hidden', margin: 'auto', boxShadow: 8, borderRadius: 5 }}>
+      <Paper sx={{ width: '95%', overflowX: 'auto', margin: 'auto', marginTop: 10, boxShadow: 9, borderRadius: 5 }}>
         <TableContainer sx={{ maxHeight: '75vh' }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
