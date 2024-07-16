@@ -131,10 +131,10 @@ const Allproduct = ({ filteredData, setDataA }) => {
                       <img src={row.image} alt="Product" style={{ maxWidth: '100px', maxHeight: '100px' }} />
                     </TableCell>
                     <TableCell align="center">
-                      <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" color="primary" size="small">
+                      <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" color="#89ABE3FF" size="small">
                         Mettre à jour la quantité
                       </Button>
-                      <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained" color="secondary" size="small" sx={{ marginLeft: 1 }}>
+                      <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained" color="#89ABE3FF" size="small" sx={{ marginLeft: 1 }}>
                         Vendre
                       </Button>
                       <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1 }}>

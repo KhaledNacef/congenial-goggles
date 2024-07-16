@@ -192,7 +192,7 @@ export default function Dashboard() {
     });
 
     return (
-        <div style={{ padding: 10, backgroundColor: 'white' }}>
+        <div style={{ padding: 10, backgroundColor: '#FCF6F5FF' }}>
             <Typography variant='h3' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginTop: 3 }}>
                 Tableau de bord
             </Typography>

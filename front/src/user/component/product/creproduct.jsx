@@ -37,7 +37,7 @@ export default function Creproduct() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ fontFamily: 'Kanit', fontWeight: 500, boxShadow: 20, marginTop: 5, backgroundColor: 'white', borderRadius: 8, border: '1px solid grey', padding: '20px' }}>
+    <Container maxWidth="sm" sx={{ fontFamily: 'Kanit', fontWeight: 500, boxShadow: 20, marginTop: 5, backgroundColor: '#FCF6F5FF', borderRadius: 8, border: '1px solid grey', padding: '20px' }}>
       <Box sx={{ textAlign: 'center' }}>
         <Typography variant='h4' sx={{ marginBottom: 3, marginTop: 3 }}>Créer un Produit <ProductIcon /></Typography>
         <TextField
@@ -74,7 +74,7 @@ export default function Creproduct() {
           required
           sx={{ marginBottom: 2 }}
         />
-        <Button onClick={handleSubmit} variant="contained" color="primary" fullWidth style={{ marginTop: '16px' }}>
+        <Button onClick={handleSubmit} variant="contained" color="#89ABE3FF" fullWidth style={{ marginTop: '16px' }}>
           Creé
         </Button>
       </Box>

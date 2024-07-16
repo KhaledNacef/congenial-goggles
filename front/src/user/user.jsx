@@ -16,14 +16,14 @@ const User = () => {
   };
 
   return (
-    <Container maxWidth="xxl" style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'white', padding: 0 }}>
+    <Container maxWidth="xxl" style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#FCF6F5FF', padding: 0 }}>
       {/* Sidebar fixed on the left */}
       <Box style={{ width: 250, flexShrink: 0 }}>
         <Sidebar changevie={changevie} />
       </Box>
 
       {/* Main content area taking up remaining space */}
-      <Box style={{ flex: 1, padding: '20px',backgroundColor:'white' }}>
+      <Box style={{ flex: 1, padding: '20px',backgroundColor:'#FCF6F5FF' }}>
         {vie === 'Uprofile' && <Profile />}
         {vie === 'phone' && <Phone />}
         {vie === 'dashboard' && <Dashboard />}
