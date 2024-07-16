@@ -41,16 +41,16 @@ const UserSidebar = ({ changevie }) => {
 
   const handleLogout = () => {
     // Supprimer le token des cookies
-    localStorage.removeItem('token');
+    Cookies.remove('token');
 
     // Rediriger vers la page de connexion
     navigate('/');
   };
 
   return (
-    <Container sx={{ boxShadow: 20, bgcolor: 'grey', height: 'auto', maxWidth: 250, borderRadius: 10, marginTop: 2, justifyContent: 'center', alignItems: 'center' }}>
+    <Container sx={{ boxShadow: 20, bgcolor: '#D3C5E5', height: 'auto', maxWidth: 250, borderRadius: 10, marginTop: 2, justifyContent: 'center', alignItems: 'center' }}>
       <Box sx={{ height: 'auto', width: 200, marginTop: 3, justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', borderRadius: 10 }}>
-        <img src='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/phone-repair-services-icon-logo-template-desi-design-4468ce8917b6b0bb6c8bb9e2148c384c_screen.jpg?ts=1670103536' style={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: 30 }} alt="logo" />
+        <img src={logo} style={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: 30 }} alt="logo" />
       </Box>
 
       <Box sx={{ height: 'auto', width: '100%', marginTop: 6, justifyContent: 'center', alignItems: 'center' }}>
@@ -68,7 +68,7 @@ const UserSidebar = ({ changevie }) => {
               transition: 'background-color 0.3s',
               cursor: 'pointer',
               '&:hover': {
-                backgroundColor: '#89c4f4',
+                backgroundColor: '#735DA5',
                 borderRadius: 10
               }
             }}
@@ -84,7 +84,6 @@ const UserSidebar = ({ changevie }) => {
       </Box>
       <Box sx={{ height: 'auto', width: 200, marginTop: 3, justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', borderRadius: 10 }}>
         <Button variant="contained" color="primary" onClick={handleLogout}>Déconnexion</Button>
-        <img src={logo} style={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: 30 }} alt="logo" />
       </Box>
     </Container>
   );

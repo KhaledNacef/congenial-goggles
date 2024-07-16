@@ -28,7 +28,7 @@ export default function Phone() {
 
  
   return (
-    <div style={{ width: '100%', minHeight: '100vh', backgroundColor: 'white', borderRadius: 20, marginLeft: 3, border: '1px solid black' }}>
+    <div style={{ width: '100%', minHeight: '100vh', backgroundColor: '#D3C5E5', borderRadius: 20, marginLeft: 3, border: '1px solid black' }}>
       
       <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
         <Button onClick={() => handleViewChange('create')} variant="contained" color="primary" style={{ fontFamily: 'Kanit', fontWeight: 500, margin: '10px' }}>Ajouter un téléphone</Button>

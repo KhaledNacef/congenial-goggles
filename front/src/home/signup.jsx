@@ -68,7 +68,7 @@ const Signup = () => {
       formData.append('Government', government);
       formData.append('PhoneNumber', phoneNumber);
 
-      const response = await axios.post("https://api.deviceshopleader.com/api//user/signup", formData, {
+      const response = await axios.post("https://api.deviceshopleader.com/api/user/signup", formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

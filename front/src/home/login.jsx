@@ -31,7 +31,7 @@ const Login = () => {
         <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <Nav />
             <Box sx={{ width: '100%', maxWidth: 400, padding: 2 }}>
-                <Typography variant="h4" sx={{ textAlign: 'center', marginBottom: 2 }}>CONNEXION</Typography>
+                <Typography variant="h4" sx={{ textAlign: 'center', marginBottom: 20 }}>CONNEXION</Typography>
                 <TextField
                     label="Email"
                     variant="outlined"

@@ -55,15 +55,7 @@ const Deliv = ({searchQuery}) => {
         fetchData();
       }, []);
     
-      const getBstatus = async (status) => {
-        try {
-          const response = await axios.get(`${baseUrl}/phone/status/${userIdFromCookie}/${status}`);
-          setData(response.data);
-        } catch (error) {
-          console.error('Erreur lors de la récupération des données de statut :', error);
-        }
-      };
-    
+      
 
 
 
