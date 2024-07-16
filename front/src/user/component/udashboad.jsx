@@ -206,16 +206,16 @@ export default function Dashboard() {
                                 height: '100%',
                                 border: '1px solid grey',
                                 borderRadius: 3,
-                                backgroundColor: 'white',
+                                backgroundColor: '#89ABE3FF',
                                 textAlign: 'center',
                                 boxShadow: 15,
                             }}
                         >
                             <PhoneIcon />
-                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                                 Téléphones réparés aujourd'hui
                             </Typography>
-                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'green' }}>
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                                 {active.length}
                             </Typography>
                         </Box>
@@ -229,16 +229,16 @@ export default function Dashboard() {
                                 height: '100%',
                                 border: '1px solid grey',
                                 borderRadius: 3,
-                                backgroundColor: 'white',
+                                backgroundColor: '#89ABE3FF',
                                 textAlign: 'center',
                                 boxShadow: 15,
                             }}
                         >
                             <CancelIcon />
-                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                                 Téléphones refusé aujourd'hui
                             </Typography>
-                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                                 {inActive.length}
                             </Typography>
                         </Box>
@@ -252,16 +252,16 @@ export default function Dashboard() {
                                 height: '100%',
                                 border: '1px solid grey',
                                 borderRadius: 3,
-                                backgroundColor: 'white',
+                                backgroundColor: '#89ABE3FF',
                                 textAlign: 'center',
                                 boxShadow: 15,
                             }}
                         >
                             <HourglassEmptyIcon />
-                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                                 En attente de traitement
                             </Typography>
-                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: 'black' }}>
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                                 {wating.length}
                             </Typography>
                         </Box>
