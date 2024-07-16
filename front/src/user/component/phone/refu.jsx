@@ -63,7 +63,6 @@ const Refused = ({searchQuery}) => {
 
       const filteredData = data.filter((row) =>
         row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.id.toString().includes(searchQuery)
       );
       
