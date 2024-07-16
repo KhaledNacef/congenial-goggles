@@ -70,7 +70,7 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
     try {
       const response = await axios.delete(`${baseUrl}/phone/delete/${userIdFromCookie}/${id}`);
       console.log('Phone deleted successfully:', response.data);
-      // Optionally, handle UI updates or further actions here
+      getall()
     } catch (error) {
       console.error('Error while deleting the phone record:', error);
     }

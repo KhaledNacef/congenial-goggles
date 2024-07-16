@@ -101,8 +101,8 @@ const Allproduct = ({ filteredData, setDataA }) => {
     try {
       const response = await axios.delete(`https://api.deviceshopleader.com/api/product/deleteproduct/${userIdFromCookie}/${id}`);
       console.log('Phone deleted successfully:', response.data);
-      // Optionally, handle UI updates or further actions here
-    } catch (error) {
+      fetchData();
+        } catch (error) {
       console.error('Error while deleting the phone record:', error);
     }
   };
@@ -150,12 +150,13 @@ const Allproduct = ({ filteredData, setDataA }) => {
                       <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained"  size="small" sx={{ marginLeft: 1 ,backgroundColor:'#89ABE3FF',color:'black' }}>
                         Vendre
                       </Button>
-                      <IconButton onClick={()=>deleteProduct(row.id)} aria-label="delete" color="secondary">
-                        <DeleteIcon />
-                      </IconButton>
+                      
                       <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1 }}>
                         Modifier le prix
                       </Button>
+                      <IconButton onClick={()=>deleteProduct(row.id)} aria-label="delete" color="secondary">
+                        <DeleteIcon />
+                      </IconButton>
                     </TableCell>
                     {(view === 'sell' && selectedId === row.id) && (
                       <TableCell align="center" style={{ margin: '10px' }}>

@@ -67,18 +67,15 @@ const UserSidebar = ({ changevie }) => {
               justifyContent: 'center',
               transition: 'background-color 0.3s',
               cursor: 'pointer',
-              '&:hover': {
-                backgroundColor: '#FCF6F5FF',
-                borderRadius: 10,
-                color:'#89ABE3FF'
-              }
+              backgroundColor:'#FCF6F5FF'
+              
             }}
             onClick={box.action}
           >
-            <IconButton sx={{ width: 80, height: 60 }} color="#FCF6F5FF" aria-label={box.text.toLowerCase()}>
+            <IconButton sx={{ width: 80, height: 60 }} color="#89ABE3FF" aria-label={box.text.toLowerCase()}>
               {box.icon}
             </IconButton>
-            <Typography sx={{ fontSize: 18, textAlign: 'center', marginLeft: 2,color: '#FCF6F5FF' }}>{box.text}</Typography>
+            <Typography sx={{ fontSize: 18, textAlign: 'center', marginLeft: 2,color: '#89ABE3FF' }}>{box.text}</Typography>
           </Box>
         ))}
 
