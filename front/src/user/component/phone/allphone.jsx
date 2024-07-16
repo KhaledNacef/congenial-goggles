@@ -123,7 +123,7 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
                       <IconButton aria-label="edit" color="primary">
                         <EditIcon />
                       </IconButton>
-                      <IconButton onClick={()=>deletephone(row.id)} aria-label="delete" color="secondary">
+                      <IconButton onClick={()=>deletePhone(row.id)} aria-label="delete" color="secondary">
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
