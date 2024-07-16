@@ -26,7 +26,7 @@ export default function Nav() {
               key={item}
               sx={{
                 fontSize: 18,
-                backgroundColor: '#89ABE3FF',
+                color: 'inherit',
                 textTransform: 'none',
                 margin: '0 10px',
                 '&:hover': {
