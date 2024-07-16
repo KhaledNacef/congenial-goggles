@@ -15,13 +15,20 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+
 const Allphone = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const[data,setData]=useState([])
+  const [data, setData] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
@@ -36,10 +43,8 @@ const Allphone = ({ searchQuery }) => {
   ];
 
   const userIdFromCookie = Cookies.get('token');
-const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
+  const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
 
-
-  
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -58,35 +63,40 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
     }
   }
 
-  useEffect(()=>{
-    getall()
-  }
-    
-    ,[]
-  )
+  useEffect(() => {
+    getall();
+  }, []);
 
-
-  const deletePhone = async (id) => {
-    try {
-      const response = await axios.delete(`${baseUrl}/phone/delete/${userIdFromCookie}/${id}`);
-      console.log('Phone deleted successfully:', response.data);
-      getall()
-    } catch (error) {
-      console.error('Error while deleting the phone record:', error);
-    }
+  const handleOpenDialog = (id) => {
+    setDeleteId(id);
+    setOpenDialog(true);
   };
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setDeleteId(null);
+  };
 
+  const confirmDeletePhone = async () => {
+    try {
+      const response = await axios.delete(`${baseUrl}/phone/delete/${userIdFromCookie}/${deleteId}`);
+      console.log('Phone deleted successfully:', response.data);
+      getall();
+    } catch (error) {
+      console.error('Error while deleting the phone record:', error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
 
   const filteredData = data.filter((row) =>
     row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
     row.holderNumber.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-
   return (
-    <div style={{backgroundColor:'#FCF6F5FF'}}>
-      <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', boxShadow: 2, width: '55%', margin: 'auto', color: '#FCF6F5FF',backgroundColor:'#89ABE3FF', border: '1px solid grey', padding: 0.5, borderRadius: 4, marginTop: 5 }}>
+    <div style={{ backgroundColor: '#FCF6F5FF' }}>
+      <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', boxShadow: 2, width: '55%', margin: 'auto', color: '#FCF6F5FF', backgroundColor: '#89ABE3FF', border: '1px solid grey', padding: 0.5, borderRadius: 4, marginTop: 5 }}>
         TOUS LES TÉLÉPHONES
       </Typography>
 
@@ -123,7 +133,7 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
                       <IconButton aria-label="edit" color="primary">
                         <EditIcon />
                       </IconButton>
-                      <IconButton onClick={()=>deletePhone(row.id)} aria-label="delete" color="secondary">
+                      <IconButton onClick={() => handleOpenDialog(row.id)} aria-label="delete" color="secondary">
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
@@ -142,6 +152,26 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+      >
+        <DialogTitle>Confirmer la suppression</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Êtes-vous sûr de vouloir supprimer ce téléphone ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={confirmDeletePhone} color="secondary">
+            Supprimer
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

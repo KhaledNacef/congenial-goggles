@@ -9,12 +9,9 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Typography, IconButton, Box } from '@mui/material';
-import UpdateIcon from '@mui/icons-material/Update';
-import SellIcon from '@mui/icons-material/Sell';
+import { Typography, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -26,6 +23,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
   const [pricee, setPricee] = useState('');
   const [view, setView] = useState('non');
   const [selectedId, setSelectedId] = useState(null);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
@@ -96,15 +94,28 @@ const Allproduct = ({ filteredData, setDataA }) => {
     }
   };
 
-
   const deleteProduct = async (id) => {
     try {
-      const response = await axios.delete(`https://api.deviceshopleader.com/api/product/deleteproduct/${userIdFromCookie}/${id}`);
-      console.log('Phone deleted successfully:', response.data);
+      await axios.delete(`https://api.deviceshopleader.com/api/product/deleteproduct/${userIdFromCookie}/${id}`);
       fetchData();
-        } catch (error) {
-      console.error('Error while deleting the phone record:', error);
+    } catch (error) {
+      console.error('Error while deleting the product record:', error);
     }
+  };
+
+  const handleOpenDeleteDialog = (id) => {
+    setSelectedId(id);
+    setOpenDeleteDialog(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setSelectedId(null);
+    setOpenDeleteDialog(false);
+  };
+
+  const handleConfirmDelete = () => {
+    deleteProduct(selectedId);
+    handleCloseDeleteDialog();
   };
 
   const handleChangePage = (event, newPage) => {
@@ -117,8 +128,10 @@ const Allproduct = ({ filteredData, setDataA }) => {
   };
 
   return (
-    <div style={{backgroundColor:'#FCF6F5FF'}}>
-      <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, boxShadow: 12, marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', fontWeight: 'bold', border: '1px solid grey', color: '#FCF6F5FF',backgroundColor:'#89ABE3FF', borderRadius: 15, width: '55%', padding: 1, marginBottom: 2 }}>TOUS LES PRODUITS</Typography>
+    <div style={{ backgroundColor: '#FCF6F5FF' }}>
+      <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, boxShadow: 12, marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', fontWeight: 'bold', border: '1px solid grey', color: '#FCF6F5FF', backgroundColor: '#89ABE3FF', borderRadius: 15, width: '55%', padding: 1, marginBottom: 2 }}>
+        TOUS LES PRODUITS
+      </Typography>
       <Paper sx={{ boxShadow: 15, width: '90%', overflowX: 'auto', marginLeft: 'auto', marginRight: 'auto', borderRadius: 5 }}>
         <TableContainer sx={{ maxHeight: 600 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -144,17 +157,16 @@ const Allproduct = ({ filteredData, setDataA }) => {
                       <img src={row.image} alt="Product" style={{ maxWidth: '100px', maxHeight: '100px' }} />
                     </TableCell>
                     <TableCell align="center">
-                      <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" sx={{backgroundColor:'#89ABE3FF',color:'#FCF6F5FF',fontWeight:500 }} size="small">
+                      <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" sx={{ backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }} size="small">
                         Mettre à jour la quantité
                       </Button>
-                      <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained"  size="small" sx={{ marginLeft: 1 ,backgroundColor:'#89ABE3FF',color:'#FCF6F5FF',fontWeight:500 }}>
+                      <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained" size="small" sx={{ marginLeft: 1, backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>
                         Vendre
                       </Button>
-                      
-                      <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1 ,fontWeight:500}}>
+                      <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1, fontWeight: 500 }}>
                         Modifier le prix
                       </Button>
-                      <IconButton onClick={()=>deleteProduct(row.id)} aria-label="delete" color="secondary">
+                      <IconButton onClick={() => handleOpenDeleteDialog(row.id)} aria-label="delete" color="secondary">
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
@@ -166,7 +178,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={sellQuantity}
                           onChange={(e) => setSellQuantity(e.target.value)}
                         />
-                        <Button onClick={() => { sellProduct(row.id, sellQuantity); }} variant="contained"  style={{ marginLeft: '10px',backgroundColor:'#89ABE3FF',color:'#FCF6F5FF',fontWeight:500 }}>OK</Button>
+                        <Button onClick={() => { sellProduct(row.id, sellQuantity); }} variant="contained" style={{ marginLeft: '10px', backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>OK</Button>
                       </TableCell>
                     )}
                     {(view === 'up' && selectedId === row.id) && (
@@ -177,7 +189,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={upQuantity}
                           onChange={(e) => setUpQuantity(e.target.value)}
                         />
-                        <Button onClick={() => { updateQuantity(row.id, upQuantity); }} variant="contained"  style={{ marginLeft: '10px',backgroundColor:'#89ABE3FF',color:'#FCF6F5FF' ,fontWeight:500 }}>OK</Button>
+                        <Button onClick={() => { updateQuantity(row.id, upQuantity); }} variant="contained" style={{ marginLeft: '10px', backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>OK</Button>
                       </TableCell>
                     )}
                     {(view === 'price' && selectedId === row.id) && (
@@ -188,7 +200,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={pricee}
                           onChange={(e) => setPricee(e.target.value)}
                         />
-                        <Button onClick={() => { updatePrice(row.id, pricee); }} variant="contained"  style={{ marginLeft: '10px',backgroundColor:'#89ABE3FF',color:'#FCF6F5FF', fontWeight: 500  }}>OK</Button>
+                        <Button onClick={() => { updatePrice(row.id, pricee); }} variant="contained" style={{ marginLeft: '10px', backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>OK</Button>
                       </TableCell>
                     )}
                   </TableRow>
@@ -206,6 +218,27 @@ const Allproduct = ({ filteredData, setDataA }) => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      <Dialog
+        open={openDeleteDialog}
+        onClose={handleCloseDeleteDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Confirmer la suppression"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Êtes-vous sûr de vouloir supprimer ce produit ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+            Supprimer
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
