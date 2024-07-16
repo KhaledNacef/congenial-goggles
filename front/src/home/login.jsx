@@ -57,7 +57,7 @@ const Login = () => {
                     
                     onClick={() => handleLogin({ Password: password, Email: email })}
                     fullWidth
-                    sx={{ marginBottom: 20,backgroundColor: '#89ABE3FF' }}
+                    sx={{ marginBottom: 20,backgroundColor: '#89ABE3FF',fontWeight:600,color:'#FCF6F5FF' }}
                 >
                     SE CONNECTER
                 </Button>
