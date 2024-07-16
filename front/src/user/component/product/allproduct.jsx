@@ -144,14 +144,14 @@ const Allproduct = ({ filteredData, setDataA }) => {
                       <img src={row.image} alt="Product" style={{ maxWidth: '100px', maxHeight: '100px' }} />
                     </TableCell>
                     <TableCell align="center">
-                      <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" sx={{backgroundColor:'#89ABE3FF',color:'black' }} size="small">
+                      <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" sx={{backgroundColor:'#89ABE3FF',color:'#FCF6F5FF',fontWeight:500 }} size="small">
                         Mettre à jour la quantité
                       </Button>
-                      <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained"  size="small" sx={{ marginLeft: 1 ,backgroundColor:'#89ABE3FF',color:'black' }}>
+                      <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained"  size="small" sx={{ marginLeft: 1 ,backgroundColor:'#89ABE3FF',color:'#FCF6F5FF',fontWeight:500 }}>
                         Vendre
                       </Button>
                       
-                      <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1 }}>
+                      <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1 ,fontWeight:500}}>
                         Modifier le prix
                       </Button>
                       <IconButton onClick={()=>deleteProduct(row.id)} aria-label="delete" color="secondary">
@@ -166,7 +166,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={sellQuantity}
                           onChange={(e) => setSellQuantity(e.target.value)}
                         />
-                        <Button onClick={() => { sellProduct(row.id, sellQuantity); }} variant="contained"  style={{ marginLeft: '10px',backgroundColor:'#89ABE3FF',color:'black' }}>OK</Button>
+                        <Button onClick={() => { sellProduct(row.id, sellQuantity); }} variant="contained"  style={{ marginLeft: '10px',backgroundColor:'#89ABE3FF',color:'#FCF6F5FF',fontWeight:500 }}>OK</Button>
                       </TableCell>
                     )}
                     {(view === 'up' && selectedId === row.id) && (
@@ -177,7 +177,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={upQuantity}
                           onChange={(e) => setUpQuantity(e.target.value)}
                         />
-                        <Button onClick={() => { updateQuantity(row.id, upQuantity); }} variant="contained"  style={{ marginLeft: '10px',backgroundColor:'#89ABE3FF',color:'black'  }}>OK</Button>
+                        <Button onClick={() => { updateQuantity(row.id, upQuantity); }} variant="contained"  style={{ marginLeft: '10px',backgroundColor:'#89ABE3FF',color:'#FCF6F5FF' ,fontWeight:500 }}>OK</Button>
                       </TableCell>
                     )}
                     {(view === 'price' && selectedId === row.id) && (
@@ -188,7 +188,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={pricee}
                           onChange={(e) => setPricee(e.target.value)}
                         />
-                        <Button onClick={() => { updatePrice(row.id, pricee); }} variant="contained"  style={{ marginLeft: '10px',backgroundColor:'#89ABE3FF',color:'black'  }}>OK</Button>
+                        <Button onClick={() => { updatePrice(row.id, pricee); }} variant="contained"  style={{ marginLeft: '10px',backgroundColor:'#89ABE3FF',color:'#FCF6F5FF', fontWeight: 500  }}>OK</Button>
                       </TableCell>
                     )}
                   </TableRow>

@@ -75,20 +75,20 @@ const UserSidebar = ({ changevie }) => {
               },
               color:'#89ABE3FF',
               borderRadius:10,
-              fontWeight:'bold'
+              fontWeight:600
             }}
             onClick={box.action}
           >
             <IconButton sx={{ width: 80, height: 60 }} color="#89ABE3FF" aria-label={box.text.toLowerCase()}>
               {box.icon}
             </IconButton>
-            <Typography sx={{ fontSize: 18, textAlign: 'center', marginLeft: 2 }}>{box.text}</Typography>
+            <Typography sx={{ fontSize: 19, textAlign: 'center', marginLeft: 2 }}>{box.text}</Typography>
           </Box>
         ))}
 
       </Box>
       <Box sx={{ height: 'auto', width: 200, marginTop: 3, justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', borderRadius: 10 }}>
-        <Button variant="contained" sx={{backgroundColor: '#FCF6F5FF',color:'black'}} onClick={handleLogout}>Déconnexion</Button>
+        <Button variant="contained" sx={{backgroundColor: '#FCF6F5FF',color:'#89ABE3FF',fontWeight:500}} onClick={handleLogout}>Déconnexion</Button>
       </Box>
     </Container>
   );
