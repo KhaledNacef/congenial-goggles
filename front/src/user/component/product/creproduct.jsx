@@ -74,7 +74,7 @@ export default function Creproduct() {
           required
           sx={{ marginBottom: 2 }}
         />
-        <Button onClick={handleSubmit} variant="contained" color="#89ABE3FF" fullWidth style={{ marginTop: '16px' }}>
+        <Button onClick={handleSubmit} variant="contained"  fullWidth style={{ marginTop: '16px',backgroundColor: '#89ABE3FF' }}>
           Creé
         </Button>
       </Box>

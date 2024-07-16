@@ -83,7 +83,7 @@ const UserSidebar = ({ changevie }) => {
 
       </Box>
       <Box sx={{ height: 'auto', width: 200, marginTop: 3, justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', borderRadius: 10 }}>
-        <Button variant="contained" color="#89ABE3FF" onClick={handleLogout}>Déconnexion</Button>
+        <Button variant="contained" sx={{backgroundColor: '#89ABE3FF'}} onClick={handleLogout}>Déconnexion</Button>
       </Box>
     </Container>
   );

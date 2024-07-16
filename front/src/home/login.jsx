@@ -54,10 +54,10 @@ const Login = () => {
                 />
                 <Button
                     variant="contained"
-                    color="primary"
+                    
                     onClick={() => handleLogin({ Password: password, Email: email })}
                     fullWidth
-                    sx={{ marginBottom: 2 }}
+                    sx={{ marginBottom: 20,backgroundColor: '#89ABE3FF' }}
                 >
                     SE CONNECTER
                 </Button>

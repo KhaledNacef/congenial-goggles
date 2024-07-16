@@ -268,10 +268,10 @@ const Signup = () => {
             <Grid item xs={12}>
               <Button
                 variant="contained"
-                color="primary"
+                
                 onClick={handleRegister}
                 fullWidth
-                sx={{ marginTop: '20px' }}
+                sx={{ marginTop: '20px',backgroundColor: '#89ABE3FF' }}
               >
                 S'inscrire
               </Button>
