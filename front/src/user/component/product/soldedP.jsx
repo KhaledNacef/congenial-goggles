@@ -93,7 +93,7 @@ const SoldedP = ({ filteredData, setDataA }) => {
                       <TableCell>{row.price}DT</TableCell>
                       <TableCell sx={{ fontWeight: 'bold' }}>{row.quantity}</TableCell>
                       <TableCell sx={{ justifyContent: 'center' }}>
-                        <img src={row.image} alt="Product Image" style={{ maxWidth: '150px', maxHeight: '150px' }} />
+                        <img src={row.image} alt="Product Image" style={{ maxWidth: '100px', maxHeight: '100px' }} />
                       </TableCell>
                     </TableRow>
                   ))}
