@@ -110,11 +110,11 @@ exports.getWaitingPhones = async (req, res) => {
 exports.deletePhone = async (req, res) => {
   const { userId, id } = req.params;
   try {
-    const phone = await Phone.findAll({ where: { userId: userId, id: id } });
+    const phone = await Phone.destroy({ where: { userId: userId, id: id } });
     if (!phone) {
       return res.status(404).json({ message: 'Phone not found' });
     }
-    await phone.destroy();
+    
     res.status(200).json({ message: 'Phone deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });

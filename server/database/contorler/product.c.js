@@ -68,11 +68,11 @@ exports.updateProductById = async (req, res) => {
 exports.deleteProductById = async (req, res) => {
   const { userId,id } = req.params;
   try {
-    const product = await Product.findAll({ where: { id:id, userId:userId } });
+    const product = await Product.destroy({ where: { id:id, userId:userId } });
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    await product.destroy();
+
     res.status(204).end();
   } catch (error) {
     console.error(error);
