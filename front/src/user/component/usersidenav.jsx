@@ -70,11 +70,11 @@ const UserSidebar = ({ changevie }) => {
               backgroundColor:'#FCF6F5FF',
               '&:hover': {
                 backgroundColor: '#89ABE3FF',
-                borderRadius: 10,
+                borderRadius: 6,
                 color:'#FCF6F5FF'
               },
               color:'#89ABE3FF',
-              borderRadius:10,
+              borderRadius:6,
               fontWeight:600
             }}
             onClick={box.action}
@@ -88,7 +88,7 @@ const UserSidebar = ({ changevie }) => {
 
       </Box>
       <Box sx={{ height: 'auto', width: 200, marginTop: 3, justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', borderRadius: 10 }}>
-        <Button variant="contained" sx={{backgroundColor: '#FCF6F5FF',color:'#89ABE3FF',fontWeight:500}} onClick={handleLogout}>Déconnexion</Button>
+        <Button variant="contained" sx={{backgroundColor: '#FCF6F5FF',color:'#89ABE3FF',fontWeight:600}} onClick={handleLogout}>Déconnexion</Button>
       </Box>
     </Container>
   );
