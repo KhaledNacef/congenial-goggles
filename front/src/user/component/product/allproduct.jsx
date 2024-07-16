@@ -118,7 +118,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
 
   return (
     <div style={{backgroundColor:'#FCF6F5FF'}}>
-      <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, boxShadow: 12, marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', fontWeight: 'bold', border: '1px solid grey', backgroundColor: 'white', borderRadius: 15, width: '55%', padding: 1, marginBottom: 2 }}>TOUS LES PRODUITS</Typography>
+      <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, boxShadow: 12, marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', fontWeight: 'bold', border: '1px solid grey', color: '#FCF6F5FF',backgroundColor:'#89ABE3FF', borderRadius: 15, width: '55%', padding: 1, marginBottom: 2 }}>TOUS LES PRODUITS</Typography>
       <Paper sx={{ boxShadow: 15, width: '90%', overflowX: 'auto', marginLeft: 'auto', marginRight: 'auto', borderRadius: 5 }}>
         <TableContainer sx={{ maxHeight: 600 }}>
           <Table stickyHeader aria-label="sticky table">

@@ -113,7 +113,7 @@ const SoldedP = ({ filteredData, setDataA }) => {
         </Paper>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '30%', marginTop: 10 }}>
-        <Typography variant='h4' sx={{ color: '#FCF6F5FF',fontFamily: 'Kanit', fontWeight: 500, boxShadow: 4, textAlign: 'center', fontWeight: 'bold', border: '1px Solid grey',  borderRadius: 15, width: '85%', padding: 1 }}>REVENUS</Typography>
+        <Typography variant='h4' sx={{ color: '#FCF6F5FF',backgroundColor:'#89ABE3FF',fontFamily: 'Kanit', fontWeight: 500, boxShadow: 4, textAlign: 'center', fontWeight: 'bold', border: '1px Solid grey',  borderRadius: 15, width: '85%', padding: 1 }}>REVENUS</Typography>
 
           <Box sx={{color: '#FCF6F5FF', width: '95%', border: '1px solid grey', height: 100, fontSize: 30, padding: 1, margin: 'auto', marginBottom: 1, marginTop: 1, borderRadius: 5, boxShadow: 2,backgroundColor: '#89ABE3FF', }}>TOTAL DES REVENUS :
             <Typography sx={{ color: '#FCF6F5FF', fontFamily: 'Kanit', fontWeight: 600 }} variant='h4'><MonetizationOnIcon /> {totalIncome} DT</Typography>

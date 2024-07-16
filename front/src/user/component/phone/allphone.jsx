@@ -86,7 +86,7 @@ const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
 
   return (
     <div style={{backgroundColor:'#FCF6F5FF'}}>
-      <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', boxShadow: 2, width: '55%', margin: 'auto', backgroundColor: 'white', border: '1px solid grey', padding: 0.5, borderRadius: 4, marginTop: 5 }}>
+      <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', boxShadow: 2, width: '55%', margin: 'auto', color: '#FCF6F5FF',backgroundColor:'#89ABE3FF', border: '1px solid grey', padding: 0.5, borderRadius: 4, marginTop: 5 }}>
         TOUS LES TÉLÉPHONES
       </Typography>
 

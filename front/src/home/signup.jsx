@@ -271,7 +271,7 @@ const Signup = () => {
                 
                 onClick={handleRegister}
                 fullWidth
-                sx={{ marginTop: '20px',backgroundColor: '#89ABE3FF' }}
+                sx={{ marginTop: '20px',backgroundColor: '#89ABE3FF',color:'#FCF6F5FF',fontWeight:600 }}
               >
                 S'inscrire
               </Button>

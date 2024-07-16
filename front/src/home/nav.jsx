@@ -13,7 +13,7 @@ export default function Nav() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <CssBaseline />
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: '#89ABE3FF', color: '#FCF6F5FF' }}>
         <Toolbar>
           <img
             src='https://www.codemaya.com/images/ncfit/ncfit-logo-large.png'
