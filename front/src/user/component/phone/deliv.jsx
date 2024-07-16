@@ -9,6 +9,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { Typography, Box } from '@mui/material';
 
 
 const Deliv = ({searchQuery}) => {
