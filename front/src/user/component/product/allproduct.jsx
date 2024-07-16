@@ -17,7 +17,7 @@ import Cookies from 'js-cookie';
 
 const Allproduct = ({ filteredData, setDataA }) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
   const [sellQuantity, setSellQuantity] = useState('');
   const [upQuantity, setUpQuantity] = useState('');
   const [pricee, setPricee] = useState('');

@@ -14,7 +14,7 @@ import axios from 'axios';
 const Deliv = ({searchQuery}) => {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(100);
 
 
     const columns = [
@@ -70,7 +70,9 @@ const Deliv = ({searchQuery}) => {
 
   return (
     <div style={{backgroundColo:'#FCF6F5FF'}}>
-
+<Box sx={{ justifyContent: 'center', boxShadow: 2, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto', marginBottom: 1, backgroundColor:'#89ABE3FF', borderRadius: 5, width: '55%', padding: 1, border: '1px solid grey' }}>
+        <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', color: '#FCF6F5FF', width: '100%'}}>AUJOURD'HUI</Typography>
+      </Box>
 <Paper sx={{ width: '95%', overflowX: 'auto', margin: 'auto', marginTop: 10, boxShadow: 9, borderRadius: 5 }}>
           <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
             <Table stickyHeader aria-label="sticky table">

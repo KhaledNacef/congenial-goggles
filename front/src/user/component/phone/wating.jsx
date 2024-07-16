@@ -17,7 +17,7 @@ import Cookies from 'js-cookie';
 
 const Wat = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
   const [data, setData] = useState([]);
   const userIdFromCookie = Cookies.get('token');
 

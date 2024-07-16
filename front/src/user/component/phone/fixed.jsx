@@ -18,7 +18,7 @@ import Cookies from 'js-cookie';
 
 const Fixedd = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
   const [view, setView] = useState(false);
   const [data, setData] = useState([]);
   const [price, setPrice] = useState(0);
