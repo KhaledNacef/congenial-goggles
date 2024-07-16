@@ -75,7 +75,7 @@ const Deliv = ({searchQuery}) => {
         <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', color: '#FCF6F5FF', width: '100%'}}>AUJOURD'HUI</Typography>
       </Box>
 <Paper sx={{ width: '95%', overflowX: 'auto', margin: 'auto', marginTop: 10, boxShadow: 9, borderRadius: 5 }}>
-          <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500, maxHeight: '75vh' }}>
+          <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500, maxHeight: '70vh' }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>

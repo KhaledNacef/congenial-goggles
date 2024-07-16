@@ -72,7 +72,7 @@ const SoldedP = ({ filteredData, setDataA }) => {
     <div style={{backgroundColor:'#FCF6F5FF'}}>
       <Box sx={{ display: 'flex', flexDirection: 'row', width: '95%', margin: 'auto'}}>
         <Paper sx={{ boxShadow: 20, width: '70%', marginTop: 5, marginRight: 1, borderRadius: 5 }}>
-          <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500, maxHeight: '75vh'}}>
+          <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500, maxHeight: '55.56vh'}}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>

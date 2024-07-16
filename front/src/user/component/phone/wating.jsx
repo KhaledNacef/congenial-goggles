@@ -87,7 +87,7 @@ const Wat = ({ searchQuery }) => {
       <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, margin:'auto', boxShadow: 2, textAlign: 'center', border: '1px Solid grey',color: '#FCF6F5FF',backgroundColor:'#89ABE3FF', borderRadius: 15, width: '55%', padding: 1 }}>EN ATTENTE <HourglassEmptyIcon /></Typography>
 
       <Paper sx={{ width: '95%', overflowX: 'auto', margin: 'auto', marginTop: 10, boxShadow: 9, borderRadius: 5 }}>
-        <TableContainer sx={{  fontFamily: 'Kanit', fontWeight: 500, maxHeight: '75vh'}}>
+        <TableContainer sx={{  fontFamily: 'Kanit', fontWeight: 500, maxHeight: '70vh'}}>
           <Table stickyHeader aria-label="tableau fixe">
             <TableHead>
               <TableRow>
