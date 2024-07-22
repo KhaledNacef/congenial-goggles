@@ -17,10 +17,10 @@ import Cookies from 'js-cookie';
 const Allproduct = ({ filteredData, setDataA }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
-  const [sellQuantity, setSellQuantity] = useState('');
-  const [upQuantity, setUpQuantity] = useState('');
-  const [pricee, setPricee] = useState('');
-  const [priceU, setPriceU] = useState('');
+  const [sellQuantity, setSellQuantity] = useState(0);
+  const [upQuantity, setUpQuantity] = useState(0);
+  const [pricee, setPricee] = useState(0);
+  const [priceU, setPriceU] = useState(0);
   const [discount, setDiscount] = useState(1); // Default discount of 5%
 
   const [view, setView] = useState('non');

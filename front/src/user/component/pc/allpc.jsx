@@ -172,7 +172,7 @@ const Allpc = ({ searchQuery }) => {
                     <TableCell align="center">{row.holderNumber}</TableCell>
                     <TableCell align="center">{row.serie}</TableCell>
                     <TableCell align="center">{row.problem}</TableCell>
-                    <TableCell align="center">{row.remarque}DT</TableCell>
+                    <TableCell align="center">{row.remarque}</TableCell>
                     <TableCell align="center">{row.cout}DT</TableCell>
                     <TableCell align="center">{row.maindoeuvre}DT</TableCell>
                     <TableCell align="center">{row.accompte}</TableCell>

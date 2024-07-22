@@ -139,7 +139,7 @@ exports.getProductByName = async (req, res) => {
         const discountedPrice = product.price * (1 - discountRate);
 
         // Find if the product has already been sold with the same discounted price
-        let soldProduct = await Solded.findOne({ where: { name: product.name, price: discountedPrice, userId: userId } });
+        let soldProduct = await Solded.findOne({ where: { name: product.name, price: product.price, userId: userId } });
 
         if (!soldProduct) {
             // If the product hasn't been sold before with the same price, create a new entry in the Solded model
