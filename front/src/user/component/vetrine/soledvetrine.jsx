@@ -118,7 +118,7 @@ const Soldedvetrine = ({ searchQuery }) => {
             width: '100%',
           }}
         >
-          Tous Les Produits 
+          Tous Les Produits Vendus 
         </Typography>
       </Box>
 
