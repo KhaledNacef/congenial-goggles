@@ -176,8 +176,8 @@ const Allvetrine = ({ searchQuery }) => {
                   >
                     {row.problem}
                   </TableCell>
-                    <TableCell align="center">{row.cout}</TableCell>
-                    <TableCell align="center">{row.maindoeuvre}</TableCell>
+                    <TableCell align="center">{row.cout} DT</TableCell>
+                    <TableCell align="center">{row.maindoeuvre} DT</TableCell>
                     <TableCell align="center">{row.price} DT</TableCell>
                     <TableCell
                       align="center"

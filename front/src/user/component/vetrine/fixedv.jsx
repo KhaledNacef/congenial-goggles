@@ -136,8 +136,8 @@ const Fixeddv = ({ searchQuery }) => {
                   >
                     {row.problem}
                   </TableCell>
-                    <TableCell align='center'>{row.cout}</TableCell>
-                    <TableCell align='center'>{row.maindoeuvre}</TableCell>
+                    <TableCell align='center'>{row.cout} DT</TableCell>
+                    <TableCell align='center'>{row.maindoeuvre} DT</TableCell>
                     <TableCell align='center'>{row.price} DT</TableCell>
                     <TableCell align='center' sx={{ bgcolor: '#99cc99', borderRadius: 30, fontWeight: 'bold' }}>{row.status}</TableCell>
                     <TableCell align='center'>{new Date(row.createdAt).toLocaleDateString()}</TableCell>

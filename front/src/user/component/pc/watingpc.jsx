@@ -73,17 +73,17 @@ const Watpc = ({ searchQuery }) => {
     }
   };
 
-  const getWaiting = async () => {
+  const getBstatus = async (status) => {
     try {
-      const response = await axios.get(`https://api.deviceshopleader.com/api/pc/waiting/${userIdFromCookie}`);
+      const response = await axios.get(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${status}`);
       setData(response.data);
     } catch (error) {
-      console.error('Erreur lors de la récupération des données en attente :', error);
+      console.error('Erreur lors de la récupération des données de statut :', error);
     }
   };
 
   useEffect(() => {
-    getWaiting();
+    getBstatus('waiting');
   }, []);
 
   return (
