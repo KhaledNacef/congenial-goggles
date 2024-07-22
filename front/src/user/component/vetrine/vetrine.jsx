@@ -8,7 +8,7 @@ import Allvetrine from './allvetrine.jsx';
 import Watv from './watingv.jsx';
 
 
-export default function Phone() {
+export default function Vetrine() {
   
   const [searchQuery, setSearchQuery] = useState('');
   const [view, setView] = useState('waiting');

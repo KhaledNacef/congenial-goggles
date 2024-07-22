@@ -22,6 +22,8 @@ const UserSidebar = ({ changevie }) => {
     { text: 'Tableau de bord', icon: <DashboardIcon sx={{ fontSize: 40 }} />, action: () => changevie('dashboard') },
     { text: 'Téléphones', icon: <PhoneIcon sx={{ fontSize: 40 }} />, action: () => changevie('phone') },
     { text: 'PC', icon: <PhoneIcon sx={{ fontSize: 40 }} />, action: () => changevie('pc') },
+    { text: 'Vetrine', icon: <StorefrontIcon sx={{ fontSize: 40 }} />, action: () => changevie('vetrine') },
+
     { text: 'Magasin', icon: <StorefrontIcon sx={{ fontSize: 40 }} />, action: () => changevie('Product') },
     { text: 'Profil', icon: <PersonIcon sx={{ fontSize: 40 }} />, action: () => changevie('Uprofile') },
   ];
