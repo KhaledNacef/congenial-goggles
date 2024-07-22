@@ -24,8 +24,8 @@ const Allvetrine = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [data, setData] = useState([]);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
+  // const [openDialog, setOpenDialog] = useState(false);
+  // const [deleteId, setDeleteId] = useState(null);
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
@@ -65,15 +65,15 @@ const Allvetrine = ({ searchQuery }) => {
     getall();
   }, []);
 
-  const handleOpenDialog = (id) => {
-    setDeleteId(id);
-    setOpenDialog(true);
-  };
+  // const handleOpenDialog = (id) => {
+  //   setDeleteId(id);
+  //   setOpenDialog(true);
+  // };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    setDeleteId(null);
-  };
+  // const handleCloseDialog = () => {
+  //   setOpenDialog(false);
+  //   setDeleteId(null);
+  // };
 
   // const confirmDeletePhone = async () => {
   //   try {
@@ -213,7 +213,7 @@ const Allvetrine = ({ searchQuery }) => {
         />
       </Paper>
 
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      {/* <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Confirmer la suppression</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -228,7 +228,7 @@ const Allvetrine = ({ searchQuery }) => {
             Supprimer
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 };
