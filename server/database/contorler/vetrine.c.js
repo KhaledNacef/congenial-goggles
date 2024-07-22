@@ -94,7 +94,7 @@ exports.sellVetrine = async (req, res) => {
         serie:vetrine.serie,
         price: vetrine.price,
         cout:vetrine.cout,
-        maindouvre:vetrine.maindouvre,
+        maindoeuvre:vetrine.maindoeuvre,
         problem:vetrine.problem,
         status:vetrine.status,
         userId:userId
