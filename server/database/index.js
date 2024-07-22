@@ -7,7 +7,7 @@ const Solded = require('../database/models/solded.js');
 const Pc=require('./models/pc.js')
 const Vetrine=require('./models/vetrine.js');
 const Soldedvetrine = require('./models/vetrine.js');
-const db = new Sequelize('deviceshopleader', 'leader', 'K=U3X=Z9z5Dg4yeDmhp6', {
+const db = new Sequelize('deviceshop', 'shop', 'K=U3X=Z9z5Dg4yeDmhp6', {
   host: '195.200.15.61',
   dialect: 'mysql'
 });
