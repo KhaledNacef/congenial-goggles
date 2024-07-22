@@ -51,7 +51,7 @@ const Watv = ({ searchQuery }) => {
   const updateStatus = async (id, status) => {
     try {
       await axios.put(`https://api.deviceshopleader.com/api/vetrine/vetrinesatuts/${userIdFromCookie}/${id}`, { status });
-      getWaiting(); // Refresh data after status update
+      getWaiting('waiting'); // Refresh data after status update
     } catch (error) {
       console.error('Erreur lors de la mise à jour du statut :', error);
     }

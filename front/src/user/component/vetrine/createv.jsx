@@ -10,9 +10,9 @@ const Createv = () => {
   const [type, setType] = useState('');
   const [serie, setSerie] = useState('');
   const [problem, setProblem] = useState('');
-  const [cout, setCout] = useState('');
-  const [maindoeuvre, setMaindoeuvre] = useState('');
-  const [price, setPrice] = useState('');
+  const [cout, setCout] = useState(0);
+  const [maindoeuvre, setMaindoeuvre] = useState(0);
+  const [price, setPrice] = useState(0);
   const [status, setStatus] = useState('waiting');
   const [id, setId] = useState(1); // Initialize auto-increment ID
 
@@ -23,9 +23,9 @@ const Createv = () => {
       type:type,
       serie:serie,
       problem:problem,
-      cout: parseFloat(cout),
-      maindoeuvre: parseFloat(maindoeuvre),
-      price: parseFloat(price),
+      cout: cout,
+      maindoeuvre:maindoeuvre,
+      price:price,
       status:status,
       userId: userIdFromCookie
     };

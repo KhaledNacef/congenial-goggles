@@ -115,8 +115,8 @@ const Fixeddpc = ({ searchQuery }) => {
                     <TableCell align='center'>{row.problem}</TableCell>
                     <TableCell align='center'>{row.remarque}</TableCell>
                     <TableCell align='center'>{row.cout}</TableCell>
-                    <TableCell align='center'>{row.maindoeuvre}</TableCell>
-                    <TableCell align='center'>{row.accompte}</TableCell>
+                    <TableCell align='center'>{row.maindoeuvre}DT</TableCell>
+                    <TableCell align='center'>{row.accompte}DT</TableCell>
                     <TableCell align='center'>{row.price}DT</TableCell>
                     <TableCell align='center'>{row.delivredOn.slice(0, 10)}</TableCell>
                     <TableCell align='center' sx={{ bgcolor: '#99cc99', borderRadius: 30, fontWeight: 'bold' }}>{row.status}</TableCell>

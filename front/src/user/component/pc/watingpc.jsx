@@ -22,7 +22,7 @@ const Watpc = ({ searchQuery }) => {
   const userIdFromCookie = Cookies.get('token');
 
   const filteredData = data.filter((row) =>
-    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.pcHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
     row.id.toString().includes(searchQuery)
   );
 
@@ -116,8 +116,8 @@ const Watpc = ({ searchQuery }) => {
                     <TableCell align="center">{row.serie}</TableCell>
                     <TableCell align="center">{row.problem}</TableCell>
                     <TableCell align="center">{row.remarque}</TableCell>
-                    <TableCell align="center">{row.cout}</TableCell>
-                    <TableCell align="center">{row.maindoeuvre}</TableCell>
+                    <TableCell align="center">{row.cout}DT</TableCell>
+                    <TableCell align="center">{row.maindoeuvre}DT</TableCell>
                     <TableCell align="center">{row.accompte}</TableCell>
                     <TableCell align="center">{row.price} DT</TableCell>
                     <TableCell align="center">{row.delivredOn.slice(0, 10)}</TableCell>

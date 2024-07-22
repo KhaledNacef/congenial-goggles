@@ -54,7 +54,7 @@ const Soldedvetrine = ({ searchQuery }) => {
 
   const getall = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/vetrine/soldvetrine/${userIdFromCookie}`);
+      const response = await axios.get(`${baseUrl}/soldedvetrine/soldvetrine/${userIdFromCookie}`);
       setData(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération de toutes les données :', error);
