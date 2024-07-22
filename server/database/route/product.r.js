@@ -10,6 +10,7 @@ router.get('/products/:userId', productController.getAllProducts);
 
 // Route to get product by ID
 router.put('/price/:id/:userId/:price', productController.getProductByIdadnprice);
+router.put('/priceu/:id/:userId/:priceu', productController.getProductByIdadnpriceu);
 
 // Route to update product by ID
 router.put('/products/:id/:userId/:quantity', productController.updateProductById);
@@ -21,6 +22,6 @@ router.delete('/deleteproduct/:userId/:id', productController.deleteProductById)
 router.get('/solded', productController.getProductByName);
 
 // Route to sell a product
-router.put('/sell/:productId/:userId/:quantity', productController.sellProduct);
+router.put('/sell/:productId/:userId/:quantity/:discount', productController.sellProduct);
 
 module.exports = router;

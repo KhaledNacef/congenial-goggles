@@ -1,6 +1,6 @@
 const { DataTypes,Sequelize } = require('sequelize');
 
-const Phone =  {
+const Pc =  {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -11,18 +11,18 @@ const Phone =  {
     type: DataTypes.STRING,
     allowNull: false
   },
-  phoneHolder: {
+  pcHolder: {
     type: DataTypes.STRING,
     allowNull: false
   },
 
   holderNumber: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   serie:{
     type:DataTypes.STRING,
-    allowNull:false
+    allowNull:true
   },
   price: {
     type: DataTypes.FLOAT,
@@ -33,7 +33,7 @@ const Phone =  {
     allowNull: true
 
   },
-  maindoeuvre:{
+  maindouvre:{
     type: DataTypes.FLOAT,
     allowNull: true
 
@@ -44,7 +44,7 @@ const Phone =  {
     allowNull: true
 
   },
-  
+ 
   remarque:{
     type: DataTypes.STRING,
     allowNull: true
@@ -65,4 +65,4 @@ const Phone =  {
   }
 };
 
-module.exports = Phone;
+module.exports = Pc;

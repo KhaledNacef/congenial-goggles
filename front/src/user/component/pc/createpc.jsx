@@ -4,7 +4,7 @@ import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
 import Cookies from 'js-cookie';
 
-const Create = () => {
+const Createpc = () => {
   const userIdFromCookie = Cookies.get('token');
   const [brand, setBrand] = useState('');
   const [clientName, setClientName] = useState('');
@@ -24,7 +24,7 @@ const Create = () => {
     const data = {
       id:id,
       brand:brand,
-      phoneHolder: clientName,
+      pcHolder: clientName,
       holderNumber: clientNumber,
       serie:serie,
       problem:problem,
@@ -39,7 +39,7 @@ const Create = () => {
     };
 
     try {
-      await axios.post('https://api.deviceshopleader.com/api/phone/crate', data);
+      await axios.post('https://api.deviceshopleader.com/api/pc/crate', data);
       setBrand('');
       setClientName('');
       setClientNumber('');
@@ -182,4 +182,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default Createpc;

@@ -4,7 +4,8 @@ const Product =  {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    allowNull: false
+
   },
   name: {
     type: DataTypes.STRING,
@@ -14,14 +15,21 @@ const Product =  {
     type: DataTypes.FLOAT,
     allowNull: false
   },
+  buyprice: {
+    type: DataTypes.FLOAT,
+    allowNull: false
+  },
+ 
   quantity: {
     type: DataTypes.INTEGER,
     allowNull: false
   }
   ,
+  
+
   image: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   }
 };
 

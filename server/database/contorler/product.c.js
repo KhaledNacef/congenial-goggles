@@ -1,4 +1,5 @@
 const db = require('../index');
+const { remise } = require('../models/product');
 const Solded = db.models.solded;
 const Product = db.models.product;
 
@@ -35,6 +36,22 @@ exports.getProductByIdadnprice = async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
     product.price=parseInt(price)
+    product.save()
+    res.status(200).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+exports.getProductByIdadnpriceu = async (req, res) => {
+  const { id,userId,priceu } = req.params;
+  try {
+    const product = await Product.findOne({ where: { id:id,userId:userId } });
+    if (!product ) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    product.buyprice=parseInt(priceu)
     product.save()
     res.status(200).json(product);
   } catch (error) {
@@ -99,10 +116,10 @@ exports.getProductByName = async (req, res) => {
   // Sell product
 
   exports.sellProduct = async (req, res) => {
-    const { productId,userId, quantity } = req.params;
+    const { productId, userId, quantity, discount } = req.params;
     try {
         // Find the product by ID
-        const product = await Product.findOne({ where: { id:productId, userId:userId } });
+        const product = await Product.findOne({ where: { id: productId, userId: userId } });
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
@@ -110,22 +127,30 @@ exports.getProductByName = async (req, res) => {
         // Parse the quantity parameter as an integer
         const sellQuantity = parseInt(quantity);
 
+        // Parse the discount parameter as a percentage
+        const discountRate = parseFloat(discount) / 100;
+
         // Check if the product quantity is sufficient
         if (product.quantity < sellQuantity) {
             return res.status(400).json({ message: 'Insufficient quantity' });
         }
 
-        // Find if the product has already been sold with the same price
-        let soldProduct = await Solded.findOne({ where: { name: product.name, price: product.price } });
+        // Calculate the discounted price
+        const discountedPrice = product.price * (1 - discountRate);
+
+        // Find if the product has already been sold with the same discounted price
+        let soldProduct = await Solded.findOne({ where: { name: product.name, price: discountedPrice, userId: userId } });
 
         if (!soldProduct) {
             // If the product hasn't been sold before with the same price, create a new entry in the Solded model
             soldProduct = await Solded.create({
+                id: product.id,
                 name: product.name,
-                price: product.price,
+                price: discountedPrice,
                 quantity: sellQuantity,
+                buyprice: product.buyprice,
                 image: product.image,
-                userId:userId
+                userId: userId
             });
         } else {
             // If the product has been sold before with the same price, update the quantity by adding the new quantity
@@ -143,4 +168,5 @@ exports.getProductByName = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
 

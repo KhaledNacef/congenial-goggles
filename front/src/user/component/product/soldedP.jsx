@@ -26,6 +26,7 @@ const SoldedP = ({ filteredData, setDataA }) => {
     { id: 'id', label: 'ID', minWidth: 20 },
     { id: 'name', label: 'Nom', minWidth: 70 },
     { id: 'price', label: 'Prix', minWidth: 70 },
+    { id: 'priceU', label: 'Prix-U', minWidth: 70 },
     { id: 'quantity', label: 'Quantité', minWidth: 70 },
     { id: 'image', label: 'Image', minWidth: 100 },
   ];
@@ -91,6 +92,7 @@ const SoldedP = ({ filteredData, setDataA }) => {
                       <TableCell>{row.id}</TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.price}DT</TableCell>
+                      <TableCell>{row.buyprice}DT</TableCell>
                       <TableCell sx={{ fontWeight: 'bold' }}>{row.quantity}</TableCell>
                       <TableCell sx={{ justifyContent: 'center' }}>
                         <img src={row.image} alt="Product Image" style={{ maxWidth: '100px', maxHeight: '100px' }} />
@@ -115,15 +117,11 @@ const SoldedP = ({ filteredData, setDataA }) => {
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '30%', marginTop: 10 }}>
         <Typography variant='h4' sx={{ color: '#FCF6F5FF',backgroundColor:'#89ABE3FF',fontFamily: 'Kanit', fontWeight: 500, boxShadow: 4, textAlign: 'center', fontWeight: 'bold', border: '1px Solid grey',  borderRadius: 15, width: '85%', padding: 1 }}>REVENUS</Typography>
 
-          <Box sx={{color: '#FCF6F5FF', width: '95%', border: '1px solid grey', height: 100, fontSize: 30, padding: 1, margin: 'auto', marginBottom: 1, marginTop: 1, borderRadius: 5, boxShadow: 2,backgroundColor: '#89ABE3FF', }}>TOTAL DES REVENUS :
-            <Typography sx={{ color: '#FCF6F5FF', fontFamily: 'Kanit', fontWeight: 600 }} variant='h4'><MonetizationOnIcon /> {totalIncome} DT</Typography>
-          </Box>
+
           <Box sx={{color: '#FCF6F5FF', width: '95%', border: '1px solid grey', height: 100, fontSize: 30, padding: 1, margin: 'auto', marginBottom: 1, borderRadius: 5, backgroundColor: '#89ABE3FF', boxShadow: 2 }}>Produit le plus vendu :
             {mostBoughtProduct && <Typography sx={{ color: '#FCF6F5FF', marginLeft: 2, fontFamily: 'Kanit', fontWeight: 600 }} variant='h5'> {mostBoughtProduct.name} - {mostBoughtProduct.price} DT <SmartphoneIcon /></Typography>}
           </Box>
-          <Box sx={{ color: '#FCF6F5FF',width: '95%', border: '1px solid grey', height: 100, fontSize: 30, padding: 1, margin: 'auto', backgroundColor: '#89ABE3FF', borderRadius: 5, boxShadow: 2 }}>Total des produits vendus :
-            <Typography sx={{ marginLeft: 2, color: '#FCF6F5FF', fontFamily: 'Kanit', fontWeight: 600 }} variant='h4'> {totalProductsSold} Qunatité</Typography>
-          </Box>
+          
         </Box>
 
       </Box>

@@ -14,45 +14,30 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { Typography, Box } from '@mui/material';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import Cookies from 'js-cookie';
+import { status } from '../../../../../server/database/models/phone';
 
-const Wat = ({ searchQuery }) => {
+const Watv = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [data, setData] = useState([]);
   const userIdFromCookie = Cookies.get('token');
 
   const filteredData = data.filter((row) =>
-    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
     row.id.toString().includes(searchQuery)
-  );
-
-  const ActionsButtons = ({ id, updateStatus }) => (
-    <>
-      <IconButton color="error" aria-label="Refuse" size="small" onClick={() => updateStatus(id, 'Refused')}>
-        <CancelIcon />
-      </IconButton>
-      <IconButton color="success" aria-label="Fix" size="small" onClick={() => updateStatus(id, 'Fixed')}>
-        <CheckCircleIcon />
-      </IconButton>
-    </>
   );
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
     { id: 'brand', label: 'Marque', minWidth: 70 },
-    { id: 'phoneHolder', label: 'Nom du Client', minWidth: 100 },
-    { id: 'holderNumber', label: 'Numéro du Client', minWidth: 70 },
-    { id: 'serie', label: 'Serie', minWidth: 100 },
+    { id: 'serie', label: 'Série', minWidth: 100 },
+    { id: 'type', label: 'Type', minWidth: 100 },
     { id: 'problem', label: 'Problème', minWidth: 100 },
-    { id: 'remarque', label: 'Remarque', minWidth: 100 },
-    { id: 'cout', label: 'Cout', minWidth: 30 },
-    { id: 'maindoeuvre', label: "Main d'oeuvre", minWidth: 30 },
-    { id: 'accompte', label: 'Accompte', minWidth: 30 },
+    { id: 'cout', label: 'Coût', minWidth: 30 },
+    { id: 'maindoeuvre', label: "Main d'œuvre", minWidth: 30 },
     { id: 'price', label: 'Prix', minWidth: 30 },
-    { id: 'delivredOn', label: 'Livré le', minWidth: 70 },
     { id: 'status', label: 'Statut', minWidth: 30 },
     { id: 'createdAt', label: 'Créé le', minWidth: 70 },
-    { id: 'actions', label: 'Actions', minWidth: 30 },
   ];
 
   const handleChangePage = (event, newPage) => {
@@ -66,16 +51,18 @@ const Wat = ({ searchQuery }) => {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`https://api.deviceshopleader.com/api/phone/status/${userIdFromCookie}/${id}`, { status });
+      await axios.put(`https://api.deviceshopleader.com/api/vetrine/vetrinesatuts/${userIdFromCookie}/${id}`, { status });
       getWaiting(); // Refresh data after status update
     } catch (error) {
       console.error('Erreur lors de la mise à jour du statut :', error);
     }
   };
 
-  const getWaiting = async () => {
+  
+
+  const getWaiting = async (status) => {
     try {
-      const response = await axios.get(`https://api.deviceshopleader.com/api/phone/waiting/${userIdFromCookie}`);
+      const response = await axios.get(`https://api.deviceshopleader.com/api/vetrine/vetrinesgetstatus/${userIdFromCookie}/${status}`);
       setData(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des données en attente :', error);
@@ -83,8 +70,17 @@ const Wat = ({ searchQuery }) => {
   };
 
   useEffect(() => {
-    getWaiting();
+    getWaiting('waiting');
   }, []);
+
+  const ActionsButtons = ({ id }) => (
+    <>
+     
+      <IconButton color="success" aria-label="Fix" size="small" onClick={() => updateStatus(id, 'Fixed')}>
+        <CheckCircleIcon />
+      </IconButton>
+    </>
+  );
 
   return (
     <div style={{ backgroundColor: '#FCF6F5FF' }}>
@@ -102,31 +98,40 @@ const Wat = ({ searchQuery }) => {
                     {column.label}
                   </TableCell>
                 ))}
+                <TableCell key="actions" align="center" style={{ minWidth: 100, fontWeight: 'bold' }}>
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {filteredData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                .map((row) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     <TableCell align="center">{row.id}</TableCell>
                     <TableCell align="center">{row.brand}</TableCell>
-                    <TableCell align="center">{row.phoneHolder}</TableCell>
-                    <TableCell align="center">{row.holderNumber}</TableCell>
                     <TableCell align="center">{row.serie}</TableCell>
-                    <TableCell align="center">{row.problem}</TableCell>
-                    <TableCell align="center">{row.remarque}</TableCell>
+                    <TableCell align="center">{row.type}</TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        whiteSpace: 'normal',  // Allow text to wrap to the next line
+                        wordBreak: 'break-word',  // Break long words to fit within the cell
+                        overflow: 'hidden',  // Hide overflow text
+                        textOverflow: 'ellipsis'  // Add ellipsis for overflowed text
+                      }}
+                    >
+                      {row.problem}
+                    </TableCell>
                     <TableCell align="center">{row.cout}</TableCell>
                     <TableCell align="center">{row.maindoeuvre}</TableCell>
-                    <TableCell align="center">{row.accompte}</TableCell>
                     <TableCell align="center">{row.price} DT</TableCell>
-                    <TableCell align="center">{row.delivredOn.slice(0, 10)}</TableCell>
                     <TableCell align="center" style={{ backgroundColor: '#fbef53', borderRadius: '30px', fontWeight: 'bold', color: 'black' }}>
                       {row.status}
                     </TableCell>
-                    <TableCell align="center">{row.createdAt.slice(0, 10)}</TableCell>
+                    <TableCell align="center">{new Date(row.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell align="center">
-                      <ActionsButtons id={row.id} updateStatus={updateStatus} />
+                      <ActionsButtons id={row.id} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -147,4 +152,4 @@ const Wat = ({ searchQuery }) => {
   );
 };
 
-export default Wat;
+export default Watv;

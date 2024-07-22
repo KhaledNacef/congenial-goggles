@@ -4,19 +4,15 @@ import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
 import Cookies from 'js-cookie';
 
-const Create = () => {
+const Createv = () => {
   const userIdFromCookie = Cookies.get('token');
   const [brand, setBrand] = useState('');
-  const [clientName, setClientName] = useState('');
-  const [clientNumber, setClientNumber] = useState('');
+  const [type, setType] = useState('');
   const [serie, setSerie] = useState('');
   const [problem, setProblem] = useState('');
-  const [remarque, setRemarque] = useState('');
-  const [cout, setCout] = useState(0);
-  const [maindoeuvre, setMaindoeuvre] = useState(0);
-  const [accompte, setAccompte] = useState(0);
-  const [price, setPrice] = useState(0);
-  const [deliveryDate, setDeliveryDate] = useState(new Date().toISOString().slice(0, 10));
+  const [cout, setCout] = useState('');
+  const [maindoeuvre, setMaindoeuvre] = useState('');
+  const [price, setPrice] = useState('');
   const [status, setStatus] = useState('waiting');
   const [id, setId] = useState(1); // Initialize auto-increment ID
 
@@ -24,33 +20,25 @@ const Create = () => {
     const data = {
       id:id,
       brand:brand,
-      phoneHolder: clientName,
-      holderNumber: clientNumber,
+      type:type,
       serie:serie,
       problem:problem,
-      remarque:remarque,
-      cout:cout,
-      maindoeuvre:maindoeuvre,
-      accompte:accompte,
-      price:price,
-      delivredOn: deliveryDate,
+      cout: parseFloat(cout),
+      maindoeuvre: parseFloat(maindoeuvre),
+      price: parseFloat(price),
       status:status,
       userId: userIdFromCookie
     };
 
     try {
-      await axios.post('https://api.deviceshopleader.com/api/phone/crate', data);
+      await axios.post('https://api.deviceshopleader.com/api/vetrine/vetrines', data);
       setBrand('');
-      setClientName('');
-      setClientNumber('');
+      setType('');
       setSerie('');
       setProblem('');
-      setRemarque('');
-      setCout(0);
-      setMaindoeuvre(0);
-      setAccompte(0);
-      setPrice(0);
-      setDeliveryDate(new Date().toISOString().slice(0, 10));
+      setCout('');
+      setMaindoeuvre('');
+      setPrice('');
       setStatus('waiting');
       setId(id + 1); // Increment the ID for the next record
 
@@ -65,7 +53,7 @@ const Create = () => {
     <Container sx={{ marginTop: 5, width: '100%', maxWidth: 600, backgroundColor: '#FCF6F5FF' }}>
       <Box sx={{ maxWidth: 400, margin: 'auto', padding: 3 }}>
         <Typography variant='h3' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 3, textAlign: 'center' }}>
-          Créer un téléphone <PhoneIcon />
+          Créer un produit <PhoneIcon />
         </Typography>
 
         <TextField
@@ -78,25 +66,16 @@ const Create = () => {
         />
 
         <TextField
-          label="Nom du client"
-          value={clientName}
-          onChange={(e) => setClientName(e.target.value)}
+          label="Type"
+          value={type}
+          onChange={(e) => setType(e.target.value)}
           fullWidth
           required
           sx={{ marginBottom: 2 }}
         />
 
         <TextField
-          label="Numéro du client"
-          value={clientNumber}
-          onChange={(e) => setClientNumber(e.target.value)}
-          fullWidth
-          required
-          sx={{ marginBottom: 2 }}
-        />
-
-        <TextField
-          label="Serie"
+          label="Série"
           value={serie}
           onChange={(e) => setSerie(e.target.value)}
           fullWidth
@@ -110,24 +89,19 @@ const Create = () => {
           onChange={(e) => setProblem(e.target.value)}
           fullWidth
           required
+          multiline
+          rows={4} // Adjust the number of rows as needed
           sx={{ marginBottom: 2 }}
         />
 
         <TextField
-          label="Remarque"
-          value={remarque}
-          onChange={(e) => setRemarque(e.target.value)}
-          fullWidth
-          required
-          sx={{ marginBottom: 2 }}
-        />
-
-        <TextField
-          label="Cout"
+          label="Coût"
           value={cout}
           onChange={(e) => setCout(e.target.value)}
           fullWidth
           required
+          type="number"
+          InputProps={{ inputProps: { min: 0 } }}
           sx={{ marginBottom: 2 }}
         />
 
@@ -137,15 +111,8 @@ const Create = () => {
           onChange={(e) => setMaindoeuvre(e.target.value)}
           fullWidth
           required
-          sx={{ marginBottom: 2 }}
-        />
-
-        <TextField
-          label="Accompte"
-          value={accompte}
-          onChange={(e) => setAccompte(e.target.value)}
-          fullWidth
-          required
+          type="number"
+          InputProps={{ inputProps: { min: 0 } }}
           sx={{ marginBottom: 2 }}
         />
 
@@ -155,20 +122,11 @@ const Create = () => {
           onChange={(e) => setPrice(e.target.value)}
           fullWidth
           required
+          type="number"
+          InputProps={{ inputProps: { min: 0 } }}
           sx={{ marginBottom: 2 }}
         />
 
-        <TextField
-          label="Date de livraison"
-          type="date"
-          value={deliveryDate}
-          onChange={(e) => setDeliveryDate(e.target.value)}
-          fullWidth
-          required
-          sx={{ marginBottom: 2 }}
-        />
-
-        
         <Button
           onClick={handleSubmit}
           variant="contained"
@@ -182,4 +140,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default Createv;

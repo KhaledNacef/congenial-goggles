@@ -15,7 +15,7 @@ import axios from 'axios';
 import { Box, Typography } from '@mui/material';
 import Cookies from 'js-cookie';
 
-const Fixedd = ({ searchQuery }) => {
+const Fixeddpc = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [view, setView] = useState(false);
@@ -57,7 +57,7 @@ const Fixedd = ({ searchQuery }) => {
 
   const updatePrice = async () => {
     try {
-      await axios.put(`https://api.deviceshopleader.com/api/phone/price/${userIdFromCookie}/${selectedId}`, { price: price });
+      await axios.put(`https://api.deviceshopleader.com/api/pc/price/${userIdFromCookie}/${selectedId}`, { price: price });
       setSelectedId(null);
       setPrice(0);
       getBstatus('Fixed');
@@ -68,7 +68,7 @@ const Fixedd = ({ searchQuery }) => {
 
   const getBstatus = async (status) => {
     try {
-      const response = await axios.get(`https://api.deviceshopleader.com/api/phone/status/${userIdFromCookie}/${status}`);
+      const response = await axios.get(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${status}`);
       setData(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des données de statut :', error);
@@ -80,7 +80,7 @@ const Fixedd = ({ searchQuery }) => {
   }, []);
 
   const filteredData = data.filter((row) =>
-    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.pcHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
     row.id.toString().includes(searchQuery)
   );
 
@@ -109,7 +109,7 @@ const Fixedd = ({ searchQuery }) => {
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                     <TableCell align='center'>{row.id}</TableCell>
                     <TableCell align='center'>{row.brand}</TableCell>
-                    <TableCell align='center'>{row.phoneHolder}</TableCell>
+                    <TableCell align='center'>{row.pcHolder}</TableCell>
                     <TableCell align='center'>{row.holderNumber}</TableCell>
                     <TableCell align='center'>{row.serie}</TableCell>
                     <TableCell align='center'>{row.problem}</TableCell>
@@ -159,4 +159,4 @@ const Fixedd = ({ searchQuery }) => {
   );
 };
 
-export default Fixedd;
+export default Fixeddpc;

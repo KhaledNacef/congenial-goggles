@@ -11,7 +11,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { Typography, Box } from '@mui/material';
 
-const Deliv = ({ searchQuery }) => {
+const Delivpc = ({ searchQuery }) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
@@ -47,7 +47,7 @@ const Deliv = ({ searchQuery }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/phone/deliveredtoday/${userIdFromCookie}`);
+      const response = await axios.get(`${baseUrl}/pc/deliveredtoday/${userIdFromCookie}`);
       setData(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des données :', error);
@@ -59,7 +59,7 @@ const Deliv = ({ searchQuery }) => {
   }, []);
 
   const filteredData = data.filter((row) =>
-    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.pcHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
     row.id.toString().includes(searchQuery)
   );
 
@@ -89,7 +89,7 @@ const Deliv = ({ searchQuery }) => {
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                     <TableCell align="center">{row.id}</TableCell>
                     <TableCell align="center">{row.brand}</TableCell>
-                    <TableCell align="center">{row.phoneHolder}</TableCell>
+                    <TableCell align="center">{row.pcHolder}</TableCell>
                     <TableCell align="center">{row.holderNumber}</TableCell>
                     <TableCell align="center">{row.serie}</TableCell>
                     <TableCell align="center">{row.problem}</TableCell>
@@ -120,4 +120,4 @@ const Deliv = ({ searchQuery }) => {
   );
 };
 
-export default Deliv;
+export default Delivpc;

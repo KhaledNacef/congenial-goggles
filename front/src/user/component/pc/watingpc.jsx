@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,14 +7,35 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Cookies from 'js-cookie';
+import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { Typography, Box } from '@mui/material';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import Cookies from 'js-cookie';
 
-const Deliv = ({ searchQuery }) => {
-  const [data, setData] = useState([]);
+const Watpc = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
+  const [data, setData] = useState([]);
+  const userIdFromCookie = Cookies.get('token');
+
+  const filteredData = data.filter((row) =>
+    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.id.toString().includes(searchQuery)
+  );
+
+  const ActionsButtons = ({ id, updateStatus }) => (
+    <>
+      <IconButton color="error" aria-label="Refuse" size="small" onClick={() => updateStatus(id, 'Refused')}>
+        <CancelIcon />
+      </IconButton>
+      <IconButton color="success" aria-label="Fix" size="small" onClick={() => updateStatus(id, 'Fixed')}>
+        <CheckCircleIcon />
+      </IconButton>
+    </>
+  );
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
@@ -31,10 +52,8 @@ const Deliv = ({ searchQuery }) => {
     { id: 'delivredOn', label: 'Livré le', minWidth: 70 },
     { id: 'status', label: 'Statut', minWidth: 30 },
     { id: 'createdAt', label: 'Créé le', minWidth: 70 },
+    { id: 'actions', label: 'Actions', minWidth: 30 },
   ];
-
-  const userIdFromCookie = Cookies.get('token');
-  const baseUrl = 'https://api.deviceshopleader.com/api'; // Base URL for API
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -45,38 +64,41 @@ const Deliv = ({ searchQuery }) => {
     setPage(0);
   };
 
-  const fetchData = async () => {
+  const updateStatus = async (id, status) => {
     try {
-      const response = await axios.get(`${baseUrl}/phone/deliveredtoday/${userIdFromCookie}`);
+      await axios.put(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${id}`, { status });
+      getWaiting(); // Refresh data after status update
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du statut :', error);
+    }
+  };
+
+  const getWaiting = async () => {
+    try {
+      const response = await axios.get(`https://api.deviceshopleader.com/api/pc/waiting/${userIdFromCookie}`);
       setData(response.data);
     } catch (error) {
-      console.error('Erreur lors de la récupération des données :', error);
+      console.error('Erreur lors de la récupération des données en attente :', error);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    getWaiting();
   }, []);
-
-  const filteredData = data.filter((row) =>
-    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    row.id.toString().includes(searchQuery)
-  );
 
   return (
     <div style={{ backgroundColor: '#FCF6F5FF' }}>
-      <Box sx={{ justifyContent: 'center', boxShadow: 2, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto', marginBottom: 1, backgroundColor: '#89ABE3FF', borderRadius: 5, width: '55%', padding: 1, border: '1px solid grey' }}>
-        <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', color: '#FCF6F5FF', width: '100%' }}>
-          AUJOURD'HUI
-        </Typography>
-      </Box>
+      <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, margin: 'auto', boxShadow: 2, textAlign: 'center', border: '1px solid grey', color: '#FCF6F5FF', backgroundColor: '#89ABE3FF', borderRadius: 15, width: '55%', padding: 1 }}>
+       PC EN ATTENTE <HourglassEmptyIcon />
+      </Typography>
+
       <Paper sx={{ width: '95%', overflowX: 'auto', margin: 'auto', marginTop: 10, boxShadow: 9, borderRadius: 5 }}>
         <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500, maxHeight: '70vh' }}>
-          <Table stickyHeader aria-label="sticky table">
+          <Table stickyHeader aria-label="tableau fixe">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
-                  <TableCell key={column.id} align="center" style={{ minWidth: column.minWidth, fontWeight: 'bold' }}>
+                  <TableCell key={column.id} align="center" style={{ fontFamily: 'Kanit', fontWeight: 'bold', minWidth: column.minWidth }}>
                     {column.label}
                   </TableCell>
                 ))}
@@ -89,7 +111,7 @@ const Deliv = ({ searchQuery }) => {
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                     <TableCell align="center">{row.id}</TableCell>
                     <TableCell align="center">{row.brand}</TableCell>
-                    <TableCell align="center">{row.phoneHolder}</TableCell>
+                    <TableCell align="center">{row.pcHolder}</TableCell>
                     <TableCell align="center">{row.holderNumber}</TableCell>
                     <TableCell align="center">{row.serie}</TableCell>
                     <TableCell align="center">{row.problem}</TableCell>
@@ -97,10 +119,15 @@ const Deliv = ({ searchQuery }) => {
                     <TableCell align="center">{row.cout}</TableCell>
                     <TableCell align="center">{row.maindoeuvre}</TableCell>
                     <TableCell align="center">{row.accompte}</TableCell>
-                    <TableCell align="center">{row.price}</TableCell>
+                    <TableCell align="center">{row.price} DT</TableCell>
                     <TableCell align="center">{row.delivredOn.slice(0, 10)}</TableCell>
-                    <TableCell align="center" style={{ backgroundColor: row.status === 'Refused' ? '#f44336' : row.status === 'Fixed' ? '#99cc99' : '#fbef53', borderRadius: '30px', fontWeight: 'bold', color: 'black' }}>{row.status}</TableCell>
+                    <TableCell align="center" style={{ backgroundColor: '#fbef53', borderRadius: '30px', fontWeight: 'bold', color: 'black' }}>
+                      {row.status}
+                    </TableCell>
                     <TableCell align="center">{row.createdAt.slice(0, 10)}</TableCell>
+                    <TableCell align="center">
+                      <ActionsButtons id={row.id} updateStatus={updateStatus} />
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
@@ -120,4 +147,4 @@ const Deliv = ({ searchQuery }) => {
   );
 };
 
-export default Deliv;
+export default Watpc;

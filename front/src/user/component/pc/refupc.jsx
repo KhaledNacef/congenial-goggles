@@ -11,7 +11,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { Typography, Box } from '@mui/material';
 
-const Refused = ({ searchQuery }) => {
+const Refusedpc = ({ searchQuery }) => {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(100);
@@ -47,7 +47,7 @@ const Refused = ({ searchQuery }) => {
 
     const fetchData = async (status) => {
         try {
-            const response = await axios.get(`${baseUrl}/phone/status/${userIdFromCookie}/${status}`);
+            const response = await axios.get(`${baseUrl}/pc/status/${userIdFromCookie}/${status}`);
             setData(response.data);
         } catch (error) {
             console.error('Erreur lors de la récupération des données de statut :', error);
@@ -59,7 +59,7 @@ const Refused = ({ searchQuery }) => {
     }, []);
 
     const filteredData = data.filter((row) =>
-        row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.pcHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.id.toString().includes(searchQuery)
     );
 
@@ -88,7 +88,7 @@ const Refused = ({ searchQuery }) => {
                                     <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                         <TableCell align="center">{row.id}</TableCell>
                                         <TableCell align="center">{row.brand}</TableCell>
-                                        <TableCell align="center">{row.phoneHolder}</TableCell>
+                                        <TableCell align="center">{row.pcHolder}</TableCell>
                                         <TableCell align="center">{row.holderNumber}</TableCell>
                                         <TableCell align="center">{row.serie}</TableCell>
                                         <TableCell align="center">{row.problem}</TableCell>
@@ -119,4 +119,4 @@ const Refused = ({ searchQuery }) => {
     );
 };
 
-export default Refused;
+export default Refusedpc;

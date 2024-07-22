@@ -9,7 +9,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Typography, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Typography, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slider } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
@@ -21,17 +21,22 @@ const Allproduct = ({ filteredData, setDataA }) => {
   const [sellQuantity, setSellQuantity] = useState('');
   const [upQuantity, setUpQuantity] = useState('');
   const [pricee, setPricee] = useState('');
+  const [priceU, setPriceU] = useState('');
+  const [discount, setDiscount] = useState(1); // Default discount of 5%
+
   const [view, setView] = useState('non');
   const [selectedId, setSelectedId] = useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openDiscountDialog, setOpenDiscountDialog] = useState(false);
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
     { id: 'name', label: 'Nom', minWidth: 70 },
     { id: 'price', label: 'Prix', minWidth: 70 },
+    { id: 'priceU', label: 'Prix-U', minWidth: 70 },
     { id: 'quantity', label: 'Quantité', minWidth: 70 },
     { id: 'image', label: 'Image', minWidth: 100 },
-    { id: 'action', label: 'Action', minWidth: 200 },
+    { id: 'action', label: 'Action', minWidth: 300 },
   ];
 
   const userIdFromCookie = Cookies.get('token');
@@ -49,13 +54,14 @@ const Allproduct = ({ filteredData, setDataA }) => {
     fetchData();
   }, []);
 
-  const sellProduct = async (id, quantity) => {
+  const sellProduct = async (id, quantity, discount) => {
     if (quantity === 0 || quantity === '') {
       setView('non');
     } else {
       try {
-        await axios.put(`https://api.deviceshopleader.com/api/product/sell/${id}/${userIdFromCookie}/${quantity}`);
+        await axios.put(`https://api.deviceshopleader.com/api/product/sell/${id}/${userIdFromCookie}/${quantity}/${discount}`);
         setSellQuantity('');
+        setDiscount(1); // Reset discount after selling
         setView('non');
         fetchData();
       } catch (error) {
@@ -94,6 +100,21 @@ const Allproduct = ({ filteredData, setDataA }) => {
     }
   };
 
+  const updatePriceu = async (id, price) => {
+    if (price === 0 || price === '') {
+      setView('non');
+    } else {
+      try {
+        await axios.put(`https://api.deviceshopleader.com/api/product/priceu/${id}/${userIdFromCookie}/${price}`);
+        setPriceU('');
+        setView('non');
+        fetchData();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const deleteProduct = async (id) => {
     try {
       await axios.delete(`https://api.deviceshopleader.com/api/product/deleteproduct/${userIdFromCookie}/${id}`);
@@ -118,6 +139,21 @@ const Allproduct = ({ filteredData, setDataA }) => {
     handleCloseDeleteDialog();
   };
 
+  const handleOpenDiscountDialog = (id) => {
+    setSelectedId(id);
+    setOpenDiscountDialog(true);
+  };
+
+  const handleCloseDiscountDialog = () => {
+    setSelectedId(null);
+    setOpenDiscountDialog(false);
+  };
+
+  const handleConfirmDiscount = () => {
+    sellProduct(selectedId, sellQuantity, discount);
+    handleCloseDiscountDialog();
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -133,7 +169,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
         TOUS LES PRODUITS
       </Typography>
       <Paper sx={{ boxShadow: 15, width: '90%', overflowX: 'auto', marginLeft: 'auto', marginRight: 'auto', borderRadius: 5 }}>
-        <TableContainer sx={{  fontFamily: 'Kanit', fontWeight: 500, maxHeight: '55.56vh' }}>
+        <TableContainer sx={{ fontFamily: 'Kanit', fontWeight: 500, maxHeight: '55.56vh' }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -152,6 +188,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                     <TableCell align="center">{row.id}</TableCell>
                     <TableCell align="center">{row.name}</TableCell>
                     <TableCell align="center">{row.price}DT</TableCell>
+                    <TableCell align="center">{row.buyprice}DT</TableCell>
                     <TableCell align="center">{row.quantity}</TableCell>
                     <TableCell align="center">
                       <img src={row.image} alt="Product" style={{ maxWidth: '100px', maxHeight: '100px' }} />
@@ -160,7 +197,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                       <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" sx={{ backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }} size="small">
                         Mettre à jour la quantité
                       </Button>
-                      <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained" size="small" sx={{ marginLeft: 1, backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>
+                      <Button onClick={() => handleOpenDiscountDialog(row.id)} variant="contained" size="small" sx={{ marginLeft: 1, backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>
                         Vendre
                       </Button>
                       <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1, fontWeight: 500 }}>
@@ -178,7 +215,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={sellQuantity}
                           onChange={(e) => setSellQuantity(e.target.value)}
                         />
-                        <Button onClick={() => { sellProduct(row.id, sellQuantity); }} variant="contained" style={{ marginLeft: '10px', backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>OK</Button>
+                        <Button onClick={() => handleOpenDiscountDialog(row.id)} variant="contained" style={{ marginLeft: '10px', backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>Choisir Discount</Button>
                       </TableCell>
                     )}
                     {(view === 'up' && selectedId === row.id) && (
@@ -201,6 +238,14 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           onChange={(e) => setPricee(e.target.value)}
                         />
                         <Button onClick={() => { updatePrice(row.id, pricee); }} variant="contained" style={{ marginLeft: '10px', backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>OK</Button>
+                        <TextField
+                          label="Prix-U"
+                          type="number"
+                          value={priceU}
+                          onChange={(e) => setPriceU(e.target.value)}
+                          sx={{ marginLeft: '10px' }}
+                        />
+                        <Button onClick={() => { updatePriceu(row.id, priceU); }} variant="contained" style={{ marginLeft: '10px', backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>OK</Button>
                       </TableCell>
                     )}
                   </TableRow>
@@ -236,6 +281,37 @@ const Allproduct = ({ filteredData, setDataA }) => {
           </Button>
           <Button onClick={handleConfirmDelete} color="primary" autoFocus>
             Supprimer
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openDiscountDialog}
+        onClose={handleCloseDiscountDialog}
+        aria-labelledby="discount-dialog-title"
+        aria-describedby="discount-dialog-description"
+      >
+        <DialogTitle id="discount-dialog-title">{"Choisir un discount"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="discount-dialog-description">
+            Sélectionnez un discount pour le produit que vous souhaitez vendre.
+          </DialogContentText>
+          <Slider
+            value={discount}
+            onChange={(e, newValue) => setDiscount(newValue)}
+            aria-labelledby="discount-slider"
+            valueLabelDisplay="auto"
+            step={1}
+            min={0}
+            max={5}
+            marks
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDiscountDialog} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={handleConfirmDiscount} color="primary" autoFocus>
+            Appliquer
           </Button>
         </DialogActions>
       </Dialog>

@@ -4,12 +4,18 @@ const User = require('../database/models/users.js');
 const Product = require('../database/models/product.js');
 const Phone = require('../database/models/phone.js');
 const Solded = require('../database/models/solded.js');
+const Pc=require('./models/pc.js')
+const Vetrine=require('./models/vetrine.js');
+const Soldedvetrine = require('./models/vetrine.js');
 const db = new Sequelize('phonyy', 'sadoun', 'K=U3X=Z9z5Dg4yeDmhp6', {
   host: '195.200.15.61',
   dialect: 'mysql'
 });
 
 
+const pc=db.define('pc',Pc)
+const vetrine=db.define('vetrine',Vetrine)
+const soldedvetrine=db.define('soldedvetrine',Soldedvetrine)
 const admin=db.define('admin',Admin) 
 const user=db.define('user',User)
 const product =db.define('product',Product)
@@ -18,6 +24,12 @@ const solded=db.define('solded',Solded)
 user.hasMany(product)
 user.hasMany(phone)
 user.hasMany(solded)
+user.hasMany(vetrine)
+user.hasMany(pc)
+user.hasMany(soldedvetrine)
+
+
+
 db.sync().then(() => {
   console.log('User table created (if not exists)');
 }).catch((error) => {

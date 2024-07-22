@@ -7,6 +7,7 @@ import Product from './component/product/product.jsx';
 import Forum from './component/forum.jsx';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import Pc from './component/pc/pc.jsx';
 
 const User = () => {
   const [vie, setVie] = useState('dashboard');
@@ -28,7 +29,7 @@ const User = () => {
         {vie === 'phone' && <Phone />}
         {vie === 'dashboard' && <Dashboard />}
         {vie === 'Product' && <Product />}
-        
+        {vie === 'pc' && <Pc />}
       </Box>
     </Container>
   );

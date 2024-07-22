@@ -21,6 +21,7 @@ const UserSidebar = ({ changevie }) => {
   const boxes = [
     { text: 'Tableau de bord', icon: <DashboardIcon sx={{ fontSize: 40 }} />, action: () => changevie('dashboard') },
     { text: 'Téléphones', icon: <PhoneIcon sx={{ fontSize: 40 }} />, action: () => changevie('phone') },
+    { text: 'PC', icon: <PhoneIcon sx={{ fontSize: 40 }} />, action: () => changevie('pc') },
     { text: 'Magasin', icon: <StorefrontIcon sx={{ fontSize: 40 }} />, action: () => changevie('Product') },
     { text: 'Profil', icon: <PersonIcon sx={{ fontSize: 40 }} />, action: () => changevie('Uprofile') },
   ];
@@ -79,7 +80,7 @@ const UserSidebar = ({ changevie }) => {
             }}
             onClick={box.action}
           >
-            <IconButton sx={{ width: 80, height: 60 }} color="#89ABE3FF" aria-label={box.text.toLowerCase()}>
+            <IconButton sx={{ width: 80, height: 60 }} color="#89ABE3FF" aria-label={box.text}>
               {box.icon}
             </IconButton>
             <Typography sx={{ fontSize: 19, textAlign: 'center', marginLeft: 2 }}>{box.text}</Typography>

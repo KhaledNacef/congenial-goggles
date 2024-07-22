@@ -17,6 +17,9 @@ app.use(cors({
 const db = require('../server/database/index.js');
 
 // Import your routers here
+const pcrouter=require('./database/route/pc.r.js')
+const soldedvetrouter=require('./database/route/soldedvetrine.r.js')
+const vetrine=require('./database/route/vetrine.r.js')
 const adminRouter = require('./database/route/admin.r.js');
 const userRouter = require('./database/route/user.r.js');
 const productRouter = require('./database/route/product.r.js');
@@ -28,6 +31,9 @@ app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
 app.use('/api/phone', phoneRouter);
 app.use('/api/sold', soldProductRoutes);
+app.use('/api/pc',pcrouter)
+app.use('/api/soldedvetrine',soldedvetrouter)
+app.use('/api/vetrine',vetrine)
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

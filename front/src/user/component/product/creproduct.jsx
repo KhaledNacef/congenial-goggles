@@ -3,6 +3,7 @@ import axios from 'axios';
 import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import ProductIcon from '@mui/icons-material/LocalMall';
 import Cookies from 'js-cookie';
+import { buyprice } from '../../../../../server/database/models/product';
 
 export default function Creproduct() {
   // State variables to store form inputs
@@ -10,13 +11,18 @@ export default function Creproduct() {
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [image, setImage] = useState('');
+  const [priceU, setPriceU] = useState(0);
+  const [id, setId] = useState(1); // Initialize auto-increment ID
+
   const userIdFromCookie = Cookies.get('token');
 
   // Function to handle form submission
   const handleSubmit = async () => {
     const formData = {
+      id:id,
       name: name,
       price: price,
+      buyprice:priceU,
       quantity: quantity,
       image: image,
       userId: userIdFromCookie
@@ -29,6 +35,9 @@ export default function Creproduct() {
       setPrice(0);
       setQuantity(0);
       setImage('');
+      setPriceU(0)
+      setId(id + 1); // Increment the ID for the next record
+
       // You may want to add logic to handle success/failure feedback to the user
     } catch (error) {
       console.log(error);
@@ -49,7 +58,7 @@ export default function Creproduct() {
           sx={{ marginBottom: 2 }}
         />
         <TextField
-          label="Prix"
+          label="Prix U"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           fullWidth
@@ -57,6 +66,16 @@ export default function Creproduct() {
           required
           sx={{ marginBottom: 2 }}
         />
+        <TextField
+          label="Prix d'Achat U"
+          value={priceU}
+          onChange={(e) => setPriceU(e.target.value)}
+          fullWidth
+          type="number"
+          required
+          sx={{ marginBottom: 2 }}
+        />
+       
         <TextField
           label="Quantité"
           value={quantity}

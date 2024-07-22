@@ -20,7 +20,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-const Allphone = ({ searchQuery }) => {
+const Allvetrine = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [data, setData] = useState([]);
@@ -30,16 +30,12 @@ const Allphone = ({ searchQuery }) => {
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
     { id: 'brand', label: 'Marque', minWidth: 70 },
-    { id: 'phoneHolder', label: 'Nom du Client', minWidth: 100 },
-    { id: 'holderNumber', label: 'Numéro du Client', minWidth: 70 },
-    { id: 'serie', label: 'Serie', minWidth: 100 },
+    { id: 'serie', label: 'Série', minWidth: 100 },
+    { id: 'type', label: 'Type', minWidth: 100 },
     { id: 'problem', label: 'Problème', minWidth: 100 },
-    { id: 'remarque', label: 'Remarque', minWidth: 100 },
-    { id: 'cout', label: 'Cout', minWidth: 30 },
-    { id: 'maindoeuvre', label: "Main d'oeuvre", minWidth: 30 },
-    { id: 'accompte', label: 'Accompte', minWidth: 30 },
+    { id: 'cout', label: 'Coût', minWidth: 30 },
+    { id: 'maindoeuvre', label: "Main d'œuvre", minWidth: 30 },
     { id: 'price', label: 'Prix', minWidth: 30 },
-    { id: 'delivredOn', label: 'Livré le', minWidth: 70 },
     { id: 'status', label: 'Statut', minWidth: 30 },
     { id: 'createdAt', label: 'Créé le', minWidth: 70 },
   ];
@@ -58,7 +54,7 @@ const Allphone = ({ searchQuery }) => {
 
   const getall = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/phone/all/${userIdFromCookie}`);
+      const response = await axios.get(`${baseUrl}/vetrine/vetrinesgetall/${userIdFromCookie}`);
       setData(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération de toutes les données :', error);
@@ -79,20 +75,19 @@ const Allphone = ({ searchQuery }) => {
     setDeleteId(null);
   };
 
-  const confirmDeletePhone = async () => {
-    try {
-      const response = await axios.delete(`${baseUrl}/phone/delete/${userIdFromCookie}/${deleteId}`);
-      console.log('Phone deleted successfully:', response.data);
-      getall();
-    } catch (error) {
-      console.error('Error while deleting the phone record:', error);
-    } finally {
-      handleCloseDialog();
-    }
-  };
+  // const confirmDeletePhone = async () => {
+  //   try {
+  //     await axios.delete(`${baseUrl}/vetrine/delete/${userIdFromCookie}/${deleteId}`);
+  //     getall();
+  //   } catch (error) {
+  //     console.error('Error while deleting the phone record:', error);
+  //   } finally {
+  //     handleCloseDialog();
+  //   }
+  // };
 
   const filteredData = data.filter((row) =>
-    row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
     row.id.toString().includes(searchQuery)
   );
 
@@ -123,7 +118,7 @@ const Allphone = ({ searchQuery }) => {
             width: '100%',
           }}
         >
-          TOUS LES TÉLÉPHONES
+          Tous Les Produits 
         </Typography>
       </Box>
 
@@ -164,32 +159,26 @@ const Allphone = ({ searchQuery }) => {
             <TableBody>
               {filteredData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                .map((row) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     <TableCell align="center">{row.id}</TableCell>
                     <TableCell align="center">{row.brand}</TableCell>
-                    <TableCell align="center">{row.phoneHolder}</TableCell>
-                    <TableCell align="center">{row.holderNumber}</TableCell>
                     <TableCell align="center">{row.serie}</TableCell>
+                    <TableCell align="center">{row.type}</TableCell>
                     <TableCell
-                      align="center"
-                      style={{
-                        whiteSpace: 'normal',  // Allow text to wrap to the next line
-                        wordBreak: 'break-word',  // Break long words to fit within the cell
-                        overflow: 'hidden',  // Hide overflow text
-                        textOverflow: 'ellipsis'  // Add ellipsis for overflowed text
-                      }}
-                    >
-                      {row.problem}
-                    </TableCell>
-                    <TableCell align="center">{row.remarque}</TableCell>
+                    align="center"
+                    style={{
+                      whiteSpace: 'normal',  // Allow text to wrap to the next line
+                      wordBreak: 'break-word',  // Break long words to fit within the cell
+                      overflow: 'hidden',  // Hide overflow text
+                      textOverflow: 'ellipsis'  // Add ellipsis for overflowed text
+                    }}
+                  >
+                    {row.problem}
+                  </TableCell>
                     <TableCell align="center">{row.cout}</TableCell>
                     <TableCell align="center">{row.maindoeuvre}</TableCell>
-                    <TableCell align="center">{row.accompte}</TableCell>
-                    <TableCell align="center" sx={{ color: '#007300', fontWeight: 'bold' }}>
-                      {row.price}DT
-                    </TableCell>
-                    <TableCell align="center">{row.delivredOn.slice(0, 10)}</TableCell>
+                    <TableCell align="center">{row.price} DT</TableCell>
                     <TableCell
                       align="center"
                       sx={{
@@ -206,19 +195,8 @@ const Allphone = ({ searchQuery }) => {
                     >
                       {row.status}
                     </TableCell>
-                    <TableCell align="center">{row.createdAt}</TableCell>
-                    <TableCell align="center">
-                      <IconButton aria-label="edit" color="primary">
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => handleOpenDialog(row.id)}
-                        aria-label="delete"
-                        color="secondary"
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
+                    <TableCell align="center">{new Date(row.createdAt).toLocaleDateString()}</TableCell>
+                   
                   </TableRow>
                 ))}
             </TableBody>
@@ -239,7 +217,7 @@ const Allphone = ({ searchQuery }) => {
         <DialogTitle>Confirmer la suppression</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Êtes-vous sûr de vouloir supprimer ce téléphone ?
+            Êtes-vous sûr de vouloir supprimer ce produit ?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -255,4 +233,4 @@ const Allphone = ({ searchQuery }) => {
   );
 };
 
-export default Allphone;
+export default Allvetrine;
