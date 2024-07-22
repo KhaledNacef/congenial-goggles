@@ -149,14 +149,7 @@ const Create = () => {
           sx={{ marginBottom: 2 }}
         />
 
-        <TextField
-          label="Prix"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          fullWidth
-          required
-          sx={{ marginBottom: 2 }}
-        />
+        
 
         <TextField
           label="Date de livraison"

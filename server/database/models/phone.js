@@ -39,7 +39,7 @@ const Phone =  {
 
 
   },
-  accopmte:{
+  accompte:{
     type: DataTypes.FLOAT,
     allowNull: true
 

@@ -39,7 +39,7 @@ const Pc =  {
 
 
   },
-  accopmte:{
+  accompte:{
     type: DataTypes.FLOAT,
     allowNull: true
 
