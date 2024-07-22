@@ -3,7 +3,6 @@ import axios from 'axios';
 import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import ProductIcon from '@mui/icons-material/LocalMall';
 import Cookies from 'js-cookie';
-import { buyprice } from '../../../../../server/database/models/product';
 
 export default function Creproduct() {
   // State variables to store form inputs

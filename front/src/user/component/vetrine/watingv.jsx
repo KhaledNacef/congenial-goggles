@@ -14,7 +14,6 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { Typography, Box } from '@mui/material';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import Cookies from 'js-cookie';
-import { status } from '../../../../../server/database/models/phone';
 
 const Watv = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
