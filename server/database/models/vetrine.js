@@ -28,7 +28,7 @@ const Vetrine =  {
     allowNull: true
 
   },
-  maindouvre:{
+  maindoeuvre:{
     type: DataTypes.FLOAT,
     allowNull: true
   },

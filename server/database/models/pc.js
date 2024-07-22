@@ -33,7 +33,7 @@ const Pc =  {
     allowNull: true
 
   },
-  maindouvre:{
+  maindoeuvre:{
     type: DataTypes.FLOAT,
     allowNull: true
 
