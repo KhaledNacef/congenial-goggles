@@ -27,6 +27,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
   const [selectedId, setSelectedId] = useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openDiscountDialog, setOpenDiscountDialog] = useState(false);
+  const [openSellDialog, setOpenSellDialog] = useState(false);
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
@@ -99,12 +100,12 @@ const Allproduct = ({ filteredData, setDataA }) => {
     }
   };
 
-  const updatePriceu = async (id, price) => {
-    if (price === 0 || price === '') {
+  const updatePriceu = async (id, priceU) => {
+    if (priceU === 0 || priceU === '') {
       setView('non');
     } else {
       try {
-        await axios.put(`https://api.deviceshopleader.com/api/product/priceu/${id}/${userIdFromCookie}/${price}`);
+        await axios.put(`https://api.deviceshopleader.com/api/product/priceu/${id}/${userIdFromCookie}/${priceU}`);
         setPriceU('');
         setView('non');
         fetchData();
@@ -138,19 +139,33 @@ const Allproduct = ({ filteredData, setDataA }) => {
     handleCloseDeleteDialog();
   };
 
-  const handleOpenDiscountDialog = (id) => {
-    setSelectedId(id);
+  const handleOpenDiscountDialog = () => {
     setOpenDiscountDialog(true);
   };
 
   const handleCloseDiscountDialog = () => {
-    setSelectedId(null);
     setOpenDiscountDialog(false);
   };
 
   const handleConfirmDiscount = () => {
     sellProduct(selectedId, sellQuantity, discount);
     handleCloseDiscountDialog();
+  };
+
+  const handleOpenSellDialog = (id) => {
+    setSelectedId(id);
+    setOpenSellDialog(true);
+  };
+
+  const handleCloseSellDialog = () => {
+    setSelectedId(null);
+    setSellQuantity('');
+    setOpenSellDialog(false);
+  };
+
+  const handleConfirmSell = () => {
+    handleCloseSellDialog();
+    handleOpenDiscountDialog();
   };
 
   const handleChangePage = (event, newPage) => {
@@ -196,7 +211,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                       <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" sx={{ backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }} size="small">
                         Mettre à jour la quantité
                       </Button>
-                      <Button onClick={() => handleOpenDiscountDialog(row.id)} variant="contained" size="small" sx={{ marginLeft: 1, backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>
+                      <Button onClick={() => handleOpenSellDialog(row.id)} variant="contained" size="small" sx={{ marginLeft: 1, backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>
                         Vendre
                       </Button>
                       <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1, fontWeight: 500 }}>
@@ -280,6 +295,34 @@ const Allproduct = ({ filteredData, setDataA }) => {
           </Button>
           <Button onClick={handleConfirmDelete} color="primary" autoFocus>
             Supprimer
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openSellDialog}
+        onClose={handleCloseSellDialog}
+        aria-labelledby="sell-dialog-title"
+        aria-describedby="sell-dialog-description"
+      >
+        <DialogTitle id="sell-dialog-title">{"Vendre le produit"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="sell-dialog-description">
+            Entrez la quantité que vous souhaitez vendre.
+          </DialogContentText>
+          <TextField
+            label="Quantité à vendre"
+            type="number"
+            fullWidth
+            value={sellQuantity}
+            onChange={(e) => setSellQuantity(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseSellDialog} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={handleConfirmSell} color="primary" autoFocus>
+            Continuer
           </Button>
         </DialogActions>
       </Dialog>

@@ -6,6 +6,7 @@ import Createv from './createv.jsx';
 import Fixeddv from './fixedv.jsx';
 import Allvetrine from './allvetrine.jsx';
 import Watv from './watingv.jsx';
+import Soldedvetrine from './soledvetrine.jsx';
 
 
 export default function Vetrine() {
@@ -33,6 +34,7 @@ export default function Vetrine() {
         <Button onClick={() => { handleViewChange('fixed') }} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 600, margin: '10px',backgroundColor: '#89ABE3FF',color:'#FCF6F5FF' }}>Produit réparé</Button>
         <Button onClick={() => { handleViewChange('waiting') }} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 600, margin: '10px',backgroundColor: '#89ABE3FF',color:'#FCF6F5FF' }}>Produit en attente</Button>
         <Button onClick={() => {handleViewChange('all'); }} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 600, margin: '10px',backgroundColor: '#89ABE3FF',color:'#FCF6F5FF' }}>Tous les Produit</Button>
+        <Button onClick={() => {handleViewChange('soldedvetrine'); }} variant="contained"  style={{ fontFamily: 'Kanit', fontWeight: 600, margin: '10px',backgroundColor: '#89ABE3FF',color:'#FCF6F5FF' }}>Produit vendus</Button>
 
         <input type="text" onChange={handleSearchChange} placeholder="Rechercher par nom ou numéro" style={{ margin: '10px', padding: '8px', minWidth: '200px' }} />
       </Box>
@@ -41,6 +43,8 @@ export default function Vetrine() {
       {view === 'waiting' ? <Watv searchQuery={searchQuery} /> : null}
       {view === 'fixed' ? <Fixeddv  searchQuery={searchQuery} /> : null}
       {view === 'all' ? <Allvetrine searchQuery={searchQuery} /> : null}
+      {view === 'soldedvetrine' ? <Soldedvetrine searchQuery={searchQuery} /> : null}
+
     </div>
   );
 }

@@ -67,7 +67,7 @@ const Watpc = ({ searchQuery }) => {
   const updateStatus = async (id, status) => {
     try {
       await axios.put(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${id}`, { status });
-      getWaiting(); // Refresh data after status update
+      getBstatus('waiting'); // Refresh data after status update
     } catch (error) {
       console.error('Erreur lors de la mise à jour du statut :', error);
     }
