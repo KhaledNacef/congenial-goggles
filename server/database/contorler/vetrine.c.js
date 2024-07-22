@@ -101,8 +101,7 @@ exports.sellVetrine = async (req, res) => {
       });
     
 
-    // Decrement the Vetrine quantity
-    await vetrine.destroy();
+   
     await vetrine.save()
 
     res.status(200).json({ message: 'Vetrine sold successfully', vetrine });
