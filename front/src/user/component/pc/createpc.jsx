@@ -65,7 +65,7 @@ const Createpc = () => {
     <Container sx={{ marginTop: 5, width: '100%', maxWidth: 600, backgroundColor: '#FCF6F5FF' }}>
       <Box sx={{ maxWidth: 400, margin: 'auto', padding: 3 }}>
         <Typography variant='h3' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 3, textAlign: 'center' }}>
-          Créer un téléphone <PhoneIcon />
+          Créer un PC <PhoneIcon />
         </Typography>
 
         <TextField
