@@ -35,9 +35,11 @@ app.use('/api/pc',pcrouter)
 app.use('/api/soldedvetrine',soldedvetrouter)
 app.use('/api/vetrine',vetrine)
 // Error handling middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://deviceshopleader.com');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
 });
 
 const PORT = 3000;

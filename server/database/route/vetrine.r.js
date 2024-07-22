@@ -17,4 +17,3 @@ router.put('/vetrinesatuts/:userId/:id', vetrineController.updateVetrineBystatus
 router.put('/vetrinesell/:vetrineId/:userId', vetrineController.sellVetrine);
 
 module.exports = router;
-getstatusVetrines
