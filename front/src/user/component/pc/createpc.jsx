@@ -21,6 +21,22 @@ const Createpc = () => {
   const [id, setId] = useState(1); // Initialize ID to 0
 
  
+  const getall = async () => {
+    try {
+      const response = await axios.get(`https://api.deviceshopleader.com/api/pc/all/${userIdFromCookie}`);
+      setData(response.data);
+
+      // Determine the maximum ID from the fetched data
+      const maxId = response.data.reduce((max, pc) => (pc.ref > max ? pc.ref : max), 0);
+      setId(maxId + 1);
+    } catch (error) {
+      console.error('Erreur lors de la récupération de toutes les données :', error);
+    }
+  };
+
+  useEffect(() => {
+    getall();
+  }, []);
 
   const handleSubmit = async () => {
     const data = {
@@ -57,7 +73,6 @@ const Createpc = () => {
       setStatus('waiting');
 
       // Increment ID for the next record
-      setId(id + 1);
 
       // Handle success feedback to the user if needed
     } catch (error) {

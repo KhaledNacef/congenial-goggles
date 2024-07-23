@@ -16,6 +16,22 @@ const Createv = () => {
   const [status, setStatus] = useState('waiting');
   const [id, setId] = useState(1); // Initialize auto-increment ID
 
+  const baseUrl = 'https://api.deviceshopleader.com/api';
+  const getall = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/vetrine/vetrinesgetall/${userIdFromCookie}`);
+      setData(response.data);
+      const maxId = response.data.reduce((max, pc) => (pc.ref > max ? pc.ref : max), 0);
+      setId(maxId + 1);
+    } catch (error) {
+      console.error('Erreur lors de la récupération de toutes les données :', error);
+    }
+  };
+
+  useEffect(() => {
+    getall();
+  }, []);
+
   const handleSubmit = async () => {
     const data = {
       ref:id,

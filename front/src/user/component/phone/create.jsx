@@ -21,11 +21,20 @@ const Create = () => {
   const [status, setStatus] = useState('waiting');
   const [id, setId] = useState(1);
 
-  useEffect(() => {
-    const lastId = localStorage.getItem('lastId');
-    if (lastId) {
-      setId(parseInt(lastId, 10) + 1);
+  const getall = async () => {
+    try {
+      const response = await axios.get(`https://api.deviceshopleader.com/api/phone/all/${userIdFromCookie}`);
+      setData(response.data);
+
+      const maxId = response.data.reduce((max, pc) => (pc.ref > max ? pc.ref : max), 0);
+      setId(maxId + 1);
+    } catch (error) {
+      console.error('Erreur lors de la récupération de toutes les données :', error);
     }
+  };
+
+  useEffect(() => {
+    getall();
   }, []);
 
   const handleSubmit = async () => {
@@ -62,9 +71,7 @@ const Create = () => {
       setDeliveryDate(new Date().toISOString().slice(0, 10));
       setStatus('waiting');
 
-      const newId = id + 1;
-      setId(newId);
-      localStorage.setItem('lastId', newId); // Update the lastId in localStorage
+      
 
     } catch (error) {
       console.log(error);

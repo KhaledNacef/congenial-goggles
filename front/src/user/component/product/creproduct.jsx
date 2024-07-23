@@ -13,6 +13,22 @@ export default function Creproduct() {
   const [priceU, setPriceU] = useState(0);
   const [id, setId] = useState(1); // Initialize auto-increment ID
 
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`https://api.deviceshopleader.com/api/product/products/${userIdFromCookie}`);
+      setDataA(response.data);
+      const maxId = response.data.reduce((max, pc) => (pc.ref > max ? pc.ref : max), 0);
+      setId(maxId + 1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const userIdFromCookie = Cookies.get('token');
 
   // Function to handle form submission
@@ -35,7 +51,6 @@ export default function Creproduct() {
       setQuantity(0);
       setImage('');
       setPriceU(0)
-      setId(id + 1); // Increment the ID for the next record
 
       // You may want to add logic to handle success/failure feedback to the user
     } catch (error) {
