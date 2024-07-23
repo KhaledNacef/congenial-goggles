@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -15,6 +15,7 @@ const Createv = () => {
   const [price, setPrice] = useState(0);
   const [status, setStatus] = useState('waiting');
   const [id, setId] = useState(1); // Initialize auto-increment ID
+  const [data, setData] = useState([]);
 
   const baseUrl = 'https://api.deviceshopleader.com/api';
   const getall = async () => {

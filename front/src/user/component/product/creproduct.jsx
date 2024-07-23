@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import ProductIcon from '@mui/icons-material/LocalMall';
@@ -12,6 +12,7 @@ export default function Creproduct() {
   const [image, setImage] = useState('');
   const [priceU, setPriceU] = useState(0);
   const [id, setId] = useState(1); // Initialize auto-increment ID
+  const [data, setData] = useState([]);
 
 
   const fetchData = async () => {

@@ -19,6 +19,7 @@ const Createpc = () => {
   const [deliveryDate, setDeliveryDate] = useState(new Date().toISOString().slice(0, 10));
   const [status, setStatus] = useState('waiting');
   const [id, setId] = useState(1); // Initialize ID to 0
+  const [data, setData] = useState([]);
 
  
   const getall = async () => {

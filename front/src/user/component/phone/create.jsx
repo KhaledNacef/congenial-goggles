@@ -20,6 +20,7 @@ const Create = () => {
   const [deliveryDate, setDeliveryDate] = useState(new Date().toISOString().slice(0, 10));
   const [status, setStatus] = useState('waiting');
   const [id, setId] = useState(1);
+  const [data, setData] = useState([]);
 
   const getall = async () => {
     try {
