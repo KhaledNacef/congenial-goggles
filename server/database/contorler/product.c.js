@@ -31,7 +31,7 @@ exports.getAllProducts = async (req, res) => {
 exports.getProductByIdadnprice = async (req, res) => {
   const { id,userId,price } = req.params;
   try {
-    const product = await Product.findOne({ where: { id:id,userId:userId } });
+    const product = await Product.findOne({ where: { ref:id,userId:userId } });
     if (!product ) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -47,7 +47,7 @@ exports.getProductByIdadnprice = async (req, res) => {
 exports.getProductByIdadnpriceu = async (req, res) => {
   const { id,userId,priceu } = req.params;
   try {
-    const product = await Product.findOne({ where: { id:id,userId:userId } });
+    const product = await Product.findOne({ where: { ref:id,userId:userId } });
     if (!product ) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -64,7 +64,7 @@ exports.getProductByIdadnpriceu = async (req, res) => {
 exports.updateProductById = async (req, res) => {
   const { id,userId, quantity } = req.params;
   try {
-    const product = await Product.findOne({ where: { id:id, userId:userId } });
+    const product = await Product.findOne({ where: { ref:id, userId:userId } });
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -85,7 +85,7 @@ exports.updateProductById = async (req, res) => {
 exports.deleteProductById = async (req, res) => {
   const { userId,id } = req.params;
   try {
-    const product = await Product.destroy({ where: { id:id, userId:userId } });
+    const product = await Product.destroy({ where: { ref:id, userId:userId } });
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -119,7 +119,7 @@ exports.getProductByName = async (req, res) => {
     const { productId, userId, quantity, discount } = req.params;
     try {
         // Find the product by ID
-        const product = await Product.findOne({ where: { id: productId, userId: userId } });
+        const product = await Product.findOne({ where: { ref: productId, userId: userId } });
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
@@ -144,7 +144,7 @@ exports.getProductByName = async (req, res) => {
         if (!soldProduct) {
             // If the product hasn't been sold before with the same price, create a new entry in the Solded model
             soldProduct = await Solded.create({
-                id: product.id,
+                ref: product.ref,
                 name: product.name,
                 price: discountedPrice,
                 quantity: sellQuantity,

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
 import Cookies from 'js-cookie';
+import { ref } from '../../../../../server/database/models/product';
 
 const Create = () => {
   const userIdFromCookie = Cookies.get('token');
@@ -22,7 +23,7 @@ const Create = () => {
 
   const handleSubmit = async () => {
     const data = {
-      id:id,
+      ref:id,
       brand:brand,
       phoneHolder: clientName,
       holderNumber: clientNumber,

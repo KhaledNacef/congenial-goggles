@@ -47,7 +47,7 @@ exports.updateVetrineBystatus = async (req, res) => {
     const { userId, id } = req.params;
   const { status } = req.body;
   try {
-    const vetrine = await Vetrine.findOne({where:{userId:userId,id:id}});
+    const vetrine = await Vetrine.findOne({where:{userId:userId,ref:id}});
     if (!vetrine) {
       return res.status(404).json({ message: 'Phone not found' });
     }
@@ -63,7 +63,7 @@ exports.updateVetrineBystatus = async (req, res) => {
 exports.deleteVetrineById = async (req, res) => {
   const { userId,id } = req.params;
   try {
-    const vetrine = await Vetrine.destroy({ where: { id: id,userId:userId } });
+    const vetrine = await Vetrine.destroy({ where: { ref: id,userId:userId } });
     if (!vetrine) {
       return res.status(404).json({ message: 'Vetrine not found' });
     }
@@ -80,7 +80,7 @@ exports.sellVetrine = async (req, res) => {
   const { vetrineId,userId } = req.params;
   try {
     // Find the Vetrine by ID
-    const vetrine = await Vetrine.findOne({ where: { id: vetrineId,userId:userId } });
+    const vetrine = await Vetrine.findOne({ where: { ref: vetrineId,userId:userId } });
     if (!vetrine) {
       return res.status(404).json({ message: 'Vetrine not found' });
     }
@@ -88,7 +88,7 @@ exports.sellVetrine = async (req, res) => {
     
     
        await SoldedVetrine.create({
-        id:vetrine.id,
+        ref:vetrine.ref,
         brand: vetrine.brand,
         type:vetrine.type,
         serie:vetrine.serie,

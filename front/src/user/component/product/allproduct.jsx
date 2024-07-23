@@ -168,7 +168,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align="center">{row.id}</TableCell>
+                    <TableCell align="center">{row.ref}</TableCell>
                     <TableCell align="center">{row.name}</TableCell>
                     <TableCell align="center">{row.price}DT</TableCell>
                     <TableCell align="center">{row.priceU}DT</TableCell>
@@ -177,23 +177,23 @@ const Allproduct = ({ filteredData, setDataA }) => {
                       <img src={row.image} alt="Product" style={{ maxWidth: '100px', maxHeight: '100px' }} />
                     </TableCell>
                     <TableCell align="center">
-                      <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" sx={{ backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }} size="small">
+                      <Button onClick={() => { setSelectedId(row.ref); setView('up'); }} variant="contained" sx={{ backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }} size="small">
                         Mettre à jour la quantité
                       </Button>
-                      <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained" size="small" sx={{ marginLeft: 1, backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>
+                      <Button onClick={() => { setSelectedId(row.ref); setView('sell'); }} variant="contained" size="small" sx={{ marginLeft: 1, backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>
                         Vendre
                       </Button>
-                      <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1, fontWeight: 500 }}>
+                      <Button onClick={() => { setSelectedId(row.ref); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1, fontWeight: 500 }}>
                         Modifier le prix
                       </Button>
-                      <Button onClick={() => { setSelectedId(row.id); setView('priceu'); }} variant="contained" color="secondary" size="small" sx={{ marginLeft: 1, fontWeight: 500 }}>
+                      <Button onClick={() => { setSelectedId(row.ref); setView('priceu'); }} variant="contained" color="secondary" size="small" sx={{ marginLeft: 1, fontWeight: 500 }}>
                         Modifier Prix-U
                       </Button>
                       <IconButton onClick={() => handleOpenDeleteDialog(row.id)} aria-label="delete" color="secondary">
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
-                    {(view === 'sell' && selectedId === row.id) && (
+                    {(view === 'sell' && selectedId === row.ref) && (
                       <TableCell align="center" style={{ margin: '10px' }}>
                         <TextField
                           label="Quantité à vendre"
@@ -212,12 +212,12 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           marks
                           sx={{ marginTop: '20px', marginBottom: '10px' }}
                         />
-                        <Button onClick={() => sellProduct(row.id, sellQuantity, discount)} variant="contained" color="success" size="small">
+                        <Button onClick={() => sellProduct(row.ref, sellQuantity, discount)} variant="contained" color="success" size="small">
                           Confirmer la vente
                         </Button>
                       </TableCell>
                     )}
-                    {(view === 'up' && selectedId === row.id) && (
+                    {(view === 'up' && selectedId === row.ref) && (
                       <TableCell align="center" style={{ margin: '10px' }}>
                         <TextField
                           label="Quantité mise à jour"
@@ -225,12 +225,12 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={upQuantity}
                           onChange={(e) => setUpQuantity(e.target.value)}
                         />
-                        <Button onClick={() => updateQuantity(row.id, upQuantity)} variant="contained" color="success" size="small">
+                        <Button onClick={() => updateQuantity(row.ref, upQuantity)} variant="contained" color="success" size="small">
                           Confirmer
                         </Button>
                       </TableCell>
                     )}
-                    {(view === 'price' && selectedId === row.id) && (
+                    {(view === 'price' && selectedId === row.ref) && (
                       <TableCell align="center" style={{ margin: '10px' }}>
                         <TextField
                           label="Prix mis à jour"
@@ -238,12 +238,12 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={pricee}
                           onChange={(e) => setPricee(e.target.value)}
                         />
-                        <Button onClick={() => updatePrice(row.id, pricee)} variant="contained" color="success" size="small">
+                        <Button onClick={() => updatePrice(row.ref, pricee)} variant="contained" color="success" size="small">
                           Confirmer
                         </Button>
                       </TableCell>
                     )}
-                    {(view === 'priceu' && selectedId === row.id) && (
+                    {(view === 'priceu' && selectedId === row.ref) && (
                       <TableCell align="center" style={{ margin: '10px' }}>
                         <TextField
                           label="Prix-U mis à jour"
@@ -251,7 +251,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={priceU}
                           onChange={(e) => setPriceU(e.target.value)}
                         />
-                        <Button onClick={() => updatePriceu(row.id, priceU)} variant="contained" color="success" size="small">
+                        <Button onClick={() => updatePriceu(row.ref, priceU)} variant="contained" color="success" size="small">
                           Confirmer
                         </Button>
                       </TableCell>

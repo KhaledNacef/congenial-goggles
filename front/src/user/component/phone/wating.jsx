@@ -23,7 +23,7 @@ const Wat = ({ searchQuery }) => {
 
   const filteredData = data.filter((row) =>
     row.phoneHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    row.id.toString().includes(searchQuery)
+    row.ref.toString().includes(searchQuery)
   );
 
   const ActionsButtons = ({ id, updateStatus }) => (
@@ -109,7 +109,7 @@ const Wat = ({ searchQuery }) => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                    <TableCell align="center">{row.id}</TableCell>
+                    <TableCell align="center">{row.ref}</TableCell>
                     <TableCell align="center">{row.brand}</TableCell>
                     <TableCell align="center">{row.phoneHolder}</TableCell>
                     <TableCell align="center">{row.holderNumber}</TableCell>
@@ -126,7 +126,7 @@ const Wat = ({ searchQuery }) => {
                     </TableCell>
                     <TableCell align="center">{row.createdAt.slice(0, 10)}</TableCell>
                     <TableCell align="center">
-                      <ActionsButtons id={row.id} updateStatus={updateStatus} />
+                      <ActionsButtons id={row.ref} updateStatus={updateStatus} />
                     </TableCell>
                   </TableRow>
                 ))}

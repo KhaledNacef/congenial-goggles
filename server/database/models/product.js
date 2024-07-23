@@ -1,17 +1,17 @@
 const { DataTypes } = require('sequelize');
 
 const Product =  {
-  ID: {
+  id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false
+    allowNull: false,
+    autoIncrement: true, 
 
   },
   
-  id: {
+  ref: {
     type: DataTypes.INTEGER,
     allowNull: false
-
   },
   name: {
     type: DataTypes.STRING,

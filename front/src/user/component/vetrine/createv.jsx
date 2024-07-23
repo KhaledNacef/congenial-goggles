@@ -18,7 +18,7 @@ const Createv = () => {
 
   const handleSubmit = async () => {
     const data = {
-      id:id,
+      ref:id,
       brand:brand,
       type:type,
       serie:serie,

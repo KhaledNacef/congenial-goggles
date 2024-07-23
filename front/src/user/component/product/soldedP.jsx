@@ -89,7 +89,7 @@ const SoldedP = ({ filteredData, setDataA }) => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => (
                     <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                      <TableCell>{row.id}</TableCell>
+                      <TableCell>{row.ref}</TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.price}DT</TableCell>
                       <TableCell>{row.buyprice}DT</TableCell>

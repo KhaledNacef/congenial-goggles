@@ -34,7 +34,7 @@ exports.updatePcStatus = async (req, res) => {
   const { userId, id } = req.params;
   const { status } = req.body;
   try {
-    const pc = await Pc.findOne({where:{userId:userId,id:id}});
+    const pc = await Pc.findOne({where:{userId:userId,ref:id}});
     if (!pc) {
       return res.status(404).json({ message: 'Phone not found' });
     }
@@ -51,7 +51,7 @@ exports.updatePcPrice = async (req, res) => {
   const { userId, id } = req.params;
   const { price } = req.body;
   try {
-    const pc = await Pc.findOne({where:{userId:userId,id:id}});
+    const pc = await Pc.findOne({where:{userId:userId,ref:id}});
     if (!pc ) {
       return res.status(404).json({ message: 'Pc not found' });
     }
@@ -110,7 +110,7 @@ exports.getWaitingPc = async (req, res) => {
 exports.deletepc = async (req, res) => {
   const { userId, id } = req.params;
   try {
-    const pc = await Pc.destroy({ where: { userId: userId, id: id } });
+    const pc = await Pc.destroy({ where: { userId: userId, ref: id } });
     if (!pc) {
       return res.status(404).json({ message: 'Phone not found' });
     }

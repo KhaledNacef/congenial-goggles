@@ -1,17 +1,17 @@
 const { DataTypes,Sequelize } = require('sequelize');
 
 const Soldedvetrine =  {
-  ID: {
+  id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false
+    allowNull: false,
+    autoIncrement: true, 
 
   },
   
-  id: {
+  ref: {
     type: DataTypes.INTEGER,
     allowNull: false
-
   },
   brand: {
     type: DataTypes.STRING,

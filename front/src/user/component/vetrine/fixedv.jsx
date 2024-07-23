@@ -95,7 +95,7 @@ const Fixeddv = ({ searchQuery }) => {
 
   const filteredData = data.filter((row) =>
     row.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    row.id.toString().includes(searchQuery)
+    row.ref.toString().includes(searchQuery)
   );
 
   return (
@@ -121,7 +121,7 @@ const Fixeddv = ({ searchQuery }) => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align='center'>{row.id}</TableCell>
+                    <TableCell align='center'>{row.ref}</TableCell>
                     <TableCell align='center'>{row.brand}</TableCell>
                     <TableCell align='center'>{row.serie}</TableCell>
                     <TableCell align='center'>{row.type}</TableCell>
@@ -142,10 +142,10 @@ const Fixeddv = ({ searchQuery }) => {
                     <TableCell align='center' sx={{ bgcolor: '#99cc99', borderRadius: 30, fontWeight: 'bold' }}>{row.status}</TableCell>
                     <TableCell align='center'>{new Date(row.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell align='center'>
-                      <IconButton onClick={() => handleView(row.id)} aria-label="Edit" size="small">
+                      <IconButton onClick={() => handleView(row.ref)} aria-label="Edit" size="small">
                         <EditIcon />
                       </IconButton>
-                      {view && selectedId === row.id && (
+                      {view && selectedId === row.ref && (
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
                           <Button onClick={handleBuy} variant="contained" >
                             Buy

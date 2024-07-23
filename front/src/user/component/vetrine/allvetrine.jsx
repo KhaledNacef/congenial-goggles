@@ -88,7 +88,7 @@ const Allvetrine = ({ searchQuery }) => {
 
   const filteredData = data.filter((row) =>
     row.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    row.id.toString().includes(searchQuery)
+    row.ref.toString().includes(searchQuery)
   );
 
   return (
@@ -161,7 +161,7 @@ const Allvetrine = ({ searchQuery }) => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align="center">{row.id}</TableCell>
+                    <TableCell align="center">{row.ref}</TableCell>
                     <TableCell align="center">{row.brand}</TableCell>
                     <TableCell align="center">{row.serie}</TableCell>
                     <TableCell align="center">{row.type}</TableCell>
@@ -199,7 +199,7 @@ const Allvetrine = ({ searchQuery }) => {
                     <TableCell align="center">
                       <IconButton
                         color="secondary"
-                        onClick={() => handleOpenDialog(row.id)}
+                        onClick={() => handleOpenDialog(row.ref)}
                       >
                         <DeleteIcon />
                       </IconButton>

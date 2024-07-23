@@ -34,7 +34,7 @@ exports.updatePhoneStatus = async (req, res) => {
   const { userId, id } = req.params;
   const { status } = req.body;
   try {
-    const phone = await Phone.findOne({where:{userId:userId,id:id}});
+    const phone = await Phone.findOne({where:{userId:userId,ref:id}});
     if (!phone) {
       return res.status(404).json({ message: 'Phone not found' });
     }
@@ -51,7 +51,7 @@ exports.updatePhonePrice = async (req, res) => {
   const { userId, id } = req.params;
   const { price } = req.body;
   try {
-    const phone = await Phone.findOne({where:{userId:userId,id:id}});
+    const phone = await Phone.findOne({where:{userId:userId,ref:id}});
     if (!phone ) {
       return res.status(404).json({ message: 'Phone not found' });
     }
@@ -110,7 +110,7 @@ exports.getWaitingPhones = async (req, res) => {
 exports.deletePhone = async (req, res) => {
   const { userId, id } = req.params;
   try {
-    const phone = await Phone.destroy({ where: { userId: userId, id: id } });
+    const phone = await Phone.destroy({ where: { userId: userId, ref: id } });
     if (!phone) {
       return res.status(404).json({ message: 'Phone not found' });
     }

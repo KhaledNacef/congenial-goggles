@@ -107,7 +107,7 @@ const Watv = ({ searchQuery }) => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align="center">{row.id}</TableCell>
+                    <TableCell align="center">{row.ref}</TableCell>
                     <TableCell align="center">{row.brand}</TableCell>
                     <TableCell align="center">{row.serie}</TableCell>
                     <TableCell align="center">{row.type}</TableCell>
@@ -130,7 +130,7 @@ const Watv = ({ searchQuery }) => {
                     </TableCell>
                     <TableCell align="center">{new Date(row.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell align="center">
-                      <ActionsButtons id={row.id} />
+                      <ActionsButtons id={row.ref} />
                     </TableCell>
                   </TableRow>
                 ))}

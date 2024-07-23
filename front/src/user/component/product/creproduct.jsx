@@ -18,7 +18,7 @@ export default function Creproduct() {
   // Function to handle form submission
   const handleSubmit = async () => {
     const formData = {
-      id:id,
+      ref:id,
       name: name,
       price: price,
       buyprice:priceU,

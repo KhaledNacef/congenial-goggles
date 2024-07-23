@@ -22,7 +22,7 @@ const Createpc = () => {
 
   const handleSubmit = async () => {
     const data = {
-      id:id,
+      ref:id,
       brand:brand,
       pcHolder: clientName,
       holderNumber: clientNumber,

@@ -81,7 +81,7 @@ const Fixeddpc = ({ searchQuery }) => {
 
   const filteredData = data.filter((row) =>
     row.pcHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    row.id.toString().includes(searchQuery)
+    row.ref.toString().includes(searchQuery)
   );
 
   return (
@@ -107,7 +107,7 @@ const Fixeddpc = ({ searchQuery }) => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                    <TableCell align='center'>{row.id}</TableCell>
+                    <TableCell align='center'>{row.ref}</TableCell>
                     <TableCell align='center'>{row.brand}</TableCell>
                     <TableCell align='center'>{row.pcHolder}</TableCell>
                     <TableCell align='center'>{row.holderNumber}</TableCell>
@@ -122,10 +122,10 @@ const Fixeddpc = ({ searchQuery }) => {
                     <TableCell align='center' sx={{ bgcolor: '#99cc99', borderRadius: 30, fontWeight: 'bold' }}>{row.status}</TableCell>
                     <TableCell align='center'>{row.createdAt.slice(0, 10)}</TableCell>
                     <TableCell align='center'>
-                      <IconButton onClick={() => { setSelectedId(row.id); handleView(); }} aria-label="Edit" size="small">
+                      <IconButton onClick={() => { setSelectedId(row.ref); handleView(); }} aria-label="Edit" size="small">
                         <EditIcon />
                       </IconButton>
-                      {(view && selectedId === row.id) && (
+                      {(view && selectedId === row.ref) && (
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
                           <TextField
                             label="Prix"

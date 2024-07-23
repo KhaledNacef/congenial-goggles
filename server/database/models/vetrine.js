@@ -1,17 +1,17 @@
 const { DataTypes,Sequelize } = require('sequelize');
 
 const Vetrine =  {
-  ID: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    allowNull: false
-
-  },
- 
   id: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    primaryKey: true,
+    allowNull: false,
+    autoIncrement: true, 
 
+  },
+  
+  ref: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   },
   brand: {
     type: DataTypes.STRING,
