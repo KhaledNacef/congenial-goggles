@@ -1,9 +1,15 @@
 const { DataTypes } = require('sequelize');
 
 const Solded =  {
-  id: {
+
+  ID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    allowNull: false
+
+  },
+  id: {
+    type: DataTypes.INTEGER,
     allowNull: false
   },
   name: {
@@ -28,7 +34,7 @@ const Solded =  {
   
   image: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   }
 };
 

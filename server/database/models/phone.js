@@ -1,9 +1,14 @@
 const { DataTypes,Sequelize } = require('sequelize');
 
 const Phone =  {
-  id: {
+  ID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    allowNull: false
+
+  },
+  id: {
+    type: DataTypes.INTEGER,
     allowNull: false
 
   },

@@ -1,6 +1,8 @@
 const { DataTypes } = require('sequelize');
 
 const User = {
+  
+  
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,

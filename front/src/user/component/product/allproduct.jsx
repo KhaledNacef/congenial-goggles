@@ -17,10 +17,10 @@ import Cookies from 'js-cookie';
 const Allproduct = ({ filteredData, setDataA }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
-  const [sellQuantity, setSellQuantity] = useState(0);
-  const [upQuantity, setUpQuantity] = useState(0);
-  const [pricee, setPricee] = useState(0);
-  const [priceU, setPriceU] = useState(0);
+  const [sellQuantity, setSellQuantity] = useState('');
+  const [upQuantity, setUpQuantity] = useState('');
+  const [pricee, setPricee] = useState('');
+  const [priceU, setPriceU] = useState('');
   const [discount, setDiscount] = useState(1); // Default discount of 1
 
   const [view, setView] = useState('non');
@@ -166,12 +166,12 @@ const Allproduct = ({ filteredData, setDataA }) => {
             <TableBody>
               {filteredData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                .map((row) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     <TableCell align="center">{row.id}</TableCell>
                     <TableCell align="center">{row.name}</TableCell>
                     <TableCell align="center">{row.price}DT</TableCell>
-                    <TableCell align="center">{row.buyprice}DT</TableCell>
+                    <TableCell align="center">{row.priceU}DT</TableCell>
                     <TableCell align="center">{row.quantity}</TableCell>
                     <TableCell align="center">
                       <img src={row.image} alt="Product" style={{ maxWidth: '100px', maxHeight: '100px' }} />
@@ -185,6 +185,9 @@ const Allproduct = ({ filteredData, setDataA }) => {
                       </Button>
                       <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1, fontWeight: 500 }}>
                         Modifier le prix
+                      </Button>
+                      <Button onClick={() => { setSelectedId(row.id); setView('priceu'); }} variant="contained" color="secondary" size="small" sx={{ marginLeft: 1, fontWeight: 500 }}>
+                        Modifier Prix-U
                       </Button>
                       <IconButton onClick={() => handleOpenDeleteDialog(row.id)} aria-label="delete" color="secondary">
                         <DeleteIcon />
@@ -236,6 +239,19 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           onChange={(e) => setPricee(e.target.value)}
                         />
                         <Button onClick={() => updatePrice(row.id, pricee)} variant="contained" color="success" size="small">
+                          Confirmer
+                        </Button>
+                      </TableCell>
+                    )}
+                    {(view === 'priceu' && selectedId === row.id) && (
+                      <TableCell align="center" style={{ margin: '10px' }}>
+                        <TextField
+                          label="Prix-U mis à jour"
+                          type="number"
+                          value={priceU}
+                          onChange={(e) => setPriceU(e.target.value)}
+                        />
+                        <Button onClick={() => updatePriceu(row.id, priceU)} variant="contained" color="success" size="small">
                           Confirmer
                         </Button>
                       </TableCell>

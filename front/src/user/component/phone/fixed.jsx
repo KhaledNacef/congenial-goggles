@@ -134,7 +134,7 @@ const Fixedd = ({ searchQuery }) => {
                             onChange={(e) => setPrice(e.target.value)}
                             sx={{ marginRight: '10px' }}
                           />
-                          <Button onClick={updatePrice} variant="contained" sx={{ backgroundColor: '#FCF6F5FF' }}>
+                          <Button onClick={updatePrice} variant="contained" >
                             OK
                           </Button>
                         </Box>
