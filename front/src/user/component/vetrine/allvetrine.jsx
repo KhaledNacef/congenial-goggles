@@ -24,8 +24,8 @@ const Allvetrine = ({ searchQuery }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [data, setData] = useState([]);
-  // const [openDialog, setOpenDialog] = useState(false);
-  // const [deleteId, setDeleteId] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
@@ -65,26 +65,26 @@ const Allvetrine = ({ searchQuery }) => {
     getall();
   }, []);
 
-  // const handleOpenDialog = (id) => {
-  //   setDeleteId(id);
-  //   setOpenDialog(true);
-  // };
+  const handleOpenDialog = (id) => {
+    setDeleteId(id);
+    setOpenDialog(true);
+  };
 
-  // const handleCloseDialog = () => {
-  //   setOpenDialog(false);
-  //   setDeleteId(null);
-  // };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setDeleteId(null);
+  };
 
-  // const confirmDeletePhone = async () => {
-  //   try {
-  //     await axios.delete(`${baseUrl}/vetrine/delete/${userIdFromCookie}/${deleteId}`);
-  //     getall();
-  //   } catch (error) {
-  //     console.error('Error while deleting the phone record:', error);
-  //   } finally {
-  //     handleCloseDialog();
-  //   }
-  // };
+  const confirmDeletePhone = async () => {
+    try {
+      await axios.delete(`${baseUrl}/vetrine/delvetrine/${userIdFromCookie}/${deleteId}`);
+      getall();
+    } catch (error) {
+      console.error('Error while deleting the phone record:', error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
 
   const filteredData = data.filter((row) =>
     row.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -196,7 +196,14 @@ const Allvetrine = ({ searchQuery }) => {
                       {row.status}
                     </TableCell>
                     <TableCell align="center">{new Date(row.createdAt).toLocaleDateString()}</TableCell>
-                   
+                    <TableCell align="center">
+                      <IconButton
+                        color="secondary"
+                        onClick={() => handleOpenDialog(row.id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
@@ -213,7 +220,7 @@ const Allvetrine = ({ searchQuery }) => {
         />
       </Paper>
 
-      {/* <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Confirmer la suppression</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -228,7 +235,7 @@ const Allvetrine = ({ searchQuery }) => {
             Supprimer
           </Button>
         </DialogActions>
-      </Dialog> */}
+      </Dialog>
     </div>
   );
 };

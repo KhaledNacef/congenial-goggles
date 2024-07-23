@@ -13,6 +13,7 @@ router.get('/vetrinesgetstatus/:userId/:status', vetrineController.getstatusVetr
 // Route to delete a Vetrine by ID
 router.put('/vetrinesatuts/:userId/:id', vetrineController.updateVetrineBystatus);
 
+router.delete('delvetrine/:userId/:id',vetrineController.deleteVetrineById)
 // Route to sell a Vetrine
 router.put('/vetrinesell/:vetrineId/:userId', vetrineController.sellVetrine);
 

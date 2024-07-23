@@ -147,7 +147,7 @@ const Fixeddv = ({ searchQuery }) => {
                       </IconButton>
                       {view && selectedId === row.id && (
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
-                          <Button onClick={handleBuy} variant="contained" sx={{ backgroundColor: '#FCF6F5FF' }}>
+                          <Button onClick={handleBuy} variant="contained" >
                             Buy
                           </Button>
                         </Box>

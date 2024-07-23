@@ -9,7 +9,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Typography, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slider } from '@mui/material';
+import { Typography, IconButton, Slider } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -21,13 +21,11 @@ const Allproduct = ({ filteredData, setDataA }) => {
   const [upQuantity, setUpQuantity] = useState(0);
   const [pricee, setPricee] = useState(0);
   const [priceU, setPriceU] = useState(0);
-  const [discount, setDiscount] = useState(1); // Default discount of 5%
+  const [discount, setDiscount] = useState(1); // Default discount of 1
 
   const [view, setView] = useState('non');
   const [selectedId, setSelectedId] = useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [openDiscountDialog, setOpenDiscountDialog] = useState(false);
-  const [openSellDialog, setOpenSellDialog] = useState(false);
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
@@ -139,35 +137,6 @@ const Allproduct = ({ filteredData, setDataA }) => {
     handleCloseDeleteDialog();
   };
 
-  const handleOpenDiscountDialog = () => {
-    setOpenDiscountDialog(true);
-  };
-
-  const handleCloseDiscountDialog = () => {
-    setOpenDiscountDialog(false);
-  };
-
-  const handleConfirmDiscount = () => {
-    sellProduct(selectedId, sellQuantity, discount);
-    handleCloseDiscountDialog();
-  };
-
-  const handleOpenSellDialog = (id) => {
-    setSelectedId(id);
-    setOpenSellDialog(true);
-  };
-
-  const handleCloseSellDialog = () => {
-    setSelectedId(null);
-    setSellQuantity('');
-    setOpenSellDialog(false);
-  };
-
-  const handleConfirmSell = () => {
-    handleCloseSellDialog();
-    handleOpenDiscountDialog();
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -211,7 +180,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                       <Button onClick={() => { setSelectedId(row.id); setView('up'); }} variant="contained" sx={{ backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }} size="small">
                         Mettre à jour la quantité
                       </Button>
-                      <Button onClick={() => handleOpenSellDialog(row.id)} variant="contained" size="small" sx={{ marginLeft: 1, backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>
+                      <Button onClick={() => { setSelectedId(row.id); setView('sell'); }} variant="contained" size="small" sx={{ marginLeft: 1, backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>
                         Vendre
                       </Button>
                       <Button onClick={() => { setSelectedId(row.id); setView('price'); }} variant="contained" color="info" size="small" sx={{ marginLeft: 1, fontWeight: 500 }}>
@@ -229,37 +198,46 @@ const Allproduct = ({ filteredData, setDataA }) => {
                           value={sellQuantity}
                           onChange={(e) => setSellQuantity(e.target.value)}
                         />
-                        <Button onClick={() => handleOpenDiscountDialog(row.id)} variant="contained" style={{ marginLeft: '10px', backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>Choisir Discount</Button>
+                        <Slider
+                          value={discount}
+                          onChange={(e, newValue) => setDiscount(newValue)}
+                          aria-labelledby="discount-slider"
+                          valueLabelDisplay="auto"
+                          step={1}
+                          min={0}
+                          max={5}
+                          marks
+                          sx={{ marginTop: '20px', marginBottom: '10px' }}
+                        />
+                        <Button onClick={() => sellProduct(row.id, sellQuantity, discount)} variant="contained" color="success" size="small">
+                          Confirmer la vente
+                        </Button>
                       </TableCell>
                     )}
                     {(view === 'up' && selectedId === row.id) && (
                       <TableCell align="center" style={{ margin: '10px' }}>
                         <TextField
-                          label="Quantité à mettre à jour"
+                          label="Quantité mise à jour"
                           type="number"
                           value={upQuantity}
                           onChange={(e) => setUpQuantity(e.target.value)}
                         />
-                        <Button onClick={() => { updateQuantity(row.id, upQuantity); }} variant="contained" style={{ marginLeft: '10px', backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>OK</Button>
+                        <Button onClick={() => updateQuantity(row.id, upQuantity)} variant="contained" color="success" size="small">
+                          Confirmer
+                        </Button>
                       </TableCell>
                     )}
                     {(view === 'price' && selectedId === row.id) && (
                       <TableCell align="center" style={{ margin: '10px' }}>
                         <TextField
-                          label="Prix"
+                          label="Prix mis à jour"
                           type="number"
                           value={pricee}
                           onChange={(e) => setPricee(e.target.value)}
                         />
-                        <Button onClick={() => { updatePrice(row.id, pricee); }} variant="contained" style={{ marginLeft: '10px', backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>OK</Button>
-                        <TextField
-                          label="Prix-U"
-                          type="number"
-                          value={priceU}
-                          onChange={(e) => setPriceU(e.target.value)}
-                          sx={{ marginLeft: '10px' }}
-                        />
-                        <Button onClick={() => { updatePriceu(row.id, priceU); }} variant="contained" style={{ marginLeft: '10px', backgroundColor: '#89ABE3FF', color: '#FCF6F5FF', fontWeight: 500 }}>OK</Button>
+                        <Button onClick={() => updatePrice(row.id, pricee)} variant="contained" color="success" size="small">
+                          Confirmer
+                        </Button>
                       </TableCell>
                     )}
                   </TableRow>
@@ -268,7 +246,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[100, 200, 300]}
           component="div"
           count={filteredData.length}
           rowsPerPage={rowsPerPage}
@@ -277,88 +255,8 @@ const Allproduct = ({ filteredData, setDataA }) => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <Dialog
-        open={openDeleteDialog}
-        onClose={handleCloseDeleteDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Confirmer la suppression"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Êtes-vous sûr de vouloir supprimer ce produit ?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDeleteDialog} color="primary">
-            Annuler
-          </Button>
-          <Button onClick={handleConfirmDelete} color="primary" autoFocus>
-            Supprimer
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog
-        open={openSellDialog}
-        onClose={handleCloseSellDialog}
-        aria-labelledby="sell-dialog-title"
-        aria-describedby="sell-dialog-description"
-      >
-        <DialogTitle id="sell-dialog-title">{"Vendre le produit"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="sell-dialog-description">
-            Entrez la quantité que vous souhaitez vendre.
-          </DialogContentText>
-          <TextField
-            label="Quantité à vendre"
-            type="number"
-            fullWidth
-            value={sellQuantity}
-            onChange={(e) => setSellQuantity(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseSellDialog} color="primary">
-            Annuler
-          </Button>
-          <Button onClick={handleConfirmSell} color="primary" autoFocus>
-            Continuer
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog
-        open={openDiscountDialog}
-        onClose={handleCloseDiscountDialog}
-        aria-labelledby="discount-dialog-title"
-        aria-describedby="discount-dialog-description"
-      >
-        <DialogTitle id="discount-dialog-title">{"Choisir un discount"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="discount-dialog-description">
-            Sélectionnez un discount pour le produit que vous souhaitez vendre.
-          </DialogContentText>
-          <Slider
-            value={discount}
-            onChange={(e, newValue) => setDiscount(newValue)}
-            aria-labelledby="discount-slider"
-            valueLabelDisplay="auto"
-            step={1}
-            min={0}
-            max={5}
-            marks
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDiscountDialog} color="primary">
-            Annuler
-          </Button>
-          <Button onClick={handleConfirmDiscount} color="primary" autoFocus>
-            Appliquer
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
-}
+};
 
 export default Allproduct;
