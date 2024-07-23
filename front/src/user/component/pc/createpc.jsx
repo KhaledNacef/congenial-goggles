@@ -20,19 +20,7 @@ const Createpc = () => {
   const [status, setStatus] = useState('waiting');
   const [id, setId] = useState(1); // Initialize ID to 0
 
-  // Fetch the current max ID from the server on component mount
-  useEffect(() => {
-    const fetchMaxId = async () => {
-      try {
-        const response = await axios.get('https://api.deviceshopleader.com/api/pc/currentMaxId');
-        setId(response.data.maxId + 1); // Set the next ID
-      } catch (error) {
-        console.error(error);
-        // Handle error if needed
-      }
-    };
-    fetchMaxId();
-  }, []);
+ 
 
   const handleSubmit = async () => {
     const data = {

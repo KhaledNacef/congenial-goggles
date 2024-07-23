@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 
 const Create = () => {
   const userIdFromCookie = Cookies.get('token');
+
   const [brand, setBrand] = useState('');
   const [clientName, setClientName] = useState('');
   const [clientNumber, setClientNumber] = useState('');
@@ -18,28 +19,36 @@ const Create = () => {
   const [price, setPrice] = useState(0);
   const [deliveryDate, setDeliveryDate] = useState(new Date().toISOString().slice(0, 10));
   const [status, setStatus] = useState('waiting');
-  const [id, setId] = useState(1); // Initialize auto-increment ID
+  const [id, setId] = useState(1);
+
+  useEffect(() => {
+    const lastId = localStorage.getItem('lastId');
+    if (lastId) {
+      setId(parseInt(lastId, 10) + 1);
+    }
+  }, []);
 
   const handleSubmit = async () => {
     const data = {
-      ref:id,
-      brand:brand,
+      ref: id,
+      brand,
       phoneHolder: clientName,
       holderNumber: clientNumber,
-      serie:serie,
-      problem:problem,
-      remarque:remarque,
-      cout:cout,
-      maindoeuvre:maindoeuvre,
-      accompte:accompte,
-      price:price,
+      serie,
+      problem,
+      remarque,
+      cout,
+      maindoeuvre,
+      accompte,
+      price,
       delivredOn: deliveryDate,
-      status:status,
+      status,
       userId: userIdFromCookie
     };
 
     try {
       await axios.post('https://api.deviceshopleader.com/api/phone/tel/crate', data);
+
       setBrand('');
       setClientName('');
       setClientNumber('');
@@ -52,9 +61,11 @@ const Create = () => {
       setPrice(0);
       setDeliveryDate(new Date().toISOString().slice(0, 10));
       setStatus('waiting');
-      setId(id + 1); // Increment the ID for the next record
 
-      // Handle success feedback to the user if needed
+      const newId = id + 1;
+      setId(newId);
+      localStorage.setItem('lastId', newId); // Update the lastId in localStorage
+
     } catch (error) {
       console.log(error);
       // Handle error feedback to the user if needed
@@ -70,11 +81,11 @@ const Create = () => {
         <TextField
           label="ID"
           value={id}
-          onChange={(e) => setId(parseInt(e.target.value, 10))}
           fullWidth
           required
           sx={{ marginBottom: 2 }}
           type="number"
+          InputProps={{ readOnly: true }}
         />
         <TextField
           label="Marque"
@@ -84,7 +95,6 @@ const Create = () => {
           required
           sx={{ marginBottom: 2 }}
         />
-
         <TextField
           label="Nom du client"
           value={clientName}
@@ -93,7 +103,6 @@ const Create = () => {
           required
           sx={{ marginBottom: 2 }}
         />
-
         <TextField
           label="Numéro du client"
           value={clientNumber}
@@ -102,7 +111,6 @@ const Create = () => {
           required
           sx={{ marginBottom: 2 }}
         />
-
         <TextField
           label="Serie"
           value={serie}
@@ -111,7 +119,6 @@ const Create = () => {
           required
           sx={{ marginBottom: 2 }}
         />
-
         <TextField
           label="Problème"
           value={problem}
@@ -120,7 +127,6 @@ const Create = () => {
           required
           sx={{ marginBottom: 2 }}
         />
-
         <TextField
           label="Remarque"
           value={remarque}
@@ -129,7 +135,6 @@ const Create = () => {
           required
           sx={{ marginBottom: 2 }}
         />
-
         <TextField
           label="Cout"
           value={cout}
@@ -138,7 +143,6 @@ const Create = () => {
           required
           sx={{ marginBottom: 2 }}
         />
-
         <TextField
           label="Main d'oeuvre"
           value={maindoeuvre}
@@ -147,7 +151,6 @@ const Create = () => {
           required
           sx={{ marginBottom: 2 }}
         />
-
         <TextField
           label="Accompte"
           value={accompte}
@@ -156,9 +159,6 @@ const Create = () => {
           required
           sx={{ marginBottom: 2 }}
         />
-
-        
-
         <TextField
           label="Date de livraison"
           type="date"
@@ -168,8 +168,6 @@ const Create = () => {
           required
           sx={{ marginBottom: 2 }}
         />
-
-        
         <Button
           onClick={handleSubmit}
           variant="contained"
