@@ -3,7 +3,6 @@ import axios from 'axios';
 import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
 import Cookies from 'js-cookie';
-import { ref } from '../../../../../server/database/models/product';
 
 const Create = () => {
   const userIdFromCookie = Cookies.get('token');

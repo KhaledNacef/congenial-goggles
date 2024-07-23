@@ -1,5 +1,4 @@
 const db = require('../index');
-const { remise } = require('../models/product');
 const Solded = db.models.solded;
 const Product = db.models.product;
 
