@@ -39,7 +39,7 @@ const Create = () => {
     };
 
     try {
-      await axios.post('https://api.deviceshopleader.com/api/phone/crate', data);
+      await axios.post('https://api.deviceshopleader.com/api/phone/tel/crate', data);
       setBrand('');
       setClientName('');
       setClientNumber('');

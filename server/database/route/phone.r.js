@@ -3,7 +3,7 @@ const router = express.Router();
 const phoneController = require('../contorler/phone.c.js')
 
 // Create a new phone
-router.post('/crate', phoneController.createPhone);
+router.post('/tel/crate', phoneController.createPhone);
 
 // Get all phones
 router.get('/all/:userId', phoneController.getAllPhones);

@@ -96,12 +96,12 @@ exports.sellVetrine = async (req, res) => {
         cout:vetrine.cout,
         maindoeuvre:vetrine.maindoeuvre,
         problem:vetrine.problem,
-        status:vetrine.status,
+        status:"soldé",
         userId:userId
       });
     
 
-   
+      vetrine.status = "soldé";
     await vetrine.save()
 
     res.status(200).json({ message: 'Vetrine sold successfully', vetrine });
