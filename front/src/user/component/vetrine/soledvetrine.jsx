@@ -185,7 +185,7 @@ const Soldedvetrine = ({ searchQuery }) => {
                             ? '#f44336'
                             : row.status === 'Fixed'
                             ? '#99cc99'
-                            : '#fbef53',
+                            : '#89ABE3FF',
                         borderRadius: 30,
                         fontWeight: 'bold',
                         color: 'black',
