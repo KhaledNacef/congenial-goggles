@@ -18,7 +18,7 @@ export default function Creproduct() {
   const fetchData = async () => {
     try {
       const response = await axios.get(`https://api.deviceshopleader.com/api/product/products/${userIdFromCookie}`);
-      setDataA(response.data);
+      setData(response.data);
       const maxId = response.data.reduce((max, pc) => (pc.ref > max ? pc.ref : max), 0);
       setId(maxId + 1);
     } catch (error) {
