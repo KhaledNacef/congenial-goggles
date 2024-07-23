@@ -11,7 +11,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
+import WidgetsIcon from '@mui/icons-material/Widgets'; // New icon for PC
+import StoreIcon from '@mui/icons-material/Store'; // New icon for Vetrine
 const logo = require('../../logo1.png');
 
 const UserSidebar = ({ changevie }) => {
@@ -21,8 +22,8 @@ const UserSidebar = ({ changevie }) => {
   const boxes = [
     { text: 'Tableau de bord', icon: <DashboardIcon sx={{ fontSize: 40 }} />, action: () => changevie('dashboard') },
     { text: 'Téléphones', icon: <PhoneIcon sx={{ fontSize: 40 }} />, action: () => changevie('phone') },
-    { text: 'PC', icon: <PhoneIcon sx={{ fontSize: 40 }} />, action: () => changevie('pc') },
-    { text: 'Vetrine', icon: <StorefrontIcon sx={{ fontSize: 40 }} />, action: () => changevie('vetrine') },
+    { text: 'PC', icon: <WidgetsIcon sx={{ fontSize: 40 }} />, action: () => changevie('pc') }, // Updated icon for PC
+    { text: 'Vitrine', icon: <StoreIcon sx={{ fontSize: 40 }} />, action: () => changevie('vetrine') }, // Updated icon for Vetrine
 
     { text: 'Magasin', icon: <StorefrontIcon sx={{ fontSize: 40 }} />, action: () => changevie('Product') },
     { text: 'Profil', icon: <PersonIcon sx={{ fontSize: 40 }} />, action: () => changevie('Uprofile') },

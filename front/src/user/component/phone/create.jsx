@@ -67,7 +67,15 @@ const Create = () => {
         <Typography variant='h3' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 3, textAlign: 'center' }}>
           Créer un téléphone <PhoneIcon />
         </Typography>
-
+        <TextField
+          label="ID"
+          value={id}
+          onChange={(e) => setId(parseInt(e.target.value, 10))}
+          fullWidth
+          required
+          sx={{ marginBottom: 2 }}
+          type="number"
+        />
         <TextField
           label="Marque"
           value={brand}

@@ -49,6 +49,15 @@ export default function Creproduct() {
       <Box sx={{ textAlign: 'center' }}>
         <Typography variant='h4' sx={{ marginBottom: 3, marginTop: 3 }}>Créer un Produit <ProductIcon /></Typography>
         <TextField
+          label="ID"
+          value={id}
+          onChange={(e) => setId(parseInt(e.target.value, 10))}
+          fullWidth
+          required
+          sx={{ marginBottom: 2 }}
+          type="number"
+        />
+        <TextField
           label="Nom"
           value={name}
           onChange={(e) => setName(e.target.value)}

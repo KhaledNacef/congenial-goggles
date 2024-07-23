@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { TextField, Button, Container, Box, Typography } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -18,28 +18,43 @@ const Createpc = () => {
   const [price, setPrice] = useState(0);
   const [deliveryDate, setDeliveryDate] = useState(new Date().toISOString().slice(0, 10));
   const [status, setStatus] = useState('waiting');
-  const [id, setId] = useState(1); // Initialize auto-increment ID
+  const [id, setId] = useState(1); // Initialize ID to 0
+
+  // Fetch the current max ID from the server on component mount
+  useEffect(() => {
+    const fetchMaxId = async () => {
+      try {
+        const response = await axios.get('https://api.deviceshopleader.com/api/pc/currentMaxId');
+        setId(response.data.maxId + 1); // Set the next ID
+      } catch (error) {
+        console.error(error);
+        // Handle error if needed
+      }
+    };
+    fetchMaxId();
+  }, []);
 
   const handleSubmit = async () => {
     const data = {
-      ref:id,
-      brand:brand,
+      ref: id,
+      brand: brand,
       pcHolder: clientName,
       holderNumber: clientNumber,
-      serie:serie,
-      problem:problem,
-      remarque:remarque,
-      cout:cout,
-      maindoeuvre:maindoeuvre,
-      accompte:accompte,
-      price:price,
+      serie: serie,
+      problem: problem,
+      remarque: remarque,
+      cout: cout,
+      maindoeuvre: maindoeuvre,
+      accompte: accompte,
+      price: price,
       delivredOn: deliveryDate,
-      status:status,
+      status: status,
       userId: userIdFromCookie
     };
 
     try {
-      await axios.post('https://api.deviceshopleader.com/api/pc/crate', data);
+      await axios.post('https://api.deviceshopleader.com/api/pc/create', data);
+      // Clear form fields after successful submission
       setBrand('');
       setClientName('');
       setClientNumber('');
@@ -52,7 +67,9 @@ const Createpc = () => {
       setPrice(0);
       setDeliveryDate(new Date().toISOString().slice(0, 10));
       setStatus('waiting');
-      setId(id + 1); // Increment the ID for the next record
+
+      // Increment ID for the next record
+      setId(id + 1);
 
       // Handle success feedback to the user if needed
     } catch (error) {
@@ -67,6 +84,16 @@ const Createpc = () => {
         <Typography variant='h3' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 3, textAlign: 'center' }}>
           Créer un PC <PhoneIcon />
         </Typography>
+
+        <TextField
+          label="ID"
+          value={id}
+          onChange={(e) => setId(parseInt(e.target.value, 10))}
+          fullWidth
+          required
+          sx={{ marginBottom: 2 }}
+          type="number"
+        />
 
         <TextField
           label="Marque"
@@ -149,8 +176,6 @@ const Createpc = () => {
           sx={{ marginBottom: 2 }}
         />
 
-        
-
         <TextField
           label="Date de livraison"
           type="date"
@@ -161,7 +186,6 @@ const Createpc = () => {
           sx={{ marginBottom: 2 }}
         />
 
-        
         <Button
           onClick={handleSubmit}
           variant="contained"
