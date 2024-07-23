@@ -58,7 +58,7 @@ const Createpc = () => {
     };
 
     try {
-      await axios.post('https://api.deviceshopleader.com/api/pc/create', data);
+      await axios.post('https://api.deviceshopleader.com/api/pc/crate', data);
       // Clear form fields after successful submission
       setBrand('');
       setClientName('');
@@ -74,6 +74,7 @@ const Createpc = () => {
       setStatus('waiting');
 
       // Increment ID for the next record
+      getall();
 
       // Handle success feedback to the user if needed
     } catch (error) {

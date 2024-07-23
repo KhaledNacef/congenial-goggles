@@ -72,7 +72,8 @@ const Create = () => {
       setDeliveryDate(new Date().toISOString().slice(0, 10));
       setStatus('waiting');
 
-      
+      getall();
+
 
     } catch (error) {
       console.log(error);

@@ -52,6 +52,7 @@ export default function Creproduct() {
       setQuantity(0);
       setImage('');
       setPriceU(0)
+      fetchData();
 
       // You may want to add logic to handle success/failure feedback to the user
     } catch (error) {

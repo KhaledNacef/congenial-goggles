@@ -57,7 +57,7 @@ const Createv = () => {
       setMaindoeuvre('');
       setPrice('');
       setStatus('waiting');
-      setId(id + 1); // Increment the ID for the next record
+      getall();
 
       // Handle success feedback to the user if needed
     } catch (error) {
