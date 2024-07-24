@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import Cookies from 'js-cookie';
+import { BarChart } from '@mui/x-charts/BarChart';
+import { Typography, Box, Grid } from '@mui/material';
+
 const userIdFromCookie = Cookies.get('token');
 
 const Pcdata = () => {

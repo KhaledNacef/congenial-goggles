@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { BarChart } from '@mui/x-charts/BarChart';
+import { Typography, Box, Grid } from '@mui/material';
 
 const Proddata = () => {
     const [productdata, setProductdata] = useState([]);
