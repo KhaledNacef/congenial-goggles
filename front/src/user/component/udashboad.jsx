@@ -141,88 +141,354 @@ const baseUrl="https://api.deviceshopleader.com/api"
     }, []);
 
     // Labels des mois
-    const monthLabels = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
-const dayLabels = Array.from({ length: 31 }, (_, i) => i + 1);
-
+    // Utility function to sort values from greatest to smallest and then subtract
+const calculateBenefits = (values) => {
+    // Sort values from greatest to smallest
+    const sortedValues = values.sort((a, b) => b - a);
     
-// Helper function to calculate daily revenue and benefits
-const calculateDailyRevenueAndBenefits = (data, dateField, valueFields, excludeStatus) => {
-    return dayLabels.map(day => {
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth();
-    
-        const filteredData = data.filter(item => {
-            const itemDate = new Date(item[dateField]);
-            return (
-                itemDate.getFullYear() === currentYear &&
-                itemDate.getMonth() === currentMonth &&
-                itemDate.getDate() === day &&
-                item.status !== excludeStatus
-            );
-        });
-    
-        const totalRevenue = filteredData.reduce((total, item) => total + valueFields.reduce((sum, field) => sum + (item[field] || 0), 0), 0);
-        const totalBenefits = filteredData.reduce((total, item) => total + (valueFields.reduce((sum, field) => sum + (item[field] || 0), 0)), 0);
-    
-        return { totalRevenue, totalBenefits };
-    });
+    // Calculate benefits by subtracting from the greatest value
+    let result = 0;
+    for (let i = 0; i < sortedValues.length; i++) {
+        result += (i === 0) ? sortedValues[i] : -sortedValues[i];
+    }
+    return result;
 };
 
-// Helper function to calculate monthly revenue and benefits
-const calculateMonthlyRevenueAndBenefits = (data, dateField, valueFields, excludeStatus) => {
-    return monthLabels.map((month, index) => {
-        const currentYear = new Date().getFullYear();
-    
-        const filteredData = data.filter(item => {
-            const itemDate = new Date(item[dateField]);
-            return (
-                itemDate.getFullYear() === currentYear &&
-                itemDate.getMonth() === index &&
-                item.status !== excludeStatus
-            );
-        });
-    
-        const totalRevenue = filteredData.reduce((total, item) => total + valueFields.reduce((sum, field) => sum + (item[field] || 0), 0), 0);
-        const totalBenefits = filteredData.reduce((total, item) => total + (valueFields.reduce((sum, field) => sum + (item[field] || 0), 0)), 0);
-    
-        return { totalRevenue, totalBenefits };
+// Daily Calculations
+const dayLabels = Array.from({ length: 31 }, (_, i) => i + 1); // Labels des jours de 1 à 31
+
+const dayProdRev = dayLabels.map(day => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+
+    const prodRe = productdata.filter(pro => {
+        const prodReDate = new Date(pro.updatedAt);
+        return (
+            prodReDate.getFullYear() === currentYear &&
+            prodReDate.getMonth() + 1 === currentMonth &&
+            prodReDate.getDate() === day
+        );
     });
-};
 
-const excludedStatus = 'Refused';
+    const totalPrice = prodRe.reduce((total, product) => total + (product.price * product.quantity), 0);
+    return totalPrice;
+});
 
-const dayProdResults = calculateDailyRevenueAndBenefits(productdata, 'updatedAt', ['price', 'quantity'], excludedStatus);
-const dayProdRev = dayProdResults.map(result => result.totalRevenue);
-const dayProdBenefits = dayProdResults.map(result => result.totalBenefits);
+const dayProdBenefits = dayLabels.map(day => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
 
-const dayVitrineResults = calculateDailyRevenueAndBenefits(vetrine, 'updatedAt', ['price'], excludedStatus);
-const dayVitrineRev = dayVitrineResults.map(result => result.totalRevenue);
-const dayVitrineBenefits = dayVitrineResults.map(result => result.totalBenefits);
+    const prodRe = productdata.filter(pro => {
+        const prodReDate = new Date(pro.updatedAt);
+        return (
+            prodReDate.getFullYear() === currentYear &&
+            prodReDate.getMonth() + 1 === currentMonth &&
+            prodReDate.getDate() === day
+        );
+    });
 
-const dailyPhoneResults = calculateDailyRevenueAndBenefits(data, 'updatedAt', ['price', 'accompte'], excludedStatus);
-const dailyPhoneRevenue = dailyPhoneResults.map(result => result.totalRevenue);
-const dailyPhoneBenefits = dailyPhoneResults.map(result => result.totalBenefits);
+    return prodRe.reduce((total, product) => {
+        const price = product.price || 0;
+        const buyprice = product.buyprice || 0;
+        const quantity = product.quantity || 0;
+        const values = [price, buyprice * quantity];
+        return total + calculateBenefits(values);
+    }, 0);
+});
 
-const dailyPcResults = calculateDailyRevenueAndBenefits(pc, 'updatedAt', ['price', 'accompte'], excludedStatus);
-const dailyPcRevenue = dailyPcResults.map(result => result.totalRevenue);
-const dailyPcBenefits = dailyPcResults.map(result => result.totalBenefits);
+const dayVitrineRev = dayLabels.map(day => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
 
-const monthlyPhoneResults = calculateMonthlyRevenueAndBenefits(data, 'updatedAt', ['price', 'accompte'], excludedStatus);
-const monthlyPhoneRevenue = monthlyPhoneResults.map(result => result.totalRevenue);
-const monthlyPhoneBenefits = monthlyPhoneResults.map(result => result.totalBenefits);
+    const filteredVitrines = vetrine.filter(vitrine => {
+        const vitrineDate = new Date(vitrine.updatedAt);
+        return (
+            vitrineDate.getFullYear() === currentYear &&
+            vitrineDate.getMonth() + 1 === currentMonth &&
+            vitrineDate.getDate() === day 
+        );
+    });
 
-const monthlyProdResults = calculateMonthlyRevenueAndBenefits(productdata, 'updatedAt', ['price', 'quantity'], excludedStatus);
-const monthlyProdRevenue = monthlyProdResults.map(result => result.totalRevenue);
-const monthlyProdBenefits = monthlyProdResults.map(result => result.totalBenefits);
+    const totalPrice = filteredVitrines.reduce((total, vitrine) => total + vitrine.price, 0);
+    return totalPrice;
+});
 
-const monthlyVitrineResults = calculateMonthlyRevenueAndBenefits(vetrine, 'updatedAt', ['price'], excludedStatus);
-const monthlyVitrineRevenue = monthlyVitrineResults.map(result => result.totalRevenue);
-const monthlyVitrineBenefits = monthlyVitrineResults.map(result => result.totalBenefits);
+const dayVitrineBenefits = dayLabels.map(day => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
 
-const monthlyPcResults = calculateMonthlyRevenueAndBenefits(pc, 'updatedAt', ['price', 'accompte'], excludedStatus);
-const monthlyPcRevenue = monthlyPcResults.map(result => result.totalRevenue);
-const monthlyPcBenefits = monthlyPcResults.map(result => result.totalBenefits);
+    const filteredVitrines = vetrine.filter(vitrine => {
+        const vitrineDate = new Date(vitrine.updatedAt);
+        return (
+            vitrineDate.getFullYear() === currentYear &&
+            vitrineDate.getMonth() + 1 === currentMonth &&
+            vitrineDate.getDate() === day 
+        );
+    });
+
+    return filteredVitrines.reduce((total, vitrine) => {
+        const price = vitrine.price || 0;
+        const maindoeuvre = vitrine.maindoeuvre || 0;
+        const cout = vitrine.cout || 0;
+        const values = [price, maindoeuvre, cout];
+        return total + calculateBenefits(values);
+    }, 0);
+});
+
+const dailyPhoneRev = dayLabels.map(day => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+
+    const phonesFixedOnDay = data.filter(phone => {
+        const fixDate = new Date(phone.updatedAt);
+        return (
+            phone.status === 'Fixed' &&
+            fixDate.getFullYear() === currentYear &&
+            fixDate.getMonth() + 1 === currentMonth &&
+            fixDate.getDate() === day
+        );
+    });
+
+    const totalPrice = phonesFixedOnDay.reduce((total, phone) => total + (phone.price + (phone.accompte || 0)), 0);
+    return totalPrice;
+});
+
+const dailyPhoneBenefits = dayLabels.map(day => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+
+    const phonesFixedOnDay = data.filter(phone => {
+        const fixDate = new Date(phone.updatedAt);
+        return (
+            phone.status === 'Fixed' &&
+            fixDate.getFullYear() === currentYear &&
+            fixDate.getMonth() + 1 === currentMonth &&
+            fixDate.getDate() === day
+        );
+    });
+
+    return phonesFixedOnDay.reduce((total, phone) => {
+        const price = phone.price || 0;
+        const cout = phone.cout || 0;
+        const accompte = phone.accompte || 0;
+        const maindoeuvre = phone.maindoeuvre || 0;
+        const values = [price, cout, accompte, maindoeuvre];
+        return total + calculateBenefits(values);
+    }, 0);
+});
+
+const dailyPcRev = dayLabels.map(day => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+
+    const pcsFixedOnDay = pc.filter(pc => {
+        const fixDate = new Date(pc.updatedAt);
+        return (
+            pc.status === 'Fixed' &&
+            fixDate.getFullYear() === currentYear &&
+            fixDate.getMonth() + 1 === currentMonth &&
+            fixDate.getDate() === day
+        );
+    });
+
+    const totalPrice = pcsFixedOnDay.reduce((total, pc) => total + (pc.price + (pc.accompte || 0)), 0);
+    return totalPrice;
+});
+
+const dailyPcBenefits = dayLabels.map(day => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+
+    const pcsFixedOnDay = pc.filter(pc => {
+        const fixDate = new Date(pc.updatedAt);
+        return (
+            pc.status === 'Fixed' &&
+            fixDate.getFullYear() === currentYear &&
+            fixDate.getMonth() + 1 === currentMonth &&
+            fixDate.getDate() === day
+        );
+    });
+
+    return pcsFixedOnDay.reduce((total, pc) => {
+        const price = pc.price || 0;
+        const cout = pc.cout || 0;
+        const accompte = pc.accompte || 0;
+        const maindoeuvre = pc.maindoeuvre || 0;
+        const values = [price, cout, accompte, maindoeuvre];
+        return total + calculateBenefits(values);
+    }, 0);
+});
+
+// Monthly Calculations
+const monthLabels = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
+
+const monthlyPhoneRev = monthLabels.map((month, index) => {
+    const currentYear = new Date().getFullYear();
+
+    const phonesDeliveredInMonth = data.filter(phone => {
+        const phoneDeliveryMonth = new Date(phone.updatedAt);
+        return (
+            phone.status === 'Fixed' &&
+            phone.status === 'soldé' &&
+            phoneDeliveryMonth.getFullYear() === currentYear &&
+            phoneDeliveryMonth.getMonth() === index
+        );
+    });
+
+    return phonesDeliveredInMonth.reduce((total, phone) => {
+        const price = phone.price || 0;
+        const accompte = phone.accompte || 0;
+        return total + (price + accompte);
+    }, 0);
+});
+
+const monthlyPhoneBenefits = monthLabels.map((month, index) => {
+    const currentYear = new Date().getFullYear();
+
+    const phonesDeliveredInMonth = data.filter(phone => {
+        const phoneDeliveryMonth = new Date(phone.updatedAt);
+        return (
+            phone.status === 'Fixed' &&
+            phone.status === 'soldé' &&
+            phoneDeliveryMonth.getFullYear() === currentYear &&
+            phoneDeliveryMonth.getMonth() === index
+        );
+    });
+
+    return phonesDeliveredInMonth.reduce((total, phone) => {
+        const price = phone.price || 0;
+        const cout = phone.cout || 0;
+        const accompte = phone.accompte || 0;
+        const maindoeuvre = phone.maindoeuvre || 0;
+        const values = [price, cout, accompte, maindoeuvre];
+        return total + calculateBenefits(values);
+    }, 0);
+});
+
+const monthlyProdRev = monthLabels.map((month, index) => {
+    const currentYear = new Date().getFullYear();
+
+    const productsSold = productdata.filter(product => {
+        const productSoldMonth = new Date(product.updatedAt);
+        return (
+            productSoldMonth.getFullYear() === currentYear &&
+            productSoldMonth.getMonth() === index
+        );
+    });
+
+    return productsSold.reduce((total, product) => {
+        const price = product.price || 0;
+        const quantity = product.quantity || 0;
+        return total + (price * quantity);
+    }, 0);
+});
+
+const monthlyProdBenefits = monthLabels.map((month, index) => {
+    const currentYear = new Date().getFullYear();
+
+    const productsSold = productdata.filter(product => {
+        const productSoldMonth = new Date(product.updatedAt);
+        return (
+            productSoldMonth.getFullYear() === currentYear &&
+            productSoldMonth.getMonth() === index
+        );
+    });
+
+    return productsSold.reduce((total, product) => {
+        const price = product.price || 0;
+        const buyprice = product.buyprice || 0;
+        const quantity = product.quantity || 0;
+        const values = [price, buyprice * quantity];
+        return total + calculateBenefits(values);
+    }, 0);
+});
+
+const monthlyVitrineRev = monthLabels.map((month, index) => {
+    const currentYear = new Date().getFullYear();
+
+    const vitrinesSoldInMonth = vetrine.filter(vitrine => {
+        const vitrineSoldMonth = new Date(vitrine.updatedAt);
+        return (
+            vitrineSoldMonth.getFullYear() === currentYear &&
+            vitrineSoldMonth.getMonth() === index
+        );
+    });
+
+    return vitrinesSoldInMonth.reduce((total, vitrine) => {
+        const price = vitrine.price || 0;
+        return total + price;
+    }, 0);
+});
+
+const monthlyVitrineBenefits = monthLabels.map((month, index) => {
+    const currentYear = new Date().getFullYear();
+
+    const vitrinesSoldInMonth = vetrine.filter(vitrine => {
+        const vitrineSoldMonth = new Date(vitrine.updatedAt);
+        return (
+            vitrineSoldMonth.getFullYear() === currentYear &&
+            vitrineSoldMonth.getMonth() === index
+        );
+    });
+
+    return vitrinesSoldInMonth.reduce((total, vitrine) => {
+        const price = vitrine.price || 0;
+        const maindoeuvre = vitrine.maindoeuvre || 0;
+        const cout = vitrine.cout || 0;
+        const values = [price, maindoeuvre, cout];
+        return total + calculateBenefits(values);
+    }, 0);
+});
+
+const monthlyPcRev = monthLabels.map((month, index) => {
+    const currentYear = new Date().getFullYear();
+
+    const pcsDeliveredInMonth = pc.filter(pc => {
+        const pcDeliveryMonth = new Date(pc.updatedAt);
+        return (
+            pc.status === 'Fixed' &&
+            pcDeliveryMonth.getFullYear() === currentYear &&
+            pcDeliveryMonth.getMonth() === index
+        );
+    });
+
+    return pcsDeliveredInMonth.reduce((total, pc) => {
+        const price = pc.price || 0;
+        const accompte = pc.accompte || 0;
+        return total + (price + accompte);
+    }, 0);
+});
+
+const monthlyPcBenefits = monthLabels.map((month, index) => {
+    const currentYear = new Date().getFullYear();
+
+    const pcsDeliveredInMonth = pc.filter(pc => {
+        const pcDeliveryMonth = new Date(pc.updatedAt);
+        return (
+            pc.status === 'Fixed' &&
+            pcDeliveryMonth.getFullYear() === currentYear &&
+            pcDeliveryMonth.getMonth() === index
+        );
+    });
+
+    return pcsDeliveredInMonth.reduce((total, pc) => {
+        const price = pc.price || 0;
+        const cout = pc.cout || 0;
+        const accompte = pc.accompte || 0;
+        const maindoeuvre = pc.maindoeuvre || 0;
+        const values = [price, cout, accompte, maindoeuvre];
+        return total + calculateBenefits(values);
+    }, 0);
+});
+
 
 
 
