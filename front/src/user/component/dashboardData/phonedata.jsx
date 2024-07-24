@@ -104,6 +104,7 @@ const Phonedata = () => {
                 const accompte = phone.accompte || 0;
                 const maindoeuvre = phone.maindoeuvre || 0;
                 const createdDate = new Date(phone.createdAt);
+                const updatedDate = new Date(phone.updatedAt);
 
                 if (createdDate.getFullYear() === currentYear &&
                     createdDate.getMonth() + 1 === currentMonth &&
@@ -111,16 +112,16 @@ const Phonedata = () => {
                     totalAccompte += accompte;
                 }
 
-                if (phone.status === 'fixed' && createdDate.getFullYear() === currentYear &&
-                    createdDate.getMonth() + 1 === currentMonth &&
-                    createdDate.getDate() === day) {
+                if (phone.status === 'fixed' && updatedDate.getFullYear() === currentYear &&
+                updatedDate.getMonth() + 1 === currentMonth &&
+                updatedDate.getDate() === day) {
                     totalCout += cout;
                     totalMaindoeuvre += maindoeuvre;
                 }
 
-                if (phone.status === 'soldé' && createdDate.getFullYear() === currentYear &&
-                    createdDate.getMonth() + 1 === currentMonth &&
-                    createdDate.getDate() === day) {
+                if (phone.status === 'soldé' && updatedDate.getFullYear() === currentYear &&
+                updatedDate.getMonth() + 1 === currentMonth &&
+                updatedDate.getDate() === day) {
                     totalSoldPrice += price;
                     totalCout += cout;
                     totalMaindoeuvre += maindoeuvre;
@@ -153,12 +154,13 @@ const Phonedata = () => {
                 const price = phone.price || 0;
                 const accompte = phone.accompte || 0;
                 const createdDate = new Date(phone.createdAt);
+                const updatedDate = new Date(phone.updatedAt);
 
                 if (createdDate.getMonth() + 1 === month) {
                     totalAccompte += accompte;
                 }
 
-                if (phone.status === 'soldé' && createdDate.getMonth() + 1 === month) {
+                if (phone.status === 'soldé' && updatedDate.getMonth() + 1 === month) {
                     totalSoldPrice += price;
                 }
             });
@@ -189,17 +191,18 @@ const Phonedata = () => {
                 const accompte = phone.accompte || 0;
                 const maindoeuvre = phone.maindoeuvre || 0;
                 const createdDate = new Date(phone.createdAt);
+                const updatedDate = new Date(phone.updatedAt);
 
                 if (createdDate.getMonth() + 1 === month) {
                     totalAccompte += accompte;
                 }
 
-                if (phone.status === 'fixed' && createdDate.getMonth() + 1 === month) {
+                if (phone.status === 'fixed' && updatedDate.getMonth() + 1 === month) {
                     totalCout += cout;
                     totalMaindoeuvre += maindoeuvre;
                 }
 
-                if (phone.status === 'soldé' && createdDate.getMonth() + 1 === month) {
+                if (phone.status === 'soldé' && updatedDate.getMonth() + 1 === month) {
                     totalSoldPrice += price;
                     totalCout += cout;
                     totalMaindoeuvre += maindoeuvre;
@@ -236,6 +239,13 @@ const Phonedata = () => {
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
                     />
+                    
+                </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
+                <Box sx={{ height: 500 }}>
+                    
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices mensuels des téléphones
                     </Typography>
