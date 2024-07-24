@@ -126,7 +126,6 @@ export default function Dashboard() {
         fetchActive('Fixed');
         watingg();
         fetchincome();
-        getallvetrine()
         getallpc()
     }, []);
 
