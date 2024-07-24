@@ -434,9 +434,9 @@ const baseUrl="https://api.deviceshopleader.com/api"
             Tableau de bord
         </Typography>
 
-        <Grid container spacing={3} sx={{ marginTop: 3 }}>
+        <Grid container spacing={3} sx={{ marginTop: 3 }} >
             {/* Overview Boxes */}
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={4} sx={{ marginBottom: 2 }}>
                 <Box sx={{ height: 100 }}>
                     <Box
                         sx={{
@@ -459,7 +459,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
                     </Box>
                 </Box>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={4} sx={{ marginBottom: 2 }}>
                 <Box sx={{ height: 100 }}>
                     <Box
                         sx={{
@@ -482,7 +482,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
                     </Box>
                 </Box>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={4} sx={{ marginBottom: 2 }}>
                 <Box sx={{ height: 100 }}>
                     <Box
                         sx={{
@@ -507,7 +507,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
             </Grid>
 
             {/* Daily Charts */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{ marginBottom: 2 }}>
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices quotidiens des produits
@@ -532,7 +532,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
                 </Box>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{ marginBottom: 2 }}>
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices quotidiens des téléphones
@@ -557,7 +557,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
                 </Box>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{ marginBottom: 2 }}>
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices quotidiens des PCs
@@ -582,7 +582,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
                 </Box>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{ marginBottom: 2 }}>
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices quotidiens des vitrines
@@ -608,7 +608,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
             </Grid>
 
             {/* Monthly Charts */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{ marginBottom: 2 }}>
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices mensuels des produits
@@ -633,7 +633,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
                 </Box>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{ marginBottom: 2 }}>
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices mensuels des téléphones
