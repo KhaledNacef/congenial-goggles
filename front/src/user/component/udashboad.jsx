@@ -6,7 +6,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Vetrinedata from './dashboardData/vetrine';
+import Vetrinedata from './dashboardData/vetrine.jsx';
 
 export default function Dashboard() {
     const [data, setData] = useState([]);
@@ -18,6 +18,7 @@ export default function Dashboard() {
     const [productdata, setProductdata] = useState([]);
     const [pc,setPc]=useState([])
     const userIdFromCookie = Cookies.get('token');
+    const baseUrl = 'https://api.deviceshopleader.com/api';
 
 
     const fetchincome = async () => {
