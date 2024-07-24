@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { BarChart } from '@mui/x-charts/BarChart';
@@ -14,17 +14,7 @@ const Proddata = () => {
         try {
             const response = await axios.get(`https://api.deviceshopleader.com/api/sold/soldproducts/${userIdFromCookie}`);
             setProductdata(response.data);
-            // Calculer le produit le plus acheté, le nombre total de produits vendus et le revenu total
-            let totalIncome = 0;
-            let totalProduct = 0;
-
-            response.data.forEach((product) => {
-                totalIncome += product.price * product.quantity;
-                totalProduct += product.quantity;
-            });
-
-            setTotalIncome(totalIncome);
-            setTotpro(totalProduct);
+            
         } catch (error) {
             console.log(error);
         }
@@ -35,6 +25,8 @@ const Proddata = () => {
     }, []);
 
 
+ 
+    const monthLabels = [...Array(12).keys()].map(i => i + 1); // Example month labels
 
 
 
