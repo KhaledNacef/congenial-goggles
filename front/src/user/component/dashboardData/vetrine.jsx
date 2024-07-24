@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Grid, Box, Typography } from '@mui/material';
 import { BarChart } from '@mui/x-charts/BarChart';
+import Cookies from 'js-cookie';
 
 const Vetrinedata = () => {
     const [vetrine, setVetrine] = useState([]);
+
+
+    const userIdFromCookie = Cookies.get('token');
 
     const baseUrl = 'https://api.deviceshopleader.com/api';
 
