@@ -60,11 +60,14 @@ const Fixeddpc = ({ searchQuery }) => {
       await axios.put(`https://api.deviceshopleader.com/api/pc/price/${userIdFromCookie}/${selectedId}`, { price: price });
       setSelectedId(null);
       setPrice(0);
+      
+      updateStatus(selectedId,'soldé');
       getBstatus('Fixed');
     } catch (error) {
       console.log(error);
     }
   };
+
 
   const getBstatus = async (status) => {
     try {

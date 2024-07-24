@@ -136,6 +136,8 @@ const baseUrl="https://api.deviceshopleader.com/api"
         fetchActive('Fixed');
         watingg();
         fetchincome();
+        getallvetrine()
+        getallpc()
     }, []);
 
     // Labels des mois
@@ -229,7 +231,10 @@ const baseUrl="https://api.deviceshopleader.com/api"
             const phoneMonth = fixDate.getMonth() + 1;
             const phoneDay = fixDate.getDate();
             return (
+                phone.status === 'waiting' &&
+
                 phone.status === 'Fixed' &&
+                phone.status === 'soldé' &&
                 phoneYear === currentYear &&
                 phoneMonth === currentMonth &&
                 phoneDay === day
@@ -251,14 +256,26 @@ const baseUrl="https://api.deviceshopleader.com/api"
             const phoneMonth = fixDate.getMonth() + 1;
             const phoneDay = fixDate.getDate();
             return (
-                phone.status === 'Fixed' &&
+                (phone.status === 'Fixed' || phone.status === 'soldé'|| phone.stauts==='waiting') && // Fix the filter condition
                 phoneYear === currentYear &&
                 phoneMonth === currentMonth &&
                 phoneDay === day
             );
         });
     
-        const totalBenefits = phonesFixedOnDay.reduce((total, phone) => total + (phone.price - (phone.cout || 0) - (phone.accompte || 0) - (phone.maindoeuvre || 0)), 0);
+        const totalBenefits = phonesFixedOnDay.reduce((total, phone) => {
+            const price = phone.price !== undefined ? phone.price : 0;
+            const cout = phone.cout !== undefined ? phone.cout : 0;
+            const maindoeuvre = phone.maindoeuvre !== undefined ? phone.maindoeuvre : 0;
+            const accompte = phone.accompte !== undefined ? phone.accompte : 0;
+    
+            // Calculate the benefit
+            const benefit = price - cout - maindoeuvre - accompte;
+    
+            // Add benefit to total
+            return total + benefit;
+        }, 0);
+    
         return totalBenefits;
     });
     
@@ -273,7 +290,10 @@ const baseUrl="https://api.deviceshopleader.com/api"
             const pcMonth = fixDate.getMonth() + 1;
             const pcDay = fixDate.getDate();
             return (
+                pc.status === 'waiting' &&
+
                 pc.status === 'Fixed' &&
+                pc.status === 'soldé' &&
                 pcYear === currentYear &&
                 pcMonth === currentMonth &&
                 pcDay === day
@@ -283,7 +303,10 @@ const baseUrl="https://api.deviceshopleader.com/api"
         const totalPrice = pcsFixedOnDay.reduce((total, pc) => total + (pc.price + (pc.accompte || 0)), 0);
         return totalPrice;
     });
-    
+
+
+
+
     const dailyPcBenefits = dayLabels.map(day => {
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
@@ -295,23 +318,39 @@ const baseUrl="https://api.deviceshopleader.com/api"
             const pcMonth = fixDate.getMonth() + 1;
             const pcDay = fixDate.getDate();
             return (
-                pc.status === 'Fixed' &&
+                (pc.status === 'Fixed' || pc.status === 'soldé' || pc.status==='waiting') && // Fix the filter condition
                 pcYear === currentYear &&
                 pcMonth === currentMonth &&
                 pcDay === day
             );
         });
     
-        const totalBenefits = pcsFixedOnDay.reduce((total, pc) => total + (pc.price - (pc.cout || 0) - (pc.accompte || 0) - (pc.maindoeuvre || 0)), 0);
+        const totalBenefits = pcsFixedOnDay.reduce((total, pc) => {
+            const price = pc.price !== undefined ? pc.price : 0;
+            const cout = pc.cout !== undefined ? pc.cout : 0;
+            const maindoeuvre = pc.maindoeuvre !== undefined ? pc.maindoeuvre : 0;
+            const accompte = pc.accompte !== undefined ? pc.accompte : 0;
+    
+            // Calculate the benefit
+            const benefit = price - cout - maindoeuvre - accompte;
+    
+            // Add benefit to total
+            return total + benefit;
+        }, 0);
+    
         return totalBenefits;
     });
+    
     
     const monthlyPhoneRevenue = monthLabels.map((month, index) => {
         const currentYear = new Date().getFullYear();
         const phonesDeliveredInMonth = data.filter(phone => {
             const phoneDeliveryMonth = new Date(phone.updatedAt);
             return (
+                phone.status === 'waiting' &&
+
                 phone.status === 'Fixed' &&
+                phone.status === 'soldé' &&
                 phoneDeliveryMonth.getFullYear() === currentYear &&
                 phoneDeliveryMonth.getMonth() === index
             );
@@ -326,13 +365,25 @@ const baseUrl="https://api.deviceshopleader.com/api"
         const phonesDeliveredInMonth = data.filter(phone => {
             const phoneDeliveryMonth = new Date(phone.updatedAt);
             return (
-                phone.status === 'Fixed' &&
+                (phone.status === 'Fixed' || phone.status === 'soldé' ||  phone.status==='waiting') && // Fix the filter condition
                 phoneDeliveryMonth.getFullYear() === currentYear &&
                 phoneDeliveryMonth.getMonth() === index
             );
         });
     
-        const totalBenefits = phonesDeliveredInMonth.reduce((total, phone) => total + (phone.price - (phone.cout || 0) - (phone.accompte || 0) - (phone.maindoeuvre || 0)), 0);
+        const totalBenefits = phonesDeliveredInMonth.reduce((total, phone) => {
+            const price = phone.price !== undefined ? phone.price : 0;
+            const cout = phone.cout !== undefined ? phone.cout : 0;
+            const maindoeuvre = phone.maindoeuvre !== undefined ? phone.maindoeuvre : 0;
+            const accompte = phone.accompte !== undefined ? phone.accompte : 0;
+    
+            // Calculate the benefit
+            const benefit = price - cout - maindoeuvre - accompte;
+    
+            // Add benefit to total
+            return total + benefit;
+        }, 0);
+    
         return totalBenefits;
     });
     
@@ -388,16 +439,30 @@ const baseUrl="https://api.deviceshopleader.com/api"
             );
         });
     
-        const totalBenefits = vitrinesSoldInMonth.reduce((total, vitrine) => total + (vitrine.price - (vitrine.cout || 0) - (vitrine.maindoeuvre || 0)), 0);
+        const totalBenefits = vitrinesSoldInMonth.reduce((total, vitrine) => {
+            const price = vitrine.price !== undefined ? vitrine.price : 0;
+            const cout = vitrine.cout !== undefined ? vitrine.cout : 0;
+    
+            // Calculate the benefit
+            const benefit = price - cout;
+    
+            // Add benefit to total
+            return total + benefit;
+        }, 0);
+    
         return totalBenefits;
     });
+    
     
     const monthlyPcRevenue = monthLabels.map((month, index) => {
         const currentYear = new Date().getFullYear();
         const pcsDeliveredInMonth = pc.filter(pc => {
             const pcDeliveryMonth = new Date(pc.updatedAt);
             return (
+                pc.status === 'waiting' &&
+
                 pc.status === 'Fixed' &&
+                pc.status === 'soldé' &&
                 pcDeliveryMonth.getFullYear() === currentYear &&
                 pcDeliveryMonth.getMonth() === index
             );
@@ -409,18 +474,32 @@ const baseUrl="https://api.deviceshopleader.com/api"
     
     const monthlyPcBenefits = monthLabels.map((month, index) => {
         const currentYear = new Date().getFullYear();
+    
         const pcsDeliveredInMonth = pc.filter(pc => {
             const pcDeliveryMonth = new Date(pc.updatedAt);
             return (
-                pc.status === 'Fixed' &&
+                (pc.status === 'Fixed' || pc.status === 'soldé'|| pc.status==='waiting') && // Fix the filter condition
                 pcDeliveryMonth.getFullYear() === currentYear &&
                 pcDeliveryMonth.getMonth() === index
             );
         });
     
-        const totalBenefits = pcsDeliveredInMonth.reduce((total, pc) => total + (pc.price - (pc.cout || 0) - (pc.accompte || 0) - (pc.maindoeuvre || 0)), 0);
+        const totalBenefits = pcsDeliveredInMonth.reduce((total, pc) => {
+            const price = pc.price !== undefined ? pc.price : 0;
+            const cout = pc.cout !== undefined ? pc.cout : 0;
+            const maindoeuvre = pc.maindoeuvre !== undefined ? pc.maindoeuvre : 0;
+            const accompte = pc.accompte !== undefined ? pc.accompte : 0;
+    
+            // Calculate the benefit
+            const benefit = price - cout - maindoeuvre - accompte;
+    
+            // Add benefit to total
+            return total + benefit;
+        }, 0);
+    
         return totalBenefits;
     });
+    
     
 
 

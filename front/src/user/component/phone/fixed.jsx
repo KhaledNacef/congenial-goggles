@@ -55,11 +55,21 @@ const Fixedd = ({ searchQuery }) => {
     setView(!view);
   };
 
+  const updateStatus = async (id, status) => {
+    try {
+      await axios.put(`https://api.deviceshopleader.com/api/phone/status/${userIdFromCookie}/${id}`, { status });
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du statut :', error);
+    }
+  };
+
   const updatePrice = async () => {
     try {
       await axios.put(`https://api.deviceshopleader.com/api/phone/price/${userIdFromCookie}/${selectedId}`, { price: price });
       setSelectedId(null);
       setPrice(0);
+      
+      updateStatus(selectedId,'soldé');
       getBstatus('Fixed');
     } catch (error) {
       console.log(error);
