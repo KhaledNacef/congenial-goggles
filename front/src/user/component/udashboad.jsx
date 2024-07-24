@@ -204,7 +204,7 @@ const dayVitrineRev = dayLabels.map(day => {
     const currentMonth = currentDate.getMonth() + 1;
 
     const filteredVitrines = vetrine.filter(vitrine => {
-        const vitrineDate = new Date(vitrine.updatedAt);
+        const vitrineDate = new Date(vitrine.createdAt);
         return (
             vitrineDate.getFullYear() === currentYear &&
             vitrineDate.getMonth() + 1 === currentMonth &&
@@ -222,7 +222,7 @@ const dayVitrineBenefits = dayLabels.map(day => {
     const currentMonth = currentDate.getMonth() + 1;
 
     const filteredVitrines = vetrine.filter(vitrine => {
-        const vitrineDate = new Date(vitrine.updatedAt);
+        const vitrineDate = new Date(vitrine.createdAt);
         return (
             vitrineDate.getFullYear() === currentYear &&
             vitrineDate.getMonth() + 1 === currentMonth &&
@@ -415,7 +415,7 @@ const monthlyVitrineRevenue = monthLabels.map((month, index) => {
     const currentYear = new Date().getFullYear();
 
     const vitrinesSoldInMonth = vetrine.filter(vitrine => {
-        const vitrineSoldMonth = new Date(vitrine.updatedAt);
+        const vitrineSoldMonth = new Date(vitrine.createdAt);
         return (
             vitrineSoldMonth.getFullYear() === currentYear &&
             vitrineSoldMonth.getMonth() === index
@@ -432,7 +432,7 @@ const monthlyVitrineBenefits = monthLabels.map((month, index) => {
     const currentYear = new Date().getFullYear();
 
     const vitrinesSoldInMonth = vetrine.filter(vitrine => {
-        const vitrineSoldMonth = new Date(vitrine.updatedAt);
+        const vitrineSoldMonth = new Date(vitrine.createdAt);
         return (
             vitrineSoldMonth.getFullYear() === currentYear &&
             vitrineSoldMonth.getMonth() === index
