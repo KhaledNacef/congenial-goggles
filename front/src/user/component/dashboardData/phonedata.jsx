@@ -76,7 +76,8 @@ const Phonedata = () => {
             let totalCout = 0;
             let totalMaindoeuvre = 0;
             let totalSoldPrice = 0;
-    
+            let totalCoutf = 0;
+            let totalMaindoeuvref = 0;
             phones.forEach(phone => {
                 const price = phone.price || 0;
                 const cout = phone.cout || 0;
@@ -84,7 +85,9 @@ const Phonedata = () => {
                 const maindoeuvre = phone.maindoeuvre || 0;
                 const createdDate = new Date(phone.createdAt);
                 const phoneUpdatedDate = new Date(phone.updatedAt);
-    
+                const coutf = phone.cout || 0;
+                const maindoeuvref = phone.maindoeuvre || 0;
+
                 // Accumulate accompte for phones created on the day
                 if (createdDate.getFullYear() === currentYear &&
                     createdDate.getMonth() + 1 === currentMonth &&
@@ -98,8 +101,8 @@ const Phonedata = () => {
                     phoneUpdatedDate.getDate() === day) {
                     
                         if (phone.status === 'fixed') {
-                            totalCout += cout;
-                            totalMaindoeuvre += maindoeuvre;
+                            totalCoutf += coutf;
+                            totalMaindoeuvref += maindoeuvref;
                         }
                         if (phone.status === 'soldé') {
                             totalSoldPrice += price;
@@ -109,7 +112,7 @@ const Phonedata = () => {
                 }
             });
     
-            return calculateBenefits(totalAccompte, totalCout + totalMaindoeuvre, totalSoldPrice);
+            return calculateBenefits(totalAccompte, totalCout +totalCoutf+totalMaindoeuvref+ totalMaindoeuvre, totalSoldPrice);
         });
     
         setDailyPhoneBenefits(dailyBenefits);
@@ -147,6 +150,8 @@ const Phonedata = () => {
             let totalAccompte = 0;
             let totalCout = 0;
             let totalMaindoeuvre = 0;
+            let totalCoutf = 0;
+            let totalMaindoeuvref = 0;
             let totalSoldPrice = 0;
     
             phones.forEach(phone => {
@@ -156,15 +161,16 @@ const Phonedata = () => {
                 const maindoeuvre = phone.maindoeuvre || 0;
                 const createdDate = new Date(phone.createdAt);
                 const phoneUpdatedDate = new Date(phone.updatedAt);
-    
+                const coutf = phone.cout || 0;
+                const maindoeuvref = phone.maindoeuvre || 0;
                 if (createdDate.getFullYear() === currentYear && createdDate.getMonth() + 1 === month) {
                     totalAccompte += accompte;
                 }
     
                 if (phoneUpdatedDate.getFullYear() === currentYear && phoneUpdatedDate.getMonth() + 1 === month) {
                     if (phone.status === 'fixed') {
-                        totalCout += cout;
-                        totalMaindoeuvre += maindoeuvre;
+                        totalCoutf += coutf;
+                        totalMaindoeuvref += maindoeuvref;
                     }
                     if (phone.status === 'soldé') {
                         totalSoldPrice += price;
@@ -174,7 +180,7 @@ const Phonedata = () => {
                 }
             });
     
-            return calculateBenefits(totalAccompte, totalCout + totalMaindoeuvre, totalSoldPrice);
+            return calculateBenefits(totalAccompte, totalCout +totalCoutf+totalMaindoeuvref+ totalMaindoeuvre, totalSoldPrice);
         });
     
         setMonthlyPhoneBenefits(monthlyBenefits);
