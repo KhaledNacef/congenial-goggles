@@ -201,7 +201,7 @@ const Phonedata = () => {
 
                 if (phone.status === 'soldé' && createdDate.getMonth() + 1 === month) {
                     totalSoldPrice += price;
-                    otalCout += cout;
+                    totalCout += cout;
                     totalMaindoeuvre += maindoeuvre;
                 }
             });
