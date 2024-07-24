@@ -42,19 +42,12 @@ const Phonedata = () => {
 
         // Daily Revenue
         const dailyRevenue = dayLabels.map(day => {
-            const phonesOnDay = phones.filter(phone => {
-                const phoneCreatedDate = new Date(phone.createdAt);
-                return (
-                    phoneCreatedDate.getFullYear() === currentYear &&
-                    phoneCreatedDate.getMonth() + 1 === currentMonth &&
-                    phoneCreatedDate.getDate() === day
-                );
-            });
+               
 
             let totalAccompte = 0;
             let totalSoldPrice = 0;
 
-            phonesOnDay.forEach(phone => {
+            phones.forEach(phone => {
                 const phoneUpdatedDate = new Date(phone.updatedAt);
 
                 if (phoneUpdatedDate.getFullYear() === currentYear &&
@@ -79,29 +72,20 @@ const Phonedata = () => {
 
         // Daily Benefits
         const dailyBenefits = dayLabels.map(day => {
-            const phonesOnDay = phones.filter(phone => {
-                const phoneCreatedDate = new Date(phone.createdAt);
-                const phoneUpdatedDate = new Date(phone.updatedAt);
-                return (
-                    phoneCreatedDate.getFullYear() === currentYear &&
-                    phoneCreatedDate.getMonth() + 1 === currentMonth &&
-                    phoneCreatedDate.getDate() === day ||
-                    phoneUpdatedDate.getFullYear() === currentYear &&
-                    phoneUpdatedDate.getMonth() + 1 === currentMonth &&
-                    phoneUpdatedDate.getDate() === day
-                );
-            });
+            
+                
 
             let totalAccompte = 0;
             let totalCout = 0;
             let totalMaindoeuvre = 0;
             let totalSoldPrice = 0;
 
-            phonesOnDay.forEach(phone => {
+            phones.forEach(phone => {
                 const price = phone.price || 0;
                 const cout = phone.cout || 0;
                 const accompte = phone.accompte || 0;
                 const maindoeuvre = phone.maindoeuvre || 0;
+
                 const createdDate = new Date(phone.createdAt);
                 const phoneUpdatedDate = new Date(phone.updatedAt);
 
@@ -138,18 +122,12 @@ const Phonedata = () => {
 
         // Monthly Revenue
         const monthlyRevenue = monthLabels.map(month => {
-            const phonesInMonth = phones.filter(phone => {
-                const phoneCreatedDate = new Date(phone.createdAt);
-                return (
-                    phoneCreatedDate.getFullYear() === currentYear &&
-                    phoneCreatedDate.getMonth() + 1 === month
-                );
-            });
+               
 
             let totalAccompte = 0;
             let totalSoldPrice = 0;
 
-            phonesInMonth.forEach(phone => {
+            phones.forEach(phone => {
                 const price = phone.price || 0;
                 const accompte = phone.accompte || 0;
                 const createdDate = new Date(phone.createdAt);
@@ -171,20 +149,14 @@ const Phonedata = () => {
 
         // Monthly Benefits
         const monthlyBenefits = monthLabels.map(month => {
-            const phonesInMonth = phones.filter(phone => {
-                const phoneCreatedDate = new Date(phone.createdAt);
-                return (
-                    phoneCreatedDate.getFullYear() === currentYear &&
-                    phoneCreatedDate.getMonth() + 1 === month
-                );
-            });
+                
 
             let totalAccompte = 0;
             let totalCout = 0;
             let totalMaindoeuvre = 0;
             let totalSoldPrice = 0;
 
-            phonesInMonth.forEach(phone => {
+            phones.forEach(phone => {
                 const price = phone.price || 0;
                 const cout = phone.cout || 0;
                 const accompte = phone.accompte || 0;
