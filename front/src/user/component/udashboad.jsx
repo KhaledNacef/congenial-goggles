@@ -239,7 +239,7 @@ const dayVitrineBenefits = dayLabels.map(day => {
     }, 0);
 });
 
-const dailyPhoneRev = dayLabels.map(day => {
+const dailyPhoneRevenue = dayLabels.map(day => {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth() + 1;
@@ -283,7 +283,7 @@ const dailyPhoneBenefits = dayLabels.map(day => {
     }, 0);
 });
 
-const dailyPcRev = dayLabels.map(day => {
+const dailyPcRevenue = dayLabels.map(day => {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth() + 1;
@@ -330,7 +330,7 @@ const dailyPcBenefits = dayLabels.map(day => {
 // Monthly Calculations
 const monthLabels = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
 
-const monthlyPhoneRev = monthLabels.map((month, index) => {
+const monthlyPhoneRevenue = monthLabels.map((month, index) => {
     const currentYear = new Date().getFullYear();
 
     const phonesDeliveredInMonth = data.filter(phone => {
@@ -373,7 +373,7 @@ const monthlyPhoneBenefits = monthLabels.map((month, index) => {
     }, 0);
 });
 
-const monthlyProdRev = monthLabels.map((month, index) => {
+const monthlyProdRevenue = monthLabels.map((month, index) => {
     const currentYear = new Date().getFullYear();
 
     const productsSold = productdata.filter(product => {
@@ -411,7 +411,7 @@ const monthlyProdBenefits = monthLabels.map((month, index) => {
     }, 0);
 });
 
-const monthlyVitrineRev = monthLabels.map((month, index) => {
+const monthlyVitrineRevenue = monthLabels.map((month, index) => {
     const currentYear = new Date().getFullYear();
 
     const vitrinesSoldInMonth = vetrine.filter(vitrine => {
@@ -448,7 +448,7 @@ const monthlyVitrineBenefits = monthLabels.map((month, index) => {
     }, 0);
 });
 
-const monthlyPcRev = monthLabels.map((month, index) => {
+const monthlyPcRevenue = monthLabels.map((month, index) => {
     const currentYear = new Date().getFullYear();
 
     const pcsDeliveredInMonth = pc.filter(pc => {
