@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { Typography, Box, Grid } from '@mui/material';
-import PhoneIcon from '@mui/icons-material/Phone';
-import CancelIcon from '@mui/icons-material/Cancel';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -11,18 +8,21 @@ export default function Dashboard() {
     const [data, setData] = useState([]);
     const [active, setActive] = useState([]);
     const [inActive, setInActive] = useState([]);
-    const [wating, setWating] = useState([]);
+    const [waiting, setWaiting] = useState([]);
     const [totalIncome, setTotalIncome] = useState(0);
-    const [totPro, setTotpro] = useState(0);
-    const [productdata, setProductdata] = useState([]);
+    const [totPro, setTotPro] = useState(0);
+    const [productData, setProductData] = useState([]);
+    const [vitrineData, setVitrineData] = useState([]);
+    const [pcData, setPcData] = useState([]);
 
     const userIdFromCookie = Cookies.get('token');
+    const baseUrl = 'https://api.deviceshopleader.com/api';
 
-    const fetchincome = async () => {
+    const fetchIncome = async () => {
         try {
-            const response = await axios.get(`https://api.deviceshopleader.com/api/sold/soldproducts/${userIdFromCookie}`);
-            setProductdata(response.data);
-            // Calculer le produit le plus acheté, le nombre total de produits vendus et le revenu total
+            const response = await axios.get(`${baseUrl}/sold/soldproducts/${userIdFromCookie}`);
+            setProductData(response.data);
+
             let totalIncome = 0;
             let totalProduct = 0;
 
@@ -32,15 +32,15 @@ export default function Dashboard() {
             });
 
             setTotalIncome(totalIncome);
-            setTotpro(totalProduct);
+            setTotPro(totalProduct);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const fetchinActive = async (status) => {
+    const fetchInActive = async (status) => {
         try {
-            const response = await axios.get(`https://api.deviceshopleader.com/api/phone/status/${userIdFromCookie}/${status}`);
+            const response = await axios.get(`${baseUrl}/phone/status/${userIdFromCookie}/${status}`);
             
             const today = new Date();
             const todayYear = today.getFullYear();
@@ -48,7 +48,7 @@ export default function Dashboard() {
             const todayDate = today.getDate();
     
             const phonesUpdatedToday = response.data.filter(phone => {
-                const updatedDate = new Date(phone.updatedAt); // Assuming `updatedAt` is the date field
+                const updatedDate = new Date(phone.updatedAt);
                 return (
                     updatedDate.getFullYear() === todayYear &&
                     updatedDate.getMonth() === todayMonth &&
@@ -58,22 +58,40 @@ export default function Dashboard() {
     
             setInActive(phonesUpdatedToday);
         } catch (error) {
-            console.error("Error fetching active phones:", error);
+            console.error("Error fetching inactive phones:", error);
         }
     };
 
-    const watingg = async () => {
+    const fetchWaiting = async () => {
         try {
-            const response = await axios.get(`https://api.deviceshopleader.com/api/phone/waiting/${userIdFromCookie}`);
-            setWating(response.data);
+            const response = await axios.get(`${baseUrl}/phone/waiting/${userIdFromCookie}`);
+            setWaiting(response.data);
         } catch (error) {
             console.log(error);
         }
     };
 
+    const getAllVetrine = async () => {
+        try {
+            const response = await axios.get(`${baseUrl}/vetrine/vetrinesgetall/${userIdFromCookie}`);
+            setVitrineData(response.data);
+        } catch (error) {
+            console.error('Error fetching vitrines:', error);
+        }
+    };
+
+    const getAllPc = async () => {
+        try {
+            const response = await axios.get(`${baseUrl}/pc/all/${userIdFromCookie}`);
+            setPcData(response.data);
+        } catch (error) {
+            console.error('Error fetching PCs:', error);
+        }
+    };
+
     const fetchData = async () => {
         try {
-            const response = await axios.get(`https://api.deviceshopleader.com/api/phone/all/${userIdFromCookie}`);
+            const response = await axios.get(`${baseUrl}/phone/all/${userIdFromCookie}`);
             setData(response.data);
         } catch (error) {
             console.log(error);
@@ -82,7 +100,7 @@ export default function Dashboard() {
 
     const fetchActive = async (status) => {
         try {
-            const response = await axios.get(`https://api.deviceshopleader.com/api/phone/status/${userIdFromCookie}/${status}`);
+            const response = await axios.get(`${baseUrl}/phone/status/${userIdFromCookie}/${status}`);
             
             const today = new Date();
             const todayYear = today.getFullYear();
@@ -90,7 +108,7 @@ export default function Dashboard() {
             const todayDate = today.getDate();
     
             const phonesUpdatedToday = response.data.filter(phone => {
-                const updatedDate = new Date(phone.updatedAt); // Assuming `updatedAt` is the date field
+                const updatedDate = new Date(phone.updatedAt);
                 return (
                     updatedDate.getFullYear() === todayYear &&
                     updatedDate.getMonth() === todayMonth &&
@@ -103,221 +121,173 @@ export default function Dashboard() {
             console.error("Error fetching active phones:", error);
         }
     };
-    
 
     useEffect(() => {
         fetchData();
-        fetchinActive('Refused');
+        fetchInActive('Refused');
         fetchActive('Fixed');
-        watingg();
-        fetchincome();
+        fetchWaiting();
+        fetchIncome();
+        getAllVetrine();
+        getAllPc();
     }, []);
 
-    // Labels des mois
     const monthLabels = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
-    // Labels des jours de 1 à 31
     const dayLabels = Array.from({ length: 31 }, (_, i) => i + 1);
 
-    // Calculer le revenu quotidien des produits
-    const dayProdRev = dayLabels.map(day => {
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth() + 1;
+    const calculateDailyRevenue = (data, priceKey, dateKey) => {
+        return dayLabels.map(day => {
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const currentMonth = currentDate.getMonth() + 1;
 
-        const prodRe = productdata.filter(pro => {
-            const prodReDate = new Date(pro.updatedAt);
-            return (
-                prodReDate.getFullYear() === currentYear &&
-                prodReDate.getMonth() + 1 === currentMonth &&
-                prodReDate.getDate() === day
-            );
+            const filteredData = data.filter(item => {
+                const itemDate = new Date(item[dateKey]);
+                return (
+                    itemDate.getFullYear() === currentYear &&
+                    itemDate.getMonth() + 1 === currentMonth &&
+                    itemDate.getDate() === day
+                );
+            });
+
+            return filteredData.reduce((total, item) => total + item[priceKey], 0);
         });
+    };
 
-        const totalPrice = prodRe.reduce((total, product) => total + (product.price * product.quantity), 0);
-        return totalPrice;
-    });
+    const calculateMonthlyRevenue = (data, priceKey, dateKey) => {
+        return monthLabels.map((_, index) => {
+            const currentYear = new Date().getFullYear();
 
-    // Calculer le revenu quotidien des téléphones
-    const dailyPhoneRevenue = dayLabels.map(day => {
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth() + 1;
+            const filteredData = data.filter(item => {
+                const itemDate = new Date(item[dateKey]);
+                return (
+                    itemDate.getFullYear() === currentYear &&
+                    itemDate.getMonth() === index
+                );
+            });
 
-        const phonesFixedOnDay = data.filter(phone => {
-            const fixDate = new Date(phone.updatedAt);
-            const phoneYear = fixDate.getFullYear();
-            const phoneMonth = fixDate.getMonth() + 1;
-            const phoneDay = fixDate.getDate();
-            return (
-                phone.status === 'Fixed' &&
-                phoneYear === currentYear &&
-                phoneMonth === currentMonth &&
-                phoneDay === day
-            );
+            return filteredData.reduce((total, item) => total + item[priceKey], 0);
         });
+    };
 
-        const totalPrice = phonesFixedOnDay.reduce((total, phone) => total + phone.price, 0);
-        return totalPrice;
-    });
+    const calculateBenefits = (data, priceKey, costKey, laborKey, downPaymentKey) => {
+        return dayLabels.map(day => {
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const currentMonth = currentDate.getMonth() + 1;
 
-    // Calculer le revenu mensuel des téléphones
-    const monthlyPhoneRevenue = monthLabels.map((month, index) => {
-        const currentYear = new Date().getFullYear();
-        const phonesDeliveredInMonth = data.filter(phone => {
-            const phoneDeliveryMonth = new Date(phone.updatedAt);
-            return (
-                phone.status === 'Fixed' &&
-                phoneDeliveryMonth.getFullYear() === currentYear &&
-                phoneDeliveryMonth.getMonth() === index
-            );
+            const filteredData = data.filter(item => {
+                const itemDate = new Date(item.updatedAt);
+                return (
+                    itemDate.getFullYear() === currentYear &&
+                    itemDate.getMonth() + 1 === currentMonth &&
+                    itemDate.getDate() === day
+                );
+            });
+
+            return filteredData.reduce((total, item) => total + (item[priceKey] - item[costKey] - item[laborKey] - item[downPaymentKey]), 0);
         });
+    };
 
-        const totalPrice = phonesDeliveredInMonth.reduce((total, phone) => total + phone.price, 0);
-        return totalPrice;
-    });
+    const calculateBenefitsMonthly = (data, priceKey, costKey, laborKey, downPaymentKey) => {
+        return monthLabels.map((_, index) => {
+            const currentYear = new Date().getFullYear();
 
-    // Calculer le revenu mensuel des produits
-    const monthlyProdRevenue = monthLabels.map((month, index) => {
-        const currentYear = new Date().getFullYear();
-        const productsSold = productdata.filter(product => {
-            const productSoldMonth = new Date(product.updatedAt);
-            return (
-                productSoldMonth.getFullYear() === currentYear &&
-                productSoldMonth.getMonth() === index
-            );
+            const filteredData = data.filter(item => {
+                const itemDate = new Date(item.updatedAt);
+                return (
+                    itemDate.getFullYear() === currentYear &&
+                    itemDate.getMonth() === index
+                );
+            });
+
+            return filteredData.reduce((total, item) => total + (item[priceKey] - item[costKey] - item[laborKey] - item[downPaymentKey]), 0);
         });
+    };
 
-        const totalRevenue = productsSold.reduce((total, product) => total + (product.price * product.quantity), 0);
-        return totalRevenue;
-    });
+    const dailyPhoneRevenue = calculateDailyRevenue(data, 'price', 'updatedAt');
+    const monthlyPhoneRevenue = calculateMonthlyRevenue(data, 'price', 'updatedAt');
+    const dailyPhoneBenefits = calculateBenefits(data, 'price', 'cost', 'labor', 'downPayment');
+    const monthlyPhoneBenefits = calculateBenefitsMonthly(data, 'price', 'cost', 'labor', 'downPayment');
+
+    const dailyPcRevenue = calculateDailyRevenue(pcData, 'price', 'updatedAt');
+    const monthlyPcRevenue = calculateMonthlyRevenue(pcData, 'price', 'updatedAt');
+    const dailyPcBenefits = calculateBenefits(pcData, 'price', 'cost', 'labor', 'downPayment');
+    const monthlyPcBenefits = calculateBenefitsMonthly(pcData, 'price', 'cost', 'labor', 'downPayment');
+
+    const dailyVitrineRevenue = calculateDailyRevenue(vitrineData, 'price', 'updatedAt');
+    const monthlyVitrineRevenue = calculateMonthlyRevenue(vitrineData, 'price', 'updatedAt');
+    const dailyVitrineBenefits = dailyVitrineRevenue.map((revenue, index) => revenue - vitrineData.filter(vitrine => new Date(vitrine.updatedAt).getDate() === index + 1).reduce((total, vitrine) => total + (vitrine.cost * vitrine.quantity), 0));
+    const monthlyVitrineBenefits = monthlyVitrineRevenue.map((revenue, index) => revenue - vitrineData.filter(vitrine => new Date(vitrine.updatedAt).getMonth() === index).reduce((total, vitrine) => total + (vitrine.cost * vitrine.quantity), 0));
 
     return (
-        <div style={{ padding: 10, backgroundColor: '#FCF6F5FF' }}>
-            <Typography variant='h3' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginTop: 3 }}>
-                Tableau de bord
-            </Typography>
-
-            <Grid container spacing={3} sx={{ marginTop: 3 }}>
-                <Grid item xs={12} md={4}>
-                    <Box sx={{ height: 100 }}>
-                        <Box
-                            sx={{
-                                padding: 2,
-                                height: '100%',
-                                border: '1px solid grey',
-                                borderRadius: 3,
-                                backgroundColor: '#89ABE3FF',
-                                textAlign: 'center',
-                                boxShadow: 15,
-                            }}
-                        >
-                            <PhoneIcon />
-                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                Téléphones réparés aujourd'hui
-                            </Typography>
-                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                {active.length}
-                            </Typography>
-                        </Box>
-                    </Box>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <Box sx={{ height: 100 }}>
-                        <Box
-                            sx={{
-                                padding: 2,
-                                height: '100%',
-                                border: '1px solid grey',
-                                borderRadius: 3,
-                                backgroundColor: '#89ABE3FF',
-                                textAlign: 'center',
-                                boxShadow: 15,
-                            }}
-                        >
-                            <CancelIcon />
-                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                Téléphones refusé aujourd'hui
-                            </Typography>
-                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                {inActive.length}
-                            </Typography>
-                        </Box>
-                    </Box>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <Box sx={{ height: 100 }}>
-                        <Box
-                            sx={{
-                                padding: 2,
-                                height: '100%',
-                                border: '1px solid grey',
-                                borderRadius: 3,
-                                backgroundColor: '#89ABE3FF',
-                                textAlign: 'center',
-                                boxShadow: 15,
-                            }}
-                        >
-                            <HourglassEmptyIcon />
-                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                En attente de traitement
-                            </Typography>
-                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                {wating.length}
-                            </Typography>
-                        </Box>
-                    </Box>
-                </Grid>
-
-                <Grid item xs={12} md={6}>
-                    <Box sx={{ height: 500 }}>
-                        <BarChart
-                            xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                            series={[{ data: dayProdRev, label: 'Revenu quotidien des produits', color: ['#3366CC'] }]}
-                            width={800}
-                            sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                            height={500}
-                        />
-                    </Box>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Box sx={{ height: 500 }}>
-                        <BarChart
-                            xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                            series={[{ data: dailyPhoneRevenue, label: 'Revenu quotidien des téléphones', color: ['#DC3912'] }]}
-                            width={800}
-                            sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                            height={500}
-                        />
-                    </Box>
-                </Grid>
-
-                <Grid item xs={12} md={6}>
-                    <Box sx={{ height: 500 }}>
-                        <BarChart
-                            xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                            series={[{ data: monthlyPhoneRevenue, label: 'Revenu mensuel des téléphones', color: ['#FF9900'] }]}
-                            width={800}
-                            sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                            height={500}
-                        />
-                    </Box>
-                   
-                </Grid>
-
-                <Grid item xs={12} md={6}>
-                    <Box sx={{ height: 500 }}>
-                        <BarChart
-                            xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                            series={[{ data: monthlyProdRevenue, label: 'Revenu mensuel des produits', color: ['#109618'] }]}
-                            width={800}
-                            sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                            height={500}
-                        />
-                    </Box>
-                    
-                </Grid>
-
+        <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Phone Revenue</Typography>
+                <Box mb={2}>
+                    <Typography variant="h6">Daily Revenue</Typography>
+                    <BarChart data={dailyPhoneRevenue.map((value, index) => ({ x: dayLabels[index], y: value }))} xAxisLabel="Day" yAxisLabel="Revenue" />
+                </Box>
+                <Box>
+                    <Typography variant="h6">Monthly Revenue</Typography>
+                    <BarChart data={monthlyPhoneRevenue.map((value, index) => ({ x: monthLabels[index], y: value }))} xAxisLabel="Month" yAxisLabel="Revenue" />
+                </Box>
             </Grid>
-        </div>
+            <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Phone Benefits</Typography>
+                <Box mb={2}>
+                    <Typography variant="h6">Daily Benefits</Typography>
+                    <BarChart data={dailyPhoneBenefits.map((value, index) => ({ x: dayLabels[index], y: value }))} xAxisLabel="Day" yAxisLabel="Benefits" />
+                </Box>
+                <Box>
+                    <Typography variant="h6">Monthly Benefits</Typography>
+                    <BarChart data={monthlyPhoneBenefits.map((value, index) => ({ x: monthLabels[index], y: value }))} xAxisLabel="Month" yAxisLabel="Benefits" />
+                </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <Typography variant="h6">PC Revenue</Typography>
+                <Box mb={2}>
+                    <Typography variant="h6">Daily Revenue</Typography>
+                    <BarChart data={dailyPcRevenue.map((value, index) => ({ x: dayLabels[index], y: value }))} xAxisLabel="Day" yAxisLabel="Revenue" />
+                </Box>
+                <Box>
+                    <Typography variant="h6">Monthly Revenue</Typography>
+                    <BarChart data={monthlyPcRevenue.map((value, index) => ({ x: monthLabels[index], y: value }))} xAxisLabel="Month" yAxisLabel="Revenue" />
+                </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <Typography variant="h6">PC Benefits</Typography>
+                <Box mb={2}>
+                    <Typography variant="h6">Daily Benefits</Typography>
+                    <BarChart data={dailyPcBenefits.map((value, index) => ({ x: dayLabels[index], y: value }))} xAxisLabel="Day" yAxisLabel="Benefits" />
+                </Box>
+                <Box>
+                    <Typography variant="h6">Monthly Benefits</Typography>
+                    <BarChart data={monthlyPcBenefits.map((value, index) => ({ x: monthLabels[index], y: value }))} xAxisLabel="Month" yAxisLabel="Benefits" />
+                </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Vitrine Revenue</Typography>
+                <Box mb={2}>
+                    <Typography variant="h6">Daily Revenue</Typography>
+                    <BarChart data={dailyVitrineRevenue.map((value, index) => ({ x: dayLabels[index], y: value }))} xAxisLabel="Day" yAxisLabel="Revenue" />
+                </Box>
+                <Box>
+                    <Typography variant="h6">Monthly Revenue</Typography>
+                    <BarChart data={monthlyVitrineRevenue.map((value, index) => ({ x: monthLabels[index], y: value }))} xAxisLabel="Month" yAxisLabel="Revenue" />
+                </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Vitrine Benefits</Typography>
+                <Box mb={2}>
+                    <Typography variant="h6">Daily Benefits</Typography>
+                    <BarChart data={dailyVitrineBenefits.map((value, index) => ({ x: dayLabels[index], y: value }))} xAxisLabel="Day" yAxisLabel="Benefits" />
+                </Box>
+                <Box>
+                    <Typography variant="h6">Monthly Benefits</Typography>
+                    <BarChart data={monthlyVitrineBenefits.map((value, index) => ({ x: monthLabels[index], y: value }))} xAxisLabel="Month" yAxisLabel="Benefits" />
+                </Box>
+            </Grid>
+        </Grid>
     );
 }
