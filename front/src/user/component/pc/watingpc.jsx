@@ -126,7 +126,7 @@ const Watpc = ({ searchQuery }) => {
                     </TableCell>
                     <TableCell align="center">{row.createdAt.slice(0, 10)}</TableCell>
                     <TableCell align="center">
-                      <ActionsButtons id={row.id} updateStatus={updateStatus} />
+                      <ActionsButtons id={row.ref} updateStatus={updateStatus} />
                     </TableCell>
                   </TableRow>
                 ))}

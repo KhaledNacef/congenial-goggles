@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import { Typography, IconButton, Slider } from '@mui/material';
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Button,
+  TextField,
+  Typography,
+  IconButton,
+  Slider,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -21,8 +30,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
   const [upQuantity, setUpQuantity] = useState('');
   const [pricee, setPricee] = useState('');
   const [priceU, setPriceU] = useState('');
-  const [discount, setDiscount] = useState(1); // Default discount of 1
-
+  const [discount, setDiscount] = useState(1);
   const [view, setView] = useState('non');
   const [selectedId, setSelectedId] = useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -59,7 +67,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
       try {
         await axios.put(`https://api.deviceshopleader.com/api/product/sell/${id}/${userIdFromCookie}/${quantity}/${discount}`);
         setSellQuantity('');
-        setDiscount(1); // Reset discount after selling
+        setDiscount(1);
         setView('non');
         fetchData();
       } catch (error) {
@@ -113,9 +121,9 @@ const Allproduct = ({ filteredData, setDataA }) => {
     }
   };
 
-  const deleteProduct = async (id) => {
+  const deleteProduct = async (ref) => {
     try {
-      await axios.delete(`https://api.deviceshopleader.com/api/product/deleteproduct/${userIdFromCookie}/${id}`);
+      await axios.delete(`https://api.deviceshopleader.com/api/product/deleteproduct/${userIdFromCookie}/${ref}`);
       fetchData();
     } catch (error) {
       console.error('Error while deleting the product record:', error);
@@ -171,7 +179,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                     <TableCell align="center">{row.ref}</TableCell>
                     <TableCell align="center">{row.name}</TableCell>
                     <TableCell align="center">{row.price}DT</TableCell>
-                    <TableCell align="center">{row.priceU}DT</TableCell>
+                    <TableCell align="center">{row.buyprice}DT</TableCell>
                     <TableCell align="center">{row.quantity}</TableCell>
                     <TableCell align="center">
                       <img src={row.image} alt="Product" style={{ maxWidth: '100px', maxHeight: '100px' }} />
@@ -189,7 +197,7 @@ const Allproduct = ({ filteredData, setDataA }) => {
                       <Button onClick={() => { setSelectedId(row.ref); setView('priceu'); }} variant="contained" color="secondary" size="small" sx={{ marginLeft: 1, fontWeight: 500 }}>
                         Modifier Prix-U
                       </Button>
-                      <IconButton onClick={() => handleOpenDeleteDialog(row.id)} aria-label="delete" color="secondary">
+                      <IconButton onClick={() => handleOpenDeleteDialog(row.ref)} aria-label="delete" color="secondary">
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
@@ -271,6 +279,27 @@ const Allproduct = ({ filteredData, setDataA }) => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      <Dialog
+        open={openDeleteDialog}
+        onClose={handleCloseDeleteDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Confirmer la suppression"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Êtes-vous sûr de vouloir supprimer ce produit ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={handleConfirmDelete} color="secondary" autoFocus>
+            Supprimer
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
