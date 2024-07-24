@@ -539,7 +539,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dayPhoneBenefits, label: 'Bénéfices quotidiens des téléphones', color: ['#DC143C'] }]}
+                        series={[{ data: dailyPhoneBenefits, label: 'Bénéfices quotidiens des téléphones', color: ['#DC143C'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -549,7 +549,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dayPhoneRev, label: 'Revenu quotidien des téléphones', color: ['#FF4500'] }]}
+                        series={[{ data: dailyPhoneRevenue, label: 'Revenu quotidien des téléphones', color: ['#FF4500'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -564,7 +564,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dayPCBenefits, label: 'Bénéfices quotidiens des PCs', color: ['#FFD700'] }]}
+                        series={[{ data: dailyPcBenefits, label: 'Bénéfices quotidiens des PCs', color: ['#FFD700'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -574,7 +574,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dayPCRev, label: 'Revenu quotidien des PCs', color: ['#FFD700'] }]}
+                        series={[{ data: dailyPcRevenue, label: 'Revenu quotidien des PCs', color: ['#FFD700'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -665,7 +665,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyPCBenefits, label: 'Bénéfices mensuels des PCs', color: ['#FFD700'] }]}
+                        series={[{ data: monthlyPcBenefits, label: 'Bénéfices mensuels des PCs', color: ['#FFD700'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -675,7 +675,7 @@ const baseUrl="https://api.deviceshopleader.com/api"
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyPCRevenue, label: 'Revenu mensuel des PCs', color: ['#FFD700'] }]}
+                        series={[{ data: monthlyPcRevenue, label: 'Revenu mensuel des PCs', color: ['#FFD700'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
