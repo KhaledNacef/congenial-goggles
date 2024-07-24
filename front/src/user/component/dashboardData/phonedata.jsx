@@ -96,11 +96,8 @@ const Phonedata = () => {
                 if (phoneUpdatedDate.getFullYear() === currentYear &&
                     phoneUpdatedDate.getMonth() + 1 === currentMonth &&
                     phoneUpdatedDate.getDate() === day) {
-                    if (phone.status === 'fixed') {
-                        totalCout += cout;
-                        totalMaindoeuvre += maindoeuvre;
-                    }
-                    if (phone.status === 'soldé') {
+                    
+                    if (phone.status === 'soldé' ||phone.status === 'fixed') {
                         totalSoldPrice += price;
                         totalCout += cout;
                         totalMaindoeuvre += maindoeuvre;
@@ -163,10 +160,7 @@ const Phonedata = () => {
                 }
     
                 if (phoneUpdatedDate.getFullYear() === currentYear && phoneUpdatedDate.getMonth() + 1 === month) {
-                    if (phone.status === 'fixed') {
-                        totalCout += cout;
-                        totalMaindoeuvre += maindoeuvre;
-                    } else if (phone.status === 'soldé') {
+                    if (phone.status === 'soldé' ||phone.status === 'fixed') {
                         totalSoldPrice += price;
                         totalCout += cout;
                         totalMaindoeuvre += maindoeuvre;
