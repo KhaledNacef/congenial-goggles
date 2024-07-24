@@ -55,6 +55,15 @@ const Fixeddpc = ({ searchQuery }) => {
     setView(!view);
   };
 
+  const updateStatus = async (id, status) => {
+    try {
+      await axios.put(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${id}`, { status });
+       // Refresh data after status update
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du statut :', error);
+    }
+  };
+
   const updatePrice = async () => {
     try {
       await axios.put(`https://api.deviceshopleader.com/api/pc/price/${userIdFromCookie}/${selectedId}`, { price: price });
