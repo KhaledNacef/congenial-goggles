@@ -6,6 +6,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Vetrinedata from './dashboardData/vetrine';
 
 export default function Dashboard() {
     const [data, setData] = useState([]);
@@ -17,10 +18,8 @@ export default function Dashboard() {
     const [productdata, setProductdata] = useState([]);
     const [pc,setPc]=useState([])
     const userIdFromCookie = Cookies.get('token');
-    const [vetrine,setvetrine]=useState([])
 
 
-    const baseUrl = 'https://api.deviceshopleader.com/api';    
     const fetchincome = async () => {
         try {
             const response = await axios.get(`https://api.deviceshopleader.com/api/sold/soldproducts/${userIdFromCookie}`);
@@ -76,16 +75,7 @@ export default function Dashboard() {
         }
     };
 
-    const getallvetrine = async () => {
-        try {
-          const response = await axios.get(`${baseUrl}/vetrine/soldvetrine/${userIdFromCookie}`);
-          setvetrine(response.data);
-        } catch (error) {
-          console.error('Erreur lors de la récupération de toutes les données :', error);
-        }
-      };
-    
-
+   
     const getallpc = async () => {
         try {
           const response = await axios.get(`${baseUrl}/pc/all/${userIdFromCookie}`);
@@ -197,46 +187,7 @@ const dayProdBenefits = dayLabels.map(day => {
     }, 0);
 });
 
-const dayVitrineRev = dayLabels.map(day => {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth() + 1;
 
-    const filteredVitrines = vetrine.filter(vitrine => {
-        const vitrineDate = new Date(vitrine.createdAt);
-        return (
-            vitrineDate.getFullYear() === currentYear &&
-            vitrineDate.getMonth() + 1 === currentMonth &&
-            vitrineDate.getDate() === day 
-        );
-    });
-
-    const totalPrice = filteredVitrines.reduce((total, vitrine) => total + vitrine.price, 0);
-    return totalPrice;
-});
-
-const dayVitrineBenefits = dayLabels.map(day => {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth() + 1;
-
-    const filteredVitrines = vetrine.filter(vitrine => {
-        const vitrineDate = new Date(vitrine.createdAt);
-        return (
-            vitrineDate.getFullYear() === currentYear &&
-            vitrineDate.getMonth() + 1 === currentMonth &&
-            vitrineDate.getDate() === day 
-        );
-    });
-
-    return filteredVitrines.reduce((total, vitrine) => {
-        const price = vitrine.price || 0;
-        const maindoeuvre = vitrine.maindoeuvre || 0;
-        const cout = vitrine.cout || 0;
-        const values = [price, maindoeuvre, cout];
-        return total + calculateBenefits(values);
-    }, 0);
-});
 
 const dailyPhoneRevenue = dayLabels.map(day => {
     const currentDate = new Date();
@@ -410,42 +361,7 @@ const monthlyProdBenefits = monthLabels.map((month, index) => {
     }, 0);
 });
 
-const monthlyVitrineRevenue = monthLabels.map((month, index) => {
-    const currentYear = new Date().getFullYear();
 
-    const vitrinesSoldInMonth = vetrine.filter(vitrine => {
-        const vitrineSoldMonth = new Date(vitrine.createdAt);
-        return (
-            vitrineSoldMonth.getFullYear() === currentYear &&
-            vitrineSoldMonth.getMonth() === index
-        );
-    });
-
-    return vitrinesSoldInMonth.reduce((total, vitrine) => {
-        const price = vitrine.price || 0;
-        return total + price;
-    }, 0);
-});
-
-const monthlyVitrineBenefits = monthLabels.map((month, index) => {
-    const currentYear = new Date().getFullYear();
-
-    const vitrinesSoldInMonth = vetrine.filter(vitrine => {
-        const vitrineSoldMonth = new Date(vitrine.createdAt);
-        return (
-            vitrineSoldMonth.getFullYear() === currentYear &&
-            vitrineSoldMonth.getMonth() === index
-        );
-    });
-
-    return vitrinesSoldInMonth.reduce((total, vitrine) => {
-        const price = vitrine.price || 0;
-        const maindoeuvre = vitrine.maindoeuvre || 0;
-        const cout = vitrine.cout || 0;
-        const values = [price, maindoeuvre, cout];
-        return total + calculateBenefits(values);
-    }, 0);
-});
 
 const monthlyPcRevenue = monthLabels.map((month, index) => {
     const currentYear = new Date().getFullYear();
@@ -647,30 +563,6 @@ const monthlyPcBenefits = monthLabels.map((month, index) => {
                 </Box>
             </Grid>
 
-            <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
-                <Box sx={{ height: 500 }}>
-                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Bénéfices quotidiens des vitrines
-                    </Typography>
-                    <BarChart
-                        xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dayVitrineBenefits, label: 'Bénéfices quotidiens des vitrines', color: ['#32CD32'] }]}
-                        width={800}
-                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                        height={250}
-                    />
-                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Revenu quotidien des vitrines
-                    </Typography>
-                    <BarChart
-                        xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dayVitrineRev, label: 'Revenu quotidien des vitrines', color: ['#228B22'] }]}
-                        width={800}
-                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                        height={250}
-                    />
-                </Box>
-            </Grid>
 
             {/* Monthly Charts */}
             <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
@@ -748,30 +640,7 @@ const monthlyPcBenefits = monthLabels.map((month, index) => {
                 </Box>
             </Grid>
 
-            <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
-                <Box sx={{ height: 500 }}>
-                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Bénéfices mensuels des vitrines
-                    </Typography>
-                    <BarChart
-                        xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyVitrineBenefits, label: 'Bénéfices mensuels des vitrines', color: ['#32CD32'] }]}
-                        width={800}
-                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                        height={250}
-                    />
-                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Revenu mensuel des vitrines
-                    </Typography>
-                    <BarChart
-                        xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyVitrineRevenue, label: 'Revenu mensuel des vitrines', color: ['#228B22'] }]}
-                        width={800}
-                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                        height={250}
-                    />
-                </Box>
-            </Grid>
+           <Vetrinedata/>
 
         </Grid>
     </div>
