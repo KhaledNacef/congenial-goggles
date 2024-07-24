@@ -103,6 +103,7 @@ const Phonedata = () => {
                 const accompte = phone.accompte || 0;
                 const maindoeuvre = phone.maindoeuvre || 0;
                 const createdDate = new Date(phone.createdAt);
+                const phoneUpdatedDate = new Date(phone.updatedAt);
 
                 if (createdDate.getFullYear() === currentYear &&
                     createdDate.getMonth() + 1 === currentMonth &&
@@ -110,16 +111,16 @@ const Phonedata = () => {
                     totalAccompte += accompte;
                 }
 
-                if (phone.status === 'fixed' && createdDate.getFullYear() === currentYear &&
-                    createdDate.getMonth() + 1 === currentMonth &&
-                    createdDate.getDate() === day) {
+                if (phone.status === 'fixed' && phoneUpdatedDate.getFullYear() === currentYear &&
+                phoneUpdatedDate.getMonth() + 1 === currentMonth &&
+                phoneUpdatedDate.getDate() === day) {
                     totalCout += cout;
                     totalMaindoeuvre += maindoeuvre;
                 }
 
-                if (phone.status === 'soldé' && createdDate.getFullYear() === currentYear &&
-                    createdDate.getMonth() + 1 === currentMonth &&
-                    createdDate.getDate() === day) {
+                if (phone.status === 'soldé' && phoneUpdatedDate.getFullYear() === currentYear &&
+                phoneUpdatedDate.getMonth() + 1 === currentMonth &&
+                phoneUpdatedDate.getDate() === day) {
                     totalSoldPrice += price;
                     totalCout += cout;
                     totalMaindoeuvre += maindoeuvre;
@@ -189,17 +190,17 @@ const Phonedata = () => {
                 const accompte = phone.accompte || 0;
                 const maindoeuvre = phone.maindoeuvre || 0;
                 const createdDate = new Date(phone.createdAt);
+                const phoneUpdatedDate = new Date(phone.updatedAt);
 
                 if (createdDate.getMonth() + 1 === month) {
                     totalAccompte += accompte;
                 }
-
-                if (phone.status === 'fixed' && createdDate.getMonth() + 1 === month) {
+                
+                if (phone.status === 'fixed' && phoneUpdatedDate.getMonth() + 1 === month) {
                     totalCout += cout;
                     totalMaindoeuvre += maindoeuvre;
                 }
 
-                const phoneUpdatedDate = new Date(phone.updatedAt);
                 if (phone.status === 'soldé' && phoneUpdatedDate.getMonth() + 1 === month) {
                     totalSoldPrice += price;
                     totalCout += cout;
