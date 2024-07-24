@@ -29,7 +29,7 @@ const Phonedata = () => {
     }, []);
 
     const calculateBenefits = (accompte, cout, price) => {
-        return accompte + cout - price;
+        return  price-accompte + cout ;
     };
 
     const dayLabels = [...Array(31).keys()].map(i => i + 1);
