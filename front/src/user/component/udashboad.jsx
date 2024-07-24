@@ -18,6 +18,10 @@ export default function Dashboard() {
     const [pc,setPc]=useState([])
     const userIdFromCookie = Cookies.get('token');
     const [vetrine,setvetrine]=useState([])
+
+
+const baseUrl="https://api.deviceshopleader.com/api"
+    
     const fetchincome = async () => {
         try {
             const response = await axios.get(`https://api.deviceshopleader.com/api/sold/soldproducts/${userIdFromCookie}`);
@@ -431,6 +435,7 @@ export default function Dashboard() {
         </Typography>
 
         <Grid container spacing={3} sx={{ marginTop: 3 }}>
+            {/* Overview Boxes */}
             <Grid item xs={12} md={4}>
                 <Box sx={{ height: 100 }}>
                     <Box
@@ -469,7 +474,7 @@ export default function Dashboard() {
                     >
                         <CancelIcon />
                         <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                            Téléphones refusé aujourd'hui
+                            Téléphones refusés aujourd'hui
                         </Typography>
                         <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                             {inActive.length}
@@ -501,7 +506,7 @@ export default function Dashboard() {
                 </Box>
             </Grid>
 
-            {/* Daily Revenue and Benefits */}
+            {/* Daily Charts */}
             <Grid item xs={12} md={6}>
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
@@ -509,7 +514,7 @@ export default function Dashboard() {
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dayProdBenefits, label: 'Bénéfices quotidiens des produits', color: ['#3366CC'] }]}
+                        series={[{ data: dayProdBenefits, label: 'Bénéfices quotidiens des produits', color: ['#1E90FF'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -519,7 +524,7 @@ export default function Dashboard() {
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dayProdRev, label: 'Revenu quotidien des produits', color: ['#3366CC'] }]}
+                        series={[{ data: dayProdRev, label: 'Revenu quotidien des produits', color: ['#4682B4'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -534,7 +539,7 @@ export default function Dashboard() {
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dayPhoneBenefits, label: 'Bénéfices quotidiens des téléphones', color: ['#DC3912'] }]}
+                        series={[{ data: dayPhoneBenefits, label: 'Bénéfices quotidiens des téléphones', color: ['#DC143C'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -544,7 +549,7 @@ export default function Dashboard() {
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dayPhoneRev, label: 'Revenu quotidien des téléphones', color: ['#DC3912'] }]}
+                        series={[{ data: dayPhoneRev, label: 'Revenu quotidien des téléphones', color: ['#FF4500'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -555,11 +560,62 @@ export default function Dashboard() {
             <Grid item xs={12} md={6}>
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Bénéfices quotidiens des PCs
+                    </Typography>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: dayLabels }]}
+                        series={[{ data: dayPCBenefits, label: 'Bénéfices quotidiens des PCs', color: ['#FFD700'] }]}
+                        width={800}
+                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+                        height={250}
+                    />
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Revenu quotidien des PCs
+                    </Typography>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: dayLabels }]}
+                        series={[{ data: dayPCRev, label: 'Revenu quotidien des PCs', color: ['#FFD700'] }]}
+                        width={800}
+                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+                        height={250}
+                    />
+                </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+                <Box sx={{ height: 500 }}>
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Bénéfices quotidiens des vitrines
+                    </Typography>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: dayLabels }]}
+                        series={[{ data: dayVitrineBenefits, label: 'Bénéfices quotidiens des vitrines', color: ['#32CD32'] }]}
+                        width={800}
+                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+                        height={250}
+                    />
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Revenu quotidien des vitrines
+                    </Typography>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: dayLabels }]}
+                        series={[{ data: dayVitrineRev, label: 'Revenu quotidien des vitrines', color: ['#228B22'] }]}
+                        width={800}
+                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+                        height={250}
+                    />
+                </Box>
+            </Grid>
+
+            {/* Monthly Charts */}
+            <Grid item xs={12} md={6}>
+                <Box sx={{ height: 500 }}>
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices mensuels des produits
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyProdBenefits, label: 'Bénéfices mensuels des produits', color: ['#FF9900'] }]}
+                        series={[{ data: monthlyProdBenefits, label: 'Bénéfices mensuels des produits', color: ['#1E90FF'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -569,32 +625,7 @@ export default function Dashboard() {
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyProdRevenue, label: 'Revenu mensuel des produits', color: ['#109618'] }]}
-                        width={800}
-                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                        height={250}
-                    />
-                </Box>
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-                <Box sx={{ height: 500 }}>
-                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Bénéfices mensuels des vitrines
-                    </Typography>
-                    <BarChart
-                        xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyVitrineBenefits, label: 'Bénéfices mensuels des vitrines', color: ['#FF9900'] }]}
-                        width={800}
-                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                        height={250}
-                    />
-                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Revenu mensuel des vitrines
-                    </Typography>
-                    <BarChart
-                        xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyVitrineRevenue, label: 'Revenu mensuel des vitrines', color: ['#109618'] }]}
+                        series={[{ data: monthlyProdRevenue, label: 'Revenu mensuel des produits', color: ['#4682B4'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -609,7 +640,7 @@ export default function Dashboard() {
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyPhoneBenefits, label: 'Bénéfices mensuels des téléphones', color: ['#DC3912'] }]}
+                        series={[{ data: monthlyPhoneBenefits, label: 'Bénéfices mensuels des téléphones', color: ['#DC143C'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -619,13 +650,64 @@ export default function Dashboard() {
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyPhoneRevenue, label: 'Revenu mensuel des téléphones', color: ['#DC3912'] }]}
+                        series={[{ data: monthlyPhoneRevenue, label: 'Revenu mensuel des téléphones', color: ['#FF4500'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
                     />
                 </Box>
             </Grid>
+
+            <Grid item xs={12} md={6}>
+                <Box sx={{ height: 500 }}>
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Bénéfices mensuels des PCs
+                    </Typography>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: monthLabels }]}
+                        series={[{ data: monthlyPCBenefits, label: 'Bénéfices mensuels des PCs', color: ['#FFD700'] }]}
+                        width={800}
+                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+                        height={250}
+                    />
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Revenu mensuel des PCs
+                    </Typography>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: monthLabels }]}
+                        series={[{ data: monthlyPCRevenue, label: 'Revenu mensuel des PCs', color: ['#FFD700'] }]}
+                        width={800}
+                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+                        height={250}
+                    />
+                </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+                <Box sx={{ height: 500 }}>
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Bénéfices mensuels des vitrines
+                    </Typography>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: monthLabels }]}
+                        series={[{ data: monthlyVitrineBenefits, label: 'Bénéfices mensuels des vitrines', color: ['#32CD32'] }]}
+                        width={800}
+                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+                        height={250}
+                    />
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Revenu mensuel des vitrines
+                    </Typography>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: monthLabels }]}
+                        series={[{ data: monthlyVitrineRevenue, label: 'Revenu mensuel des vitrines', color: ['#228B22'] }]}
+                        width={800}
+                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+                        height={250}
+                    />
+                </Box>
+            </Grid>
+
         </Grid>
     </div>
     );
