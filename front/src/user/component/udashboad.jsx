@@ -141,6 +141,9 @@ const baseUrl="https://api.deviceshopleader.com/api"
     }, []);
 
     // Labels des mois
+    const monthLabels = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
+const dayLabels = Array.from({ length: 31 }, (_, i) => i + 1);
+
     
 // Helper function to calculate daily revenue and benefits
 const calculateDailyRevenueAndBenefits = (data, dateField, valueFields, excludeStatus) => {
