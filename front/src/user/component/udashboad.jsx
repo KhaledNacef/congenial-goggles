@@ -20,8 +20,7 @@ export default function Dashboard() {
     const [vetrine,setvetrine]=useState([])
 
 
-const baseUrl="https://api.deviceshopleader.com/api"
-    
+    const baseUrl = 'https://api.deviceshopleader.com/api';    
     const fetchincome = async () => {
         try {
             const response = await axios.get(`https://api.deviceshopleader.com/api/sold/soldproducts/${userIdFromCookie}`);
