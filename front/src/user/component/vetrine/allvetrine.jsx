@@ -187,7 +187,9 @@ const Allvetrine = ({ searchQuery }) => {
                             ? '#f44336'
                             : row.status === 'Fixed'
                             ? '#99cc99'
-                            : '#89ABE3FF',
+                            : row.status === 'solde'
+                            ? '#89ABE3FF'
+                            : '#fbef53',
                         borderRadius: 30,
                         fontWeight: 'bold',
                         color: 'black',

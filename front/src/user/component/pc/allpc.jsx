@@ -184,11 +184,13 @@ const Allpc = ({ searchQuery }) => {
                       align="center"
                       sx={{
                         bgcolor:
-                          row.status === 'Refused'
-                            ? '#f44336'
-                            : row.status === 'Fixed'
-                            ? '#99cc99'
-                            : '#fbef53',
+                        row.status === 'Refused'
+                        ? '#f44336'
+                        : row.status === 'Fixed'
+                        ? '#99cc99'
+                        : row.status === 'solde'
+                        ? '#89ABE3FF'
+                        : '#fbef53',
                         borderRadius: 30,
                         fontWeight: 'bold',
                         color: 'black',
