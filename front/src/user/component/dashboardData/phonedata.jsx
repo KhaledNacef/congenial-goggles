@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { Grid, Box, Typography } from '@mui/material';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { cout } from '../../../../../server/database/models/phone';
 
 const userIdFromCookie = Cookies.get('token');
 
