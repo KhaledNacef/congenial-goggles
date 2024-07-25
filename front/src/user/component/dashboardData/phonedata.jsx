@@ -177,17 +177,17 @@ const Phonedata = () => {
             });
     
             // Accumulate totals
-            totalCout += monthlyTotalCout;
-            totalMaindoeuvre += monthlyTotalMaindoeuvre;
-    
+           const totalCout = monthlyTotalCout
+           const totalMaindoeuvre = monthlyTotalMaindoeuvre
+           setCoutm(totalCout);
+           setModm(totalMaindoeuvre);
             return calculateBenefits(totalAccompte, monthlyTotalCout + monthlyTotalMaindoeuvre, totalSoldPrice);
         });
     
         setMonthlyPhoneBenefits(monthlyBenefits);
     
         // Set the total cout and main d'oeuvre
-        setCoutm(monthlyTotalCout);
-        setModm(monthlyTotalMaindoeuvre);
+        
     };
     
     
