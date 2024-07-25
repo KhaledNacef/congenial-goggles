@@ -183,13 +183,13 @@ export default function Dashboard() {
                 </Box>
             </Grid>
 
-           <Proddata/>
+           {/* <Proddata/> */}
            
-            <Pcdata/>
+            {/* <Pcdata/> */}
            
             <Phonedata/>
 
-           <Vetrinedata/>
+           {/* <Vetrinedata/> */}
 
         </Grid>
     </div>

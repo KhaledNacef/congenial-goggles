@@ -187,18 +187,19 @@ const Phonedata = () => {
     return (
         <Grid container spacing={4} sx={{ marginBottom: 4 }}>
         <Grid item xs={12} md={6} lg={3}>
+        <Box sx={{ backgroundColor: '#89CFF0', borderRadius: 2, padding: 2, textAlign: 'center', marginBottom: 2 }}>
+              <Typography variant="h3" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
+                Coût quotidien des téléphones: {coutd} DT
+              </Typography>
+              <Typography variant="h3" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
+                Main d'œuvre quotidienne des téléphones: {modd} DT
+              </Typography>
+            </Box>
           <Box sx={{ height: 500 }}>
             <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
               Bénéfices quotidiens des téléphones
             </Typography>
-            <Box sx={{ backgroundColor: '#89CFF0', borderRadius: 2, padding: 2, textAlign: 'center', marginBottom: 2 }}>
-              <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
-                Coût quotidien des téléphones: {coutd} DT
-              </Typography>
-              <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
-                Main d'œuvre quotidienne des téléphones: {modd} DT
-              </Typography>
-            </Box>
+           
             <BarChart
               xAxis={[{ scaleType: 'band', data: dayLabels }]}
               series={[{ data: dailyPhoneBenefits, label: 'Bénéfices quotidiens des téléphones', color: ['#DC143C'] }]}
