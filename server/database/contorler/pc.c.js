@@ -96,7 +96,7 @@ exports.getPcDeliveredToday = async (req, res) => {
 exports.getWaitingPc = async (req, res) => {
   try {
     const { userId } = req.params;
-    const pc = await Phone.findAll({
+    const pc = await Pc.findAll({
       where: { userId: userId, status: 'waiting' },
       order: [['createdAt', 'ASC']]
     });
