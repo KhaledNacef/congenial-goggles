@@ -186,8 +186,8 @@ const Phonedata = () => {
         setMonthlyPhoneBenefits(monthlyBenefits);
     
         // Set the total cout and main d'oeuvre
-        setCoutm(totalCout);
-        setModm(totalMaindoeuvre);
+        setCoutm(monthlyTotalCout);
+        setModm(monthlyTotalMaindoeuvre);
     };
     
     
