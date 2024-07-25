@@ -9,7 +9,7 @@ router.post('/crate', pcController.createPc);
 router.get('/all/:userId', pcController.getAllPc);
 
 // Update the status of a phone by ID
-router.put('/status/:userId/:id', pcController.updatePcStatus);
+router.put('/statusup/:userId/:id', pcController.updatePcStatus);
 
 // Get phones by status
 router.get('/status/:userId/:status', pcController.getPcByStatus);
