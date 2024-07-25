@@ -18,7 +18,7 @@ router.get('/status/:userId/:status', pcController.getPcByStatus);
 router.get('/deliveredtoday/:userId', pcController.getPcDeliveredToday);
 
 // Get phones with status "waiting"
-router.get('/waiting/:userId', pcController.getWaitingPc);
+router.get('/waitingpc/:userId', pcController.getWaitingPc);
 
 // Get phones by phoneHolder or holderNumber
 router.put('/price/:userId/:id', pcController.updatePcPrice);
