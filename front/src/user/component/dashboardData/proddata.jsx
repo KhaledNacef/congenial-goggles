@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { BarChart } from '@mui/x-charts/BarChart';
@@ -8,205 +8,132 @@ const Proddata = () => {
     const [productdata, setProductdata] = useState([]);
     const userIdFromCookie = Cookies.get('token');
 
-
-
-    const fetchincome = async () => {
+    const fetchIncome = async () => {
         try {
             const response = await axios.get(`https://api.deviceshopleader.com/api/sold/soldproducts/${userIdFromCookie}`);
             setProductdata(response.data);
-            
         } catch (error) {
-            console.log(error);
+            console.error('Erreur lors de la récupération des données :', error);
         }
     };
 
     useEffect(() => {
-        fetchincome();
+        fetchIncome();
     }, []);
 
+    const monthLabels = useMemo(() => [...Array(12).keys()].map(i => i + 1), []);
+    const dayLabels = useMemo(() => Array.from({ length: 31 }, (_, i) => i + 1), []);
 
- 
-    const monthLabels = [...Array(12).keys()].map(i => i + 1); // Example month labels
+    const calculateBenefits = (buyprice, quantity, price) => (price * quantity) - (buyprice * quantity);
 
+    const calculateDaily = (data, day) => {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1;
 
+        const filteredData = data.filter(item => {
+            const itemDate = new Date(item.updatedAt);
+            return (
+                itemDate.getFullYear() === currentYear &&
+                itemDate.getMonth() + 1 === currentMonth &&
+                itemDate.getDate() === day
+            );
+        });
 
-    // Utility function to sort values from greatest to smallest and then subtract
-    const calculateBenefits = (values) => {
-        // Sort values from greatest to smallest
-        const sortedValues = values.sort((a, b) => b - a);
-        
-        // Calculate benefits by subtracting from the greatest value
-        let result = 0;
-        for (let i = 0; i < sortedValues.length; i++) {
-            result += (i === 0) ? sortedValues[i] : -sortedValues[i];
-        }
-        return result;
+        const totalRevenue = filteredData.reduce((total, item) => total + (item.price * item.quantity), 0);
+        const totalBenefits = filteredData.reduce((total, item) => {
+            const price = item.price || 0;
+            const buyprice = item.buyprice || 0;
+            const quantity = item.quantity || 0;
+            return total + calculateBenefits(buyprice, quantity, price);
+        }, 0);
+
+        return { totalRevenue, totalBenefits };
     };
-    
-    // Daily Calculations
-    const dayLabels = Array.from({ length: 31 }, (_, i) => i + 1); // Labels des jours de 1 à 31
-    
-    const dayProdRev = dayLabels.map(day => {
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth() + 1;
-    
-        const prodRe = productdata.filter(pro => {
-            const prodReDate = new Date(pro.updatedAt);
-            return (
-                prodReDate.getFullYear() === currentYear &&
-                prodReDate.getMonth() + 1 === currentMonth &&
-                prodReDate.getDate() === day
-            );
-        });
-    
-        const totalPrice = prodRe.reduce((total, product) => total + (product.price * product.quantity), 0);
-        return totalPrice;
-    });
-    
-    const dayProdBenefits = dayLabels.map(day => {
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth() + 1;
-    
-        const prodRe = productdata.filter(pro => {
-            const prodReDate = new Date(pro.updatedAt);
-            return (
-                prodReDate.getFullYear() === currentYear &&
-                prodReDate.getMonth() + 1 === currentMonth &&
-                prodReDate.getDate() === day
-            );
-        });
-    
-        return prodRe.reduce((total, product) => {
-            const price = product.price || 0;
-            const buyprice = product.buyprice || 0;
-            const quantity = product.quantity || 0;
-            const values = [price, buyprice * quantity];
-            return total + calculateBenefits(values);
-        }, 0);
-    });
-    
-    
-    
-    
-    
-    // Monthly Calculations
-    
-    
-    const monthlyProdRevenue = monthLabels.map((month, index) => {
+
+    const calculateMonthly = (data, month) => {
         const currentYear = new Date().getFullYear();
-    
-        const productsSold = productdata.filter(product => {
-            const productSoldMonth = new Date(product.updatedAt);
+
+        const filteredData = data.filter(item => {
+            const itemDate = new Date(item.updatedAt);
             return (
-                productSoldMonth.getFullYear() === currentYear &&
-                productSoldMonth.getMonth() === index
+                itemDate.getFullYear() === currentYear &&
+                itemDate.getMonth() + 1 === month
             );
         });
-    
-        return productsSold.reduce((total, product) => {
-            const price = product.price || 0;
-            const quantity = product.quantity || 0;
-            return total + (price * quantity);
+
+        const totalRevenue = filteredData.reduce((total, item) => total + (item.price * item.quantity), 0);
+        const totalBenefits = filteredData.reduce((total, item) => {
+            const price = item.price || 0;
+            const buyprice = item.buyprice || 0;
+            const quantity = item.quantity || 0;
+            return total + calculateBenefits(buyprice, quantity, price);
         }, 0);
-    });
-    
-    const monthlyProdBenefits = monthLabels.map((month, index) => {
-        const currentYear = new Date().getFullYear();
-    
-        const productsSold = productdata.filter(product => {
-            const productSoldMonth = new Date(product.updatedAt);
-            return (
-                productSoldMonth.getFullYear() === currentYear &&
-                productSoldMonth.getMonth() === index
-            );
-        });
-    
-        return productsSold.reduce((total, product) => {
-            const price = product.price || 0;
-            const buyprice = product.buyprice || 0;
-            const quantity = product.quantity || 0;
-            const values = [price, buyprice * quantity];
-            return total + calculateBenefits(values);
-        }, 0);
-    });
-    
 
+        return { totalRevenue, totalBenefits };
+    };
 
+    const dailyCalculations = dayLabels.map(day => calculateDaily(productdata, day));
+    const monthlyCalculations = monthLabels.map(month => calculateMonthly(productdata, month));
 
+    const dailyProdRev = dailyCalculations.map(calc => calc.totalRevenue);
+    const dailyProdBenefits = dailyCalculations.map(calc => calc.totalBenefits);
+    const monthlyProdRevenue = monthlyCalculations.map(calc => calc.totalRevenue);
+    const monthlyProdBenefits = monthlyCalculations.map(calc => calc.totalBenefits);
 
+    return (
+        <Grid container spacing={4} sx={{ marginBottom: 4 }}>
+            <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
+                <Box sx={{ height: 500 }}>
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Bénéfices quotidiens des produits
+                    </Typography>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: dayLabels }]}
+                        series={[{ data: dailyProdBenefits, label: 'Bénéfices quotidiens des produits', color: ['#1E90FF'] }]}
+                        width={800}
+                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+                        height={250}
+                    />
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Revenu quotidien des produits
+                    </Typography>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: dayLabels }]}
+                        series={[{ data: dailyProdRev, label: 'Revenu quotidien des produits', color: ['#4682B4'] }]}
+                        width={800}
+                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+                        height={250}
+                    />
+                </Box>
+            </Grid>
 
+            <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
+                <Box sx={{ height: 500 }}>
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Bénéfices mensuels des produits
+                    </Typography>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: monthLabels }]}
+                        series={[{ data: monthlyProdBenefits, label: 'Bénéfices mensuels des produits', color: ['#1E90FF'] }]}
+                        width={800}
+                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+                        height={250}
+                    />
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Revenu mensuel des produits
+                    </Typography>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: monthLabels }]}
+                        series={[{ data: monthlyProdRevenue, label: 'Revenu mensuel des produits', color: ['#4682B4'] }]}
+                        width={800}
+                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+                        height={250}
+                    />
+                </Box>
+            </Grid>
+        </Grid>
+    );
+};
 
-
-
-
-
-
-
-
-
-
-
-  return (
-    <Grid container spacing={4} sx={{marginBottom: 4 }}>       
- <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
-    <Box sx={{ height: 500 }}>
-        <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-            Bénéfices quotidiens des produits
-        </Typography>
-        <BarChart
-            xAxis={[{ scaleType: 'band', data: dayLabels }]}
-            series={[{ data: dayProdBenefits, label: 'Bénéfices quotidiens des produits', color: ['#1E90FF'] }]}
-            width={800}
-            sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-            height={250}
-        />
-        <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-            Revenu quotidien des produits
-        </Typography>
-        <BarChart
-            xAxis={[{ scaleType: 'band', data: dayLabels }]}
-            series={[{ data: dayProdRev, label: 'Revenu quotidien des produits', color: ['#4682B4'] }]}
-            width={800}
-            sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-            height={250}
-        />
-    </Box>
-</Grid>
-
-
-
-
-
-
-{/* Monthly Charts */}
-<Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
-    <Box sx={{ height: 500 }}>
-        <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-            Bénéfices mensuels des produits
-        </Typography>
-        <BarChart
-            xAxis={[{ scaleType: 'band', data: monthLabels }]}
-            series={[{ data: monthlyProdBenefits, label: 'Bénéfices mensuels des produits', color: ['#1E90FF'] }]}
-            width={800}
-            sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-            height={250}
-        />
-        <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-            Revenu mensuel des produits
-        </Typography>
-        <BarChart
-            xAxis={[{ scaleType: 'band', data: monthLabels }]}
-            series={[{ data: monthlyProdRevenue, label: 'Revenu mensuel des produits', color: ['#4682B4'] }]}
-            width={800}
-            sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-            height={250}
-        />
-    </Box>
-</Grid>
-</Grid>
-  )
-}
-
-export default Proddata
+export default Proddata;
