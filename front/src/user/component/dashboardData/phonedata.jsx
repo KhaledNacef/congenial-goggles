@@ -191,8 +191,10 @@ const Phonedata = () => {
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices quotidiens des téléphones
                     </Typography>
-                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                    <Typography variant='h7' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Cout quotidiens des téléphones:{coutd}
+                    </Typography>
+                    <Typography variant='h7' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Main d'ouevre quotidiens des téléphones:{modd}
                     </Typography>
                     <BarChart
@@ -219,8 +221,10 @@ const Phonedata = () => {
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices mensuels des téléphones
                     </Typography>
-                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                    <Typography variant='h7' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Cout mensuels des téléphones:{coutm}
+                    </Typography>
+                    <Typography variant='h7' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Main d'ouevre mensuels des téléphones:{modm}
                     </Typography>
                     <BarChart
