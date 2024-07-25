@@ -187,11 +187,12 @@ export default function Dashboard() {
            
             {/* <Pcdata/> */}
            
-            <Phonedata/>
+          
 
            {/* <Vetrinedata/> */}
 
         </Grid>
+        <Phonedata/>
     </div>
     );
 }
