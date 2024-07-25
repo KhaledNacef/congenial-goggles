@@ -21,14 +21,12 @@ const Watpc = ({ searchQuery }) => {
   const [data, setData] = useState([]);
   const userIdFromCookie = Cookies.get('token');
 
-  useEffect(() => {
-    getBstatus('waiting');
-  }, [userIdFromCookie]);
-
   const filteredData = data.filter((row) =>
     row.pcHolder.toLowerCase().includes(searchQuery.toLowerCase()) ||
     row.ref.toString().includes(searchQuery)
   );
+
+  
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
@@ -59,22 +57,25 @@ const Watpc = ({ searchQuery }) => {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${id}`, { status });
+      await axios.put(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${id}`, { status});
       getBstatus('waiting'); // Refresh data after status update
     } catch (error) {
-      console.error('Error updating status:', error);
+      console.error('Erreur lors de la mise à jour du statut :', error);
     }
   };
 
+ 
   const getBstatus = async (status) => {
     try {
       const response = await axios.get(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${status}`);
-      console.log('API Response Data:', response.data);
       setData(response.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Erreur lors de la récupération des données de statut :', error);
     }
   };
+  useEffect(() => {
+    getBstatus('waiting');
+  }, []);
 
   const ActionsButtons = ({ id, updateStatus }) => (
     <>
@@ -90,7 +91,7 @@ const Watpc = ({ searchQuery }) => {
   return (
     <div style={{ backgroundColor: '#FCF6F5FF' }}>
       <Typography variant="h4" sx={{ fontFamily: 'Kanit', fontWeight: 500, margin: 'auto', boxShadow: 2, textAlign: 'center', border: '1px solid grey', color: '#FCF6F5FF', backgroundColor: '#89ABE3FF', borderRadius: 15, width: '55%', padding: 1 }}>
-        PC EN ATTENTE <HourglassEmptyIcon />
+       PC EN ATTENTE <HourglassEmptyIcon />
       </Typography>
 
       <Paper sx={{ width: '95%', overflowX: 'auto', margin: 'auto', marginTop: 10, boxShadow: 9, borderRadius: 5 }}>
