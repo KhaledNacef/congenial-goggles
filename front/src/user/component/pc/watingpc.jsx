@@ -26,16 +26,7 @@ const Watpc = ({ searchQuery }) => {
     row.ref.toString().includes(searchQuery)
   );
 
-  const ActionsButtons = ({ id, updateStatus }) => (
-    <>
-      <IconButton color="error" aria-label="Refuse" size="small" onClick={() => updateStatus(id, 'Refused')}>
-        <CancelIcon />
-      </IconButton>
-      <IconButton color="success" aria-label="Fix" size="small" onClick={() => updateStatus(id, 'Fixed')}>
-        <CheckCircleIcon />
-      </IconButton>
-    </>
-  );
+  
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
@@ -84,7 +75,18 @@ const Watpc = ({ searchQuery }) => {
 
   useEffect(() => {
     getBstatus('waiting');
-  }, []);
+  }, [data]);
+
+  const ActionsButtons = ({ id, updateStatus }) => (
+    <>
+      <IconButton color="error" aria-label="Refuse" size="small" onClick={() => updateStatus(id, 'Refused')}>
+        <CancelIcon />
+      </IconButton>
+      <IconButton color="success" aria-label="Fix" size="small" onClick={() => updateStatus(id, 'Fixed')}>
+        <CheckCircleIcon />
+      </IconButton>
+    </>
+  );
 
   return (
     <div style={{ backgroundColor: '#FCF6F5FF' }}>
