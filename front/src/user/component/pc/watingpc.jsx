@@ -58,23 +58,23 @@ const Watpc = ({ searchQuery }) => {
   const updateStatus = async (id, status) => {
     try {
       await axios.put(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${id}`, { status});
-      getBstatus(); // Refresh data after status update
+      getBstatus('waiting'); // Refresh data after status update
     } catch (error) {
       console.error('Erreur lors de la mise à jour du statut :', error);
     }
   };
 
-  const getBstatus = async () => {
+ 
+  const getBstatus = async (status) => {
     try {
-      const response = await axios.get(`https://api.deviceshopleader.com/api/pc/waitingpc/${userIdFromCookie}`);
+      const response = await axios.get(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${status}`);
       setData(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des données de statut :', error);
     }
   };
-
   useEffect(() => {
-    getBstatus();
+    getBstatus('waiting');
   }, []);
 
   const ActionsButtons = ({ id, updateStatus }) => (
