@@ -22,7 +22,7 @@ const Phonedata = () => {
             setData(response.data);
             calculatePhoneRevenueAndBenefits(response.data);
             calculateMonthlyRevenueAndBenefits(response.data);
-            calculatePhonemodAndBenefits(response.data)
+            calculateModAndCout(response.data)
         } catch (error) {
             console.log(error);
         }
@@ -194,7 +194,7 @@ const Phonedata = () => {
 
 
 
-    const calculatePhonemodAndBenefits = (phones) => {
+    const calculateModAndCout = (phones) => {
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
         const currentMonth = currentDate.getMonth() + 1;

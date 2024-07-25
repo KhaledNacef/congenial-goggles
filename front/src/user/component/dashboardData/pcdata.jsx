@@ -13,7 +13,10 @@ const Pcdata = () => {
     const [dailyPhoneBenefits, setDailyPhoneBenefits] = useState([]);
     const [monthlyPhoneRevenue, setMonthlyPhoneRevenue] = useState([]);
     const [monthlyPhoneBenefits, setMonthlyPhoneBenefits] = useState([]);
-
+    const [coutd, setCoutd] = useState(0);
+    const [modd, setModd] = useState(0);
+    const [coutm, setCoutm] = useState(0);
+    const [modm, setModm] = useState(0);
 
 
     const getallpc = async () => {
@@ -22,6 +25,7 @@ const Pcdata = () => {
           setPc(response.data);
           calculatePhoneRevenueAndBenefits(response.data);
           calculateMonthlyRevenueAndBenefits(response.data);
+          calculateModAndCout(response.data)
         } catch (error) {
           console.error('Erreur lors de la récupération de toutes les données :', error);
         }
@@ -32,6 +36,62 @@ const Pcdata = () => {
         
         getallpc()
     }, []);
+
+
+
+
+    const calculateModAndCout = (phones) => {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1;
+        const currentday=currentDate.getDate()
+            let monthlyTotalCout = 0;
+            let monthlyTotalMaindoeuvre = 0;
+           let dailyTotalCout= 0;
+           let  dailyTotalMaindoeuvre =0;
+            phones.forEach(phone => {
+                const cout = phone.cout || 0;
+                const maindoeuvre = phone.maindoeuvre || 0;
+                const phoneUpdatedDate = new Date(phone.updatedAt);
+               
+                if (phoneUpdatedDate.getFullYear() === currentYear &&
+                    phoneUpdatedDate.getMonth() + 1 === currentMonth &&
+                    phoneUpdatedDate.getDate() === currentday) {
+                    
+                       
+                        if (phone.status !== 'refused' && phone.status !== 'waiting') {
+                            dailyTotalCout += cout;
+                            dailyTotalMaindoeuvre += maindoeuvre;
+                        }
+                        
+                }
+                if (phoneUpdatedDate.getFullYear() === currentYear &&
+                phoneUpdatedDate.getMonth() + 1 === currentMonth 
+               ) {
+                
+                   
+                    if (phone.status !== 'refused' && phone.status !== 'waiting') {
+                        monthlyTotalCout += cout;
+                        monthlyTotalMaindoeuvre += maindoeuvre;
+                    }
+                    
+            }
+            });
+            
+            
+
+            return (
+                setCoutm(monthlyTotalCout),
+                setModm(monthlyTotalMaindoeuvre),
+                setCoutd(dailyTotalCout),
+                setModd(dailyTotalMaindoeuvre)
+            )
+        
+       
+    };
+    
+
+
 
 
     const calculateBenefits = (accompte, cout, price) => {
@@ -187,8 +247,31 @@ const Pcdata = () => {
 
 
   return (
-    <Grid container spacing={4} sx={{marginBottom: 4 }}>       
-<Grid item xs={12} md={6} sx={{marginBottom: 4 }}>
+    <Grid container spacing={4} sx={{ marginBottom: 4 }}>   
+
+<Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
+            <Box sx={{ padding: 2, textAlign: 'center' }}>
+                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
+                    Coût quotidien des PC: {coutd} DT
+                </Typography>
+                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
+                    Main d'œuvre quotidienne des PC: {modd} DT
+                </Typography>
+            </Box>
+        </Grid>
+        
+        <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
+            <Box sx={{ padding: 2, textAlign: 'center' }}>
+                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
+                    Coût mensuel des PC: {coutm} DT
+                </Typography>
+                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
+                    Main d'œuvre mensuelle des PC: {modm} DT
+                </Typography>
+            </Box>
+        </Grid>
+
+<Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
     <Box sx={{ height: 500 }}>
         <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
             Bénéfices quotidiens des PCs
