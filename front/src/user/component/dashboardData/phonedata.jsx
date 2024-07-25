@@ -191,12 +191,14 @@ const Phonedata = () => {
             <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
               Bénéfices quotidiens des téléphones
             </Typography>
-            <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-              Coût quotidien des téléphones: {coutd} DT
-            </Typography>
-            <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-              Main d'œuvre quotidienne des téléphones: {modd} DT
-            </Typography>
+            <Box sx={{ backgroundColor: '#89CFF0', borderRadius: 2, padding: 2, textAlign: 'center', marginBottom: 2 }}>
+              <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
+                Coût quotidien des téléphones: {coutd} DT
+              </Typography>
+              <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
+                Main d'œuvre quotidienne des téléphones: {modd} DT
+              </Typography>
+            </Box>
             <BarChart
               xAxis={[{ scaleType: 'band', data: dayLabels }]}
               series={[{ data: dailyPhoneBenefits, label: 'Bénéfices quotidiens des téléphones', color: ['#DC143C'] }]}
@@ -225,12 +227,14 @@ const Phonedata = () => {
             <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
               Bénéfices mensuels des téléphones
             </Typography>
-            <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-              Coût mensuel des téléphones: {coutm} DT
-            </Typography>
-            <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-              Main d'œuvre mensuelle des téléphones: {modm} DT
-            </Typography>
+            <Box sx={{ backgroundColor: '#89CFF0', borderRadius: 2, padding: 2, textAlign: 'center', marginBottom: 2 }}>
+              <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
+                Coût mensuel des téléphones: {coutm} DT
+              </Typography>
+              <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
+                Main d'œuvre mensuelle des téléphones: {modm} DT
+              </Typography>
+            </Box>
             <BarChart
               xAxis={[{ scaleType: 'band', data: monthLabels }]}
               series={[{ data: monthlyPhoneBenefits, label: 'Bénéfices mensuels des téléphones', color: ['#DC143C'] }]}
