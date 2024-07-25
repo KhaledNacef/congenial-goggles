@@ -198,7 +198,7 @@ const Allphone = ({ searchQuery }) => {
                         ? '#f44336'
                         : row.status === 'Fixed'
                         ? '#99cc99'
-                        : row.status === 'solde'
+                        : row.status === 'soldé'
                         ? '#89ABE3FF'
                         : '#fbef53',
                         borderRadius: 30,

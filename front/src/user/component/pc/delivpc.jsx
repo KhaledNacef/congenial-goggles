@@ -99,7 +99,15 @@ const Delivpc = ({ searchQuery }) => {
                     <TableCell align="center">{row.accompte}DT</TableCell>
                     <TableCell align="center">{row.price}DT</TableCell>
                     <TableCell align="center">{row.delivredOn.slice(0, 10)}</TableCell>
-                    <TableCell align="center" style={{ backgroundColor: row.status === 'Refused' ? '#f44336' : row.status === 'Fixed' ? '#99cc99' : '#fbef53', borderRadius: '30px', fontWeight: 'bold', color: 'black' }}>{row.status}</TableCell>
+                    <TableCell align="center" style={{ backgroundColor: 
+                             row.status === 'Refused'
+                            ? '#f44336'
+                            : row.status === 'Fixed'
+                            ? '#99cc99'
+                            : row.status === 'soldé'
+                            ? '#89ABE3FF'
+                            : '#fbef53'
+                            , borderRadius: '30px', fontWeight: 'bold', color: 'black' }}>{row.status}</TableCell>
                     <TableCell align="center">{row.createdAt.slice(0, 10)}</TableCell>
                   </TableRow>
                 ))}
