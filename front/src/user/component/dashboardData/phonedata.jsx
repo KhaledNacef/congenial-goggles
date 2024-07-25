@@ -110,13 +110,11 @@ const Phonedata = () => {
                 }
             });
             
-            totalCout += monthlyTotalCout;
-            totalMaindoeuvre += monthlyTotalMaindoeuvre;
+            
 
             return calculateBenefits(totalAccompte, monthlyTotalCout + monthlyTotalMaindoeuvre, totalSoldPrice);
         });
-        setCoutd(totalCout)
-        setModd(totalMaindoeuvre)
+       
         setDailyPhoneBenefits(dailyBenefits);
     };
     const calculateMonthlyRevenueAndBenefits = (phones) => {
@@ -180,8 +178,7 @@ const Phonedata = () => {
             });
     
             // Accumulate totals
-            totalCout = monthlyTotalCout
-            totalMaindoeuvre = monthlyTotalMaindoeuvre
+         
            
             return calculateBenefits(totalAccompte, monthlyTotalCout + monthlyTotalMaindoeuvre, totalSoldPrice);
         });
@@ -189,8 +186,7 @@ const Phonedata = () => {
         setMonthlyPhoneBenefits(monthlyBenefits);
     
         // Set the total cout and main d'oeuvre
-        setCoutm(totalCout);
-           setModm(totalMaindoeuvre);
+        
     };
     
     
