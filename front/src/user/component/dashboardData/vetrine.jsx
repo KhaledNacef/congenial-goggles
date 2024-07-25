@@ -119,7 +119,7 @@ const Vetrinedata = () => {
     });
 
     return (
-<Grid container spacing={4}>       
+<Grid container spacing={4} sx={{marginBottom: 4 }}>       
          <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
