@@ -185,68 +185,76 @@ const Phonedata = () => {
     
 
     return (
-        <Grid container spacing={4} sx={{marginBottom: 4 }}>
-            <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
-                <Box sx={{ height: 500 }}>
-                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Bénéfices quotidiens des téléphones
-                    </Typography>
-                    <Typography variant='h7' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Cout quotidiens des téléphones:{coutd}
-                    </Typography>
-                    <Typography variant='h7' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Main d'ouevre quotidiens des téléphones:{modd}
-                    </Typography>
-                    <BarChart
-                        xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dailyPhoneBenefits, label: 'Bénéfices quotidiens des téléphones', color: ['#DC143C'] }]}
-                        width={800}
-                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                        height={250}
-                    />
-                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Revenu quotidien des téléphones
-                    </Typography>
-                    <BarChart
-                        xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dailyPhoneRevenue, label: 'Revenu quotidien des téléphones', color: ['#FF4500'] }]}
-                        width={800}
-                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                        height={250}
-                    />
-                </Box>
-            </Grid>
-            <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
-                <Box sx={{ height: 500 }}>
-                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Bénéfices mensuels des téléphones
-                    </Typography>
-                    <Typography variant='h7' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Cout mensuels des téléphones:{coutm}
-                    </Typography>
-                    <Typography variant='h7' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Main d'ouevre mensuels des téléphones:{modm}
-                    </Typography>
-                    <BarChart
-                        xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyPhoneBenefits, label: 'Bénéfices mensuels des téléphones', color: ['#DC143C'] }]}
-                        width={800}
-                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                        height={250}
-                    />
-                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
-                        Revenu mensuel des téléphones
-                    </Typography>
-                    <BarChart
-                        xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyPhoneRevenue, label: 'Revenu mensuel des téléphones', color: ['#FF4500'] }]}
-                        width={800}
-                        sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
-                        height={250}
-                    />
-                </Box>
-            </Grid>
+        <Grid container spacing={4} sx={{ marginBottom: 4 }}>
+        <Grid item xs={12} md={6} lg={3}>
+          <Box sx={{ height: 500 }}>
+            <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+              Bénéfices quotidiens des téléphones
+            </Typography>
+            <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+              Coût quotidien des téléphones: {coutd} DT
+            </Typography>
+            <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+              Main d'œuvre quotidienne des téléphones: {modd} DT
+            </Typography>
+            <BarChart
+              xAxis={[{ scaleType: 'band', data: dayLabels }]}
+              series={[{ data: dailyPhoneBenefits, label: 'Bénéfices quotidiens des téléphones', color: ['#DC143C'] }]}
+              width={350}
+              height={250}
+              sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+            />
+          </Box>
         </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <Box sx={{ height: 500 }}>
+            <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+              Revenu quotidien des téléphones
+            </Typography>
+            <BarChart
+              xAxis={[{ scaleType: 'band', data: dayLabels }]}
+              series={[{ data: dailyPhoneRevenue, label: 'Revenu quotidien des téléphones', color: ['#FF4500'] }]}
+              width={350}
+              height={250}
+              sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <Box sx={{ height: 500 }}>
+            <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+              Bénéfices mensuels des téléphones
+            </Typography>
+            <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+              Coût mensuel des téléphones: {coutm} DT
+            </Typography>
+            <Typography variant="body1" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+              Main d'œuvre mensuelle des téléphones: {modm} DT
+            </Typography>
+            <BarChart
+              xAxis={[{ scaleType: 'band', data: monthLabels }]}
+              series={[{ data: monthlyPhoneBenefits, label: 'Bénéfices mensuels des téléphones', color: ['#DC143C'] }]}
+              width={350}
+              height={250}
+              sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <Box sx={{ height: 500 }}>
+            <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+              Revenu mensuel des téléphones
+            </Typography>
+            <BarChart
+              xAxis={[{ scaleType: 'band', data: monthLabels }]}
+              series={[{ data: monthlyPhoneRevenue, label: 'Revenu mensuel des téléphones', color: ['#FF4500'] }]}
+              width={350}
+              height={250}
+              sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
+            />
+          </Box>
+        </Grid>
+      </Grid>
     );
 };
 
