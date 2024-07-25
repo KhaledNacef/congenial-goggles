@@ -6,10 +6,13 @@ import Cookies from 'js-cookie';
 
 const Vetrinedata = () => {
     const [vetrine, setVetrine] = useState([]);
-
+    const [dataa, setDataa] = useState([]);
+    const [dailyPCCost, setDailyPCCost] = useState(0);
+    const [dailyPCMaindoeuvre, setDailyPCMaindoeuvre] = useState(0);
+    const [monthlyPCCost, setMonthlyPCCost] = useState(0);
+    const [monthlyPCMaindoeuvre, setMonthlyPCMaindoeuvre] = useState(0);
 
     const userIdFromCookie = Cookies.get('token');
-
     const baseUrl = 'https://api.deviceshopleader.com/api';
 
     const getallvetrine = async () => {
@@ -21,23 +24,61 @@ const Vetrinedata = () => {
         }
     };
 
+    const getall = async () => {
+        try {
+            const response = await axios.get(`${baseUrl}/vetrine/vetrinesgetall/${userIdFromCookie}`);
+            setDataa(response.data);
+        } catch (error) {
+            console.error('Erreur lors de la récupération de toutes les données :', error);
+        }
+    };
+
     useEffect(() => {
         getallvetrine();
+        getall();
+        calculatePCDetails();
     }, []);
 
     const dayLabels = [...Array(31).keys()].map(i => i + 1); // Example day labels
     const monthLabels = [...Array(12).keys()].map(i => i + 1); // Example month labels
 
-    const calculateBenefits = (values) => {
-        // Sort values from greatest to smallest
-        const sortedValues = values.sort((a, b) => b - a);
-        
-        // Calculate benefits by subtracting from the greatest value
-        let result = 0;
-        for (let i = 0; i < sortedValues.length; i++) {
-            result += (i === 0) ? sortedValues[i] : -sortedValues[i];
-        }
-        return result;
+    const calculateBenefits = (maindouvre, cout, price) => {
+        return price - (maindouvre + cout);
+    };
+
+    const calculatePCDetails = () => {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1;
+        const currentDay = currentDate.getDate();
+
+        let dailyCout = 0;
+        let dailyMaindoeuvre = 0;
+        let monthlyCout = 0;
+        let monthlyMaindoeuvre = 0;
+
+        dataa.forEach(pc => {
+            const cout = pc.cout || 0;
+            const maindoeuvre = pc.maindoeuvre || 0;
+            const pcUpdatedDate = new Date(pc.updatedAt);
+
+            if (pcUpdatedDate.getFullYear() === currentYear && pc.status !== 'refused' && pc.status !== 'waiting') {
+                if (pcUpdatedDate.getMonth() + 1 === currentMonth) {
+                    monthlyCout += cout;
+                    monthlyMaindoeuvre += maindoeuvre;
+
+                    if (pcUpdatedDate.getDate() === currentDay) {
+                        dailyCout += cout;
+                        dailyMaindoeuvre += maindoeuvre;
+                    }
+                }
+            }
+        });
+
+        setDailyPCCost(dailyCout);
+        setDailyPCMaindoeuvre(dailyMaindoeuvre);
+        setMonthlyPCCost(monthlyCout);
+        setMonthlyPCMaindoeuvre(monthlyMaindoeuvre);
     };
 
     const dayVitrineRev = dayLabels.map(day => {
@@ -76,8 +117,7 @@ const Vetrinedata = () => {
             const price = vitrine.price || 0;
             const maindoeuvre = vitrine.maindoeuvre || 0;
             const cout = vitrine.cout || 0;
-            const values = [price, cout, maindoeuvre];
-            return total + calculateBenefits(values);
+            return total + calculateBenefits(maindoeuvre, cout, price);
         }, 0);
     });
 
@@ -102,7 +142,7 @@ const Vetrinedata = () => {
         const currentYear = new Date().getFullYear();
 
         const vitrinesSoldInMonth = vetrine.filter(vitrine => {
-            const vitrineSoldMonth = new Date(vitrine.createdAt);
+            const vitrineSoldMonth = new Date(vitrine.updatedAt);
             return (
                 vitrineSoldMonth.getFullYear() === currentYear &&
                 vitrineSoldMonth.getMonth() === index
@@ -113,14 +153,35 @@ const Vetrinedata = () => {
             const price = vitrine.price || 0;
             const maindoeuvre = vitrine.maindoeuvre || 0;
             const cout = vitrine.cout || 0;
-            const values = [price, cout, maindoeuvre];
-            return total + calculateBenefits(values);
+            return total + calculateBenefits(maindoeuvre, cout, price);
         }, 0);
     });
 
     return (
-<Grid container spacing={4} sx={{marginBottom: 4 }}>       
-         <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
+        <Grid container spacing={4} sx={{ marginBottom: 4 }}>
+
+<Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
+                <Box sx={{ padding: 2, textAlign: 'center' }}>
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
+                        Coût quotidien des PC: {dailyPCCost} DT
+                    </Typography>
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
+                        Main d'œuvre quotidienne des PC: {dailyPCMaindoeuvre} DT
+                    </Typography>
+                </Box>
+            </Grid>
+            <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
+                <Box sx={{ padding: 2, textAlign: 'center' }}>
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
+                        Coût mensuel des PC: {monthlyPCCost} DT
+                    </Typography>
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
+                        Main d'œuvre mensuelle des PC: {monthlyPCMaindoeuvre} DT
+                    </Typography>
+                </Box>
+            </Grid>
+            
+            <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices quotidiens des vitrines
@@ -168,7 +229,8 @@ const Vetrinedata = () => {
                     />
                 </Box>
             </Grid>
-            </Grid>
+           
+        </Grid>
     );
 }
 
