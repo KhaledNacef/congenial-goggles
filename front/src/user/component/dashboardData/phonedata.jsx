@@ -186,30 +186,30 @@ const Phonedata = () => {
     return (
         <Grid container spacing={4} sx={{ marginBottom: 4 }}>
         <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
-            <Box sx={{ height: 500 }}>
-                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+            <Box sx={{ padding: 2, textAlign: 'center' }}>
+                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
                     Coût quotidien des téléphones: {coutd} DT
                 </Typography>
-                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
                     Main d'œuvre quotidienne des téléphones: {modd} DT
                 </Typography>
             </Box>
         </Grid>
         
         <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
-            <Box sx={{ height: 500 }}>
-                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+            <Box sx={{ padding: 2, textAlign: 'center' }}>
+                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
                     Coût mensuel des téléphones: {coutm} DT
                 </Typography>
-                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
                     Main d'œuvre mensuelle des téléphones: {modm} DT
                 </Typography>
             </Box>
         </Grid>
         
         <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
-            <Box sx={{ height: 500 }}>
-                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+            <Box sx={{ padding: 2, textAlign: 'center' }}>
+                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
                     Bénéfices quotidiens des téléphones
                 </Typography>
                 <BarChart
@@ -219,7 +219,7 @@ const Phonedata = () => {
                     sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                     height={250}
                 />
-                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
                     Revenu quotidien des téléphones
                 </Typography>
                 <BarChart
@@ -231,10 +231,10 @@ const Phonedata = () => {
                 />
             </Box>
         </Grid>
-    
+        
         <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
-            <Box sx={{ height: 500 }}>
-                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+            <Box sx={{ padding: 2, textAlign: 'center' }}>
+                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
                     Bénéfices mensuels des téléphones
                 </Typography>
                 <BarChart
@@ -244,7 +244,7 @@ const Phonedata = () => {
                     sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                     height={250}
                 />
-                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
                     Revenu mensuel des téléphones
                 </Typography>
                 <BarChart
@@ -257,6 +257,7 @@ const Phonedata = () => {
             </Box>
         </Grid>
     </Grid>
+    
     
     );
 };
