@@ -182,19 +182,32 @@ const Phonedata = () => {
         setMonthlyPhoneBenefits(monthlyBenefits);
     };
     
-    
-
+   
     return (
         <div>
+
+<Grid item xs={12} md={6} lg={3}>
+<Box sx={{ backgroundColor: '#89CFF0', borderRadius: 2, padding: 2, textAlign: 'center', marginBottom: 2 }}>
+    <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
+        Coût mensuel des téléphones: {coutm} DT
+    </Typography>
+    <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
+        Main d'œuvre mensuelle des téléphones: {modm} DT
+    </Typography>
+</Box>
+ <Box sx={{ backgroundColor: '#89CFF0', borderRadius: 2, padding: 2, textAlign: 'center', marginBottom: 2 }}>
+ <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
+     Coût quotidien des téléphones: {coutd} DT
+ </Typography>
+ <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
+     Main d'œuvre quotidienne des téléphones: {modd} DT
+ </Typography>
+</Box>
+       
+   </Grid>
+
         <Grid item xs={12} md={6} lg={3}>
-        <Box sx={{ backgroundColor: '#89CFF0', borderRadius: 2, padding: 2, textAlign: 'center', marginBottom: 2 }}>
-            <Typography variant="h3" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
-                Coût quotidien des téléphones: {coutd} DT
-            </Typography>
-            <Typography variant="h3" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
-                Main d'œuvre quotidienne des téléphones: {modd} DT
-            </Typography>
-        </Box>
+       
         <Box sx={{ height: 500 }}>
             <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                 Bénéfices quotidiens des téléphones
@@ -223,14 +236,7 @@ const Phonedata = () => {
         </Box>
     </Grid>
     <Grid item xs={12} md={6} lg={3}>
-        <Box sx={{ backgroundColor: '#89CFF0', borderRadius: 2, padding: 2, textAlign: 'center', marginBottom: 2 }}>
-            <Typography variant="h3" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
-                Coût mensuel des téléphones: {coutm} DT
-            </Typography>
-            <Typography variant="h3" sx={{ fontFamily: 'Kanit', fontWeight: 500 }}>
-                Main d'œuvre mensuelle des téléphones: {modm} DT
-            </Typography>
-        </Box>
+       
         <Box sx={{ height: 500 }}>
             <Typography variant="h5" sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                 Bénéfices mensuels des téléphones
