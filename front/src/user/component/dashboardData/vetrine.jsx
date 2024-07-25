@@ -37,6 +37,7 @@ const Vetrinedata = () => {
         getallvetrine();
         getall();
         calculatePCDetails();
+        
     }, []);
 
     const dayLabels = [...Array(31).keys()].map(i => i + 1); // Example day labels
@@ -117,7 +118,7 @@ const Vetrinedata = () => {
             const price = vitrine.price || 0;
             const maindoeuvre = vitrine.maindoeuvre || 0;
             const cout = vitrine.cout || 0;
-            return total + calculateBenefits(maindoeuvre, cout, price);
+            return calculateBenefits(maindoeuvre, cout, price);
         }, 0);
     });
 
@@ -153,7 +154,7 @@ const Vetrinedata = () => {
             const price = vitrine.price || 0;
             const maindoeuvre = vitrine.maindoeuvre || 0;
             const cout = vitrine.cout || 0;
-            return total + calculateBenefits(maindoeuvre, cout, price);
+            return calculateBenefits(maindoeuvre, cout, price);
         }, 0);
     });
 
@@ -180,7 +181,7 @@ const Vetrinedata = () => {
                     </Typography>
                 </Box>
             </Grid>
-            
+
             <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
