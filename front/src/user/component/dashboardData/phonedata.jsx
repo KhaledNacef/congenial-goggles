@@ -12,10 +12,10 @@ const Phonedata = () => {
     const [monthlyPhoneRevenue, setMonthlyPhoneRevenue] = useState([]);
     const [monthlyPhoneBenefits, setMonthlyPhoneBenefits] = useState([]);
     const [data, setData] = useState([]);
-    const [coutd, setCoutd] = useState([]);
-    const [modd, setModd] = useState([]);
-    const [coutm, setCoutm] = useState([]);
-    const [modm, setModm] = useState([]);
+    const [coutd, setCoutd] = useState(0);
+    const [modd, setModd] = useState(0);
+    const [coutm, setCoutm] = useState(0);
+    const [modm, setModm] = useState(0);
     const fetchData = async () => {
         try {
             const response = await axios.get(`https://api.deviceshopleader.com/api/phone/all/${userIdFromCookie}`);
@@ -119,6 +119,10 @@ const Phonedata = () => {
     const calculateMonthlyRevenueAndBenefits = (phones) => {
         const currentYear = new Date().getFullYear();
     
+        // Initialize totals
+        let totalCout = 0;
+        let totalMaindoeuvre = 0;
+    
         // Monthly Revenue
         const monthlyRevenue = monthLabels.map(month => {
             let totalAccompte = 0;
@@ -147,9 +151,8 @@ const Phonedata = () => {
         // Monthly Benefits
         const monthlyBenefits = monthLabels.map(month => {
             let totalAccompte = 0;
-            let totalCout = 0;
-           
-            let totalMaindoeuvre = 0;
+            let monthlyTotalCout = 0;
+            let monthlyTotalMaindoeuvre = 0;
             let totalSoldPrice = 0;
     
             phones.forEach(phone => {
@@ -159,27 +162,32 @@ const Phonedata = () => {
                 const maindoeuvre = phone.maindoeuvre || 0;
                 const createdDate = new Date(phone.createdAt);
                 const phoneUpdatedDate = new Date(phone.updatedAt);
-                
+    
                 if (createdDate.getFullYear() === currentYear && createdDate.getMonth() + 1 === month) {
                     totalAccompte += accompte;
                 }
     
                 if (phoneUpdatedDate.getFullYear() === currentYear && phoneUpdatedDate.getMonth() + 1 === month) {
-                   
                     if (phone.status !== 'refused' && phone.status !== 'waiting') {
                         totalSoldPrice += price;
-                        totalCout += cout;
-                        totalMaindoeuvre += maindoeuvre;
+                        monthlyTotalCout += cout;
+                        monthlyTotalMaindoeuvre += maindoeuvre;
                     }
                 }
             });
-            
-            return  calculateBenefits(totalAccompte, totalCout + totalMaindoeuvre, totalSoldPrice);
+    
+            // Accumulate totals
+            totalCout += monthlyTotalCout;
+            totalMaindoeuvre += monthlyTotalMaindoeuvre;
+    
+            return calculateBenefits(totalAccompte, monthlyTotalCout + monthlyTotalMaindoeuvre, totalSoldPrice);
         });
-        
+    
         setMonthlyPhoneBenefits(monthlyBenefits);
-        setCoutm(totalCout)
-            setModm(totalMaindoeuvre)
+    
+        // Set the total cout and main d'oeuvre
+        setCoutm(totalCout);
+        setModm(totalMaindoeuvre);
     };
     
     
