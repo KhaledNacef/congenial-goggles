@@ -22,6 +22,7 @@ const Phonedata = () => {
             setData(response.data);
             calculatePhoneRevenueAndBenefits(response.data);
             calculateMonthlyRevenueAndBenefits(response.data);
+            calculatePhonemodAndBenefits(response.data)
         } catch (error) {
             console.log(error);
         }
@@ -187,6 +188,60 @@ const Phonedata = () => {
     
         // Set the total cout and main d'oeuvre
         
+    };
+
+
+
+
+
+    const calculatePhonemodAndBenefits = (phones) => {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1;
+        const currentday=currentDate.getDate()
+            let monthlyTotalCout = 0;
+            let monthlyTotalMaindoeuvre = 0;
+           let dailyTotalCout= 0;
+           let  dailyTotalMaindoeuvre =0;
+            phones.forEach(phone => {
+                const cout = phone.cout || 0;
+                const maindoeuvre = phone.maindoeuvre || 0;
+                const phoneUpdatedDate = new Date(phone.updatedAt);
+               
+                if (phoneUpdatedDate.getFullYear() === currentYear &&
+                    phoneUpdatedDate.getMonth() + 1 === currentMonth &&
+                    phoneUpdatedDate.getDate() === currentday) {
+                    
+                       
+                        if (phone.status !== 'refused' && phone.status !== 'waiting') {
+                            dailyTotalCout += cout;
+                            dailyTotalMaindoeuvre += maindoeuvre;
+                        }
+                        
+                }
+                if (phoneUpdatedDate.getFullYear() === currentYear &&
+                phoneUpdatedDate.getMonth() + 1 === currentMonth 
+               ) {
+                
+                   
+                    if (phone.status !== 'refused' && phone.status !== 'waiting') {
+                        monthlyTotalCout += cout;
+                        monthlyTotalMaindoeuvre += maindoeuvre;
+                    }
+                    
+            }
+            });
+            
+            
+
+            return (
+                setCoutm(monthlyTotalCout),
+                setModm(monthlyTotalMaindoeuvre),
+                setCoutd(dailyTotalCout),
+                setModd(dailyTotalMaindoeuvre)
+            )
+        
+       
     };
     
     
