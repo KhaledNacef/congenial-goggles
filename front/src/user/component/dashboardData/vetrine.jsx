@@ -132,7 +132,11 @@ const Vetrinedata = () => {
                 if (itemUpdatedDate.getFullYear() === currentYear &&
                     itemUpdatedDate.getMonth() + 1 === currentMonth &&
                     itemUpdatedDate.getDate() === day) {
-                    if (item.status !== 'refused' && item.status !== 'waiting') {
+                    if (item.status !== 'refused' && item.status !== 'waiting'&& item.status !== 'soldé') {
+                        totalCout += cout;
+                        totalMaindoeuvre += maindoeuvre;
+                    }
+                    if (item.status !== 'refused' && item.status !== 'waiting'&& item.status !== 'Fixed') {
                         totalSoldPrice += price;
                         totalCout += cout;
                         totalMaindoeuvre += maindoeuvre;
@@ -183,11 +187,15 @@ const Vetrinedata = () => {
 
                 if (itemUpdatedDate.getFullYear() === currentYear &&
                     itemUpdatedDate.getMonth() + 1 === month) {
-                    if (item.status !== 'refused' && item.status !== 'waiting') {
-                        totalSoldPrice += price;
-                        totalCout += cout;
-                        totalMaindoeuvre += maindoeuvre;
-                    }
+                        if (item.status !== 'refused' && item.status !== 'waiting'&& item.status !== 'soldé') {
+                            totalCout += cout;
+                            totalMaindoeuvre += maindoeuvre;
+                        }
+                        if (item.status !== 'refused' && item.status !== 'waiting'&& item.status !== 'Fixed') {
+                            totalSoldPrice += price;
+                            totalCout += cout;
+                            totalMaindoeuvre += maindoeuvre;
+                        }
                 }
             });
 
