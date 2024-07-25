@@ -7,6 +7,10 @@ import Cookies from 'js-cookie';
 const Vetrinedata = () => {
     const [vetrine, setVetrine] = useState([]);
     const [dataa, setDataa] = useState([]);
+    const [dailyPcRevenue, setDailyPcRevenue] = useState([]);
+    const [dailyPcBenefits, setDailyPcBenefits] = useState([]);
+    const [monthlyPcRevenue, setMonthlyPcRevenue] = useState([]);
+    const [monthlyPcBenefits, setMonthlyPcBenefits] = useState([]);
     const [dailyPCCost, setDailyPCCost] = useState(0);
     const [dailyPCMaindoeuvre, setDailyPCMaindoeuvre] = useState(0);
     const [monthlyPCCost, setMonthlyPCCost] = useState(0);
@@ -28,6 +32,9 @@ const Vetrinedata = () => {
         try {
             const response = await axios.get(`${baseUrl}/vetrine/vetrinesgetall/${userIdFromCookie}`);
             setDataa(response.data);
+            calculateModAndCout(response.data);
+            calculatePhoneRevenueAndBenefits(response.data);
+            calculateMonthlyRevenueAndBenefits(response.data);
         } catch (error) {
             console.error('Erreur lors de la récupération de toutes les données :', error);
         }
@@ -36,132 +43,163 @@ const Vetrinedata = () => {
     useEffect(() => {
         getallvetrine();
         getall();
-        calculatePCDetails();
-        
     }, []);
 
     const dayLabels = [...Array(31).keys()].map(i => i + 1); // Example day labels
     const monthLabels = [...Array(12).keys()].map(i => i + 1); // Example month labels
 
-    const calculateBenefits = (maindouvre, cout, price) => {
-        return price - (maindouvre + cout);
+    const calculateBenefits = (maindoeuvre, cout, price) => {
+        return price - (maindoeuvre + cout);
     };
 
-    const calculatePCDetails = () => {
+    const calculateModAndCout = (data) => {
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
         const currentMonth = currentDate.getMonth() + 1;
         const currentDay = currentDate.getDate();
+        
+        let monthlyTotalCout = 0;
+        let monthlyTotalMaindoeuvre = 0;
+        let dailyTotalCout = 0;
+        let dailyTotalMaindoeuvre = 0;
 
-        let dailyCout = 0;
-        let dailyMaindoeuvre = 0;
-        let monthlyCout = 0;
-        let monthlyMaindoeuvre = 0;
-
-        dataa.forEach(pc => {
-            const cout = pc.cout || 0;
-            const maindoeuvre = pc.maindoeuvre || 0;
-            const pcUpdatedDate = new Date(pc.updatedAt);
-
-            if (pcUpdatedDate.getFullYear() === currentYear && pc.status !== 'refused' && pc.status !== 'waiting') {
-                if (pcUpdatedDate.getMonth() + 1 === currentMonth) {
-                    monthlyCout += cout;
-                    monthlyMaindoeuvre += maindoeuvre;
-
-                    if (pcUpdatedDate.getDate() === currentDay) {
-                        dailyCout += cout;
-                        dailyMaindoeuvre += maindoeuvre;
-                    }
+        data.forEach(item => {
+            const cout = item.cout || 0;
+            const maindoeuvre = item.maindoeuvre || 0;
+            const itemUpdatedDate = new Date(item.updatedAt);
+            
+            if (itemUpdatedDate.getFullYear() === currentYear &&
+                itemUpdatedDate.getMonth() + 1 === currentMonth &&
+                itemUpdatedDate.getDate() === currentDay) {
+                if (item.status !== 'refused' && item.status !== 'waiting') {
+                    dailyTotalCout += cout;
+                    dailyTotalMaindoeuvre += maindoeuvre;
+                }
+            }
+            
+            if (itemUpdatedDate.getFullYear() === currentYear &&
+                itemUpdatedDate.getMonth() + 1 === currentMonth) {
+                if (item.status !== 'refused' && item.status !== 'waiting') {
+                    monthlyTotalCout += cout;
+                    monthlyTotalMaindoeuvre += maindoeuvre;
                 }
             }
         });
 
-        setDailyPCCost(dailyCout);
-        setDailyPCMaindoeuvre(dailyMaindoeuvre);
-        setMonthlyPCCost(monthlyCout);
-        setMonthlyPCMaindoeuvre(monthlyMaindoeuvre);
+        setMonthlyPCCost(monthlyTotalCout);
+        setMonthlyPCMaindoeuvre(monthlyTotalMaindoeuvre);
+        setDailyPCCost(dailyTotalCout);
+        setDailyPCMaindoeuvre(dailyTotalMaindoeuvre);
     };
 
-    const dayVitrineRev = dayLabels.map(day => {
+    const calculatePhoneRevenueAndBenefits = (data) => {
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
         const currentMonth = currentDate.getMonth() + 1;
 
-        const filteredVitrines = vetrine.filter(vitrine => {
-            const vitrineDate = new Date(vitrine.createdAt);
-            return (
-                vitrineDate.getFullYear() === currentYear &&
-                vitrineDate.getMonth() + 1 === currentMonth &&
-                vitrineDate.getDate() === day
-            );
+        // Daily Revenue Calculation
+        const dailyRevenue = dayLabels.map(day => {
+            let totalSoldPrice = 0;
+
+            data.forEach(item => {
+                const itemUpdatedDate = new Date(item.updatedAt);
+
+                if (itemUpdatedDate.getFullYear() === currentYear &&
+                    itemUpdatedDate.getMonth() + 1 === currentMonth &&
+                    itemUpdatedDate.getDate() === day &&
+                    item.status === 'soldé') {
+                    totalSoldPrice += item.price || 0;
+                }
+            });
+
+            return totalSoldPrice;
         });
 
-        const totalPrice = filteredVitrines.reduce((total, vitrine) => total + vitrine.price, 0);
-        return totalPrice;
-    });
+        setDailyPcRevenue(dailyRevenue);
 
-    const dayVitrineBenefits = dayLabels.map(day => {
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth() + 1;
+        // Daily Benefits Calculation
+        const dailyBenefits = dayLabels.map(day => {
+            let totalCout = 0;
+            let totalMaindoeuvre = 0;
+            let totalSoldPrice = 0;
 
-        const filteredVitrines = vetrine.filter(vitrine => {
-            const vitrineDate = new Date(vitrine.createdAt);
-            return (
-                vitrineDate.getFullYear() === currentYear &&
-                vitrineDate.getMonth() + 1 === currentMonth &&
-                vitrineDate.getDate() === day
-            );
+            data.forEach(item => {
+                const price = item.price || 0;
+                const cout = item.cout || 0;
+                const maindoeuvre = item.maindoeuvre || 0;
+                const itemUpdatedDate = new Date(item.updatedAt);
+
+                if (itemUpdatedDate.getFullYear() === currentYear &&
+                    itemUpdatedDate.getMonth() + 1 === currentMonth &&
+                    itemUpdatedDate.getDate() === day) {
+                    if (item.status !== 'refused' && item.status !== 'waiting') {
+                        totalSoldPrice += price;
+                        totalCout += cout;
+                        totalMaindoeuvre += maindoeuvre;
+                    }
+                }
+            });
+
+            return calculateBenefits(totalMaindoeuvre, totalCout, totalSoldPrice);
         });
 
-        return filteredVitrines.reduce((total, vitrine) => {
-            const price = vitrine.price || 0;
-            const maindoeuvre = vitrine.maindoeuvre || 0;
-            const cout = vitrine.cout || 0;
-            return calculateBenefits(maindoeuvre, cout, price);
-        }, 0);
-    });
+        setDailyPcBenefits(dailyBenefits);
+    };
 
-    const monthlyVitrineRevenue = monthLabels.map((month, index) => {
+    const calculateMonthlyRevenueAndBenefits = (data) => {
         const currentYear = new Date().getFullYear();
 
-        const vitrinesSoldInMonth = vetrine.filter(vitrine => {
-            const vitrineSoldMonth = new Date(vitrine.createdAt);
-            return (
-                vitrineSoldMonth.getFullYear() === currentYear &&
-                vitrineSoldMonth.getMonth() === index
-            );
+        // Monthly Revenue
+        const monthlyRevenue = monthLabels.map(month => {
+            let totalSoldPrice = 0;
+
+            data.forEach(item => {
+                const price = item.price || 0;
+                const itemUpdatedDate = new Date(item.updatedAt);
+
+                if (item.status === 'soldé' &&
+                    itemUpdatedDate.getFullYear() === currentYear &&
+                    itemUpdatedDate.getMonth() + 1 === month) {
+                    totalSoldPrice += price;
+                }
+            });
+
+            return totalSoldPrice;
         });
 
-        return vitrinesSoldInMonth.reduce((total, vitrine) => {
-            const price = vitrine.price || 0;
-            return total + price;
-        }, 0);
-    });
+        setMonthlyPcRevenue(monthlyRevenue);
 
-    const monthlyVitrineBenefits = monthLabels.map((month, index) => {
-        const currentYear = new Date().getFullYear();
+        // Monthly Benefits
+        const monthlyBenefits = monthLabels.map(month => {
+            let totalCout = 0;
+            let totalMaindoeuvre = 0;
+            let totalSoldPrice = 0;
 
-        const vitrinesSoldInMonth = vetrine.filter(vitrine => {
-            const vitrineSoldMonth = new Date(vitrine.updatedAt);
-            return (
-                vitrineSoldMonth.getFullYear() === currentYear &&
-                vitrineSoldMonth.getMonth() === index
-            );
+            data.forEach(item => {
+                const price = item.price || 0;
+                const cout = item.cout || 0;
+                const maindoeuvre = item.maindoeuvre || 0;
+                const itemUpdatedDate = new Date(item.updatedAt);
+
+                if (itemUpdatedDate.getFullYear() === currentYear &&
+                    itemUpdatedDate.getMonth() + 1 === month) {
+                    if (item.status !== 'refused' && item.status !== 'waiting') {
+                        totalSoldPrice += price;
+                        totalCout += cout;
+                        totalMaindoeuvre += maindoeuvre;
+                    }
+                }
+            });
+
+            return calculateBenefits(totalMaindoeuvre, totalCout, totalSoldPrice);
         });
 
-        return vitrinesSoldInMonth.reduce((total, vitrine) => {
-            const price = vitrine.price || 0;
-            const maindoeuvre = vitrine.maindoeuvre || 0;
-            const cout = vitrine.cout || 0;
-            return calculateBenefits(maindoeuvre, cout, price);
-        }, 0);
-    });
+        setMonthlyPcBenefits(monthlyBenefits);
+    };
 
     return (
         <Grid container spacing={4} sx={{ marginBottom: 4 }}>
-
-<Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
+            <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
                 <Box sx={{ padding: 2, textAlign: 'center' }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
                         Coût quotidien des PC: {dailyPCCost} DT
@@ -181,7 +219,6 @@ const Vetrinedata = () => {
                     </Typography>
                 </Box>
             </Grid>
-
             <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
@@ -189,7 +226,7 @@ const Vetrinedata = () => {
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dayVitrineBenefits, label: 'Bénéfices quotidiens des vitrines', color: ['#32CD32'] }]}
+                        series={[{ data: dailyPcBenefits, label: 'Bénéfices quotidiens des vitrines', color: ['#32CD32'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -199,7 +236,7 @@ const Vetrinedata = () => {
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: dayLabels }]}
-                        series={[{ data: dayVitrineRev, label: 'Revenu quotidien des vitrines', color: ['#228B22'] }]}
+                        series={[{ data: dailyPcRevenue, label: 'Revenu quotidien des vitrines', color: ['#228B22'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -213,7 +250,7 @@ const Vetrinedata = () => {
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyVitrineBenefits, label: 'Bénéfices mensuels des vitrines', color: ['#32CD32'] }]}
+                        series={[{ data: monthlyPcBenefits, label: 'Bénéfices mensuels des vitrines', color: ['#32CD32'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
@@ -223,14 +260,13 @@ const Vetrinedata = () => {
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: monthLabels }]}
-                        series={[{ data: monthlyVitrineRevenue, label: 'Revenu mensuel des vitrines', color: ['#228B22'] }]}
+                        series={[{ data: monthlyPcRevenue, label: 'Revenu mensuel des vitrines', color: ['#228B22'] }]}
                         width={800}
                         sx={{ fontFamily: 'Kanit', fontWeight: 500, padding: 2 }}
                         height={250}
                     />
                 </Box>
             </Grid>
-           
         </Grid>
     );
 }
