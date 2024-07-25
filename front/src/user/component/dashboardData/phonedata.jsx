@@ -76,8 +76,8 @@ const Phonedata = () => {
         // Daily Benefits Calculation
         const dailyBenefits = dayLabels.map(day => {
             let totalAccompte = 0;
-            let totalCout = 0;
-            let totalMaindoeuvre = 0;
+            let monthlyTotalCout = 0;
+            let monthlyTotalMaindoeuvre = 0;
             let totalSoldPrice = 0;
            
             phones.forEach(phone => {
@@ -103,13 +103,16 @@ const Phonedata = () => {
                        
                         if (phone.status !== 'refused' && phone.status !== 'waiting') {
                             totalSoldPrice += price;
-                            totalCout += cout;
-                            totalMaindoeuvre += maindoeuvre;
+                            monthlyTotalCout += cout;
+                            monthlyTotalMaindoeuvre += maindoeuvre;
                         }
                         
                 }
             });
             
+            totalCout += monthlyTotalCout;
+            totalMaindoeuvre += monthlyTotalMaindoeuvre;
+
             return calculateBenefits(totalAccompte, totalCout + totalMaindoeuvre, totalSoldPrice);
         });
         setCoutd(totalCout)
@@ -177,17 +180,17 @@ const Phonedata = () => {
             });
     
             // Accumulate totals
-           const totalCout = monthlyTotalCout
-           const totalMaindoeuvre = monthlyTotalMaindoeuvre
-           setCoutm(totalCout);
-           setModm(totalMaindoeuvre);
+            totalCout = monthlyTotalCout
+            totalMaindoeuvre = monthlyTotalMaindoeuvre
+           
             return calculateBenefits(totalAccompte, monthlyTotalCout + monthlyTotalMaindoeuvre, totalSoldPrice);
         });
     
         setMonthlyPhoneBenefits(monthlyBenefits);
     
         // Set the total cout and main d'oeuvre
-        
+        setCoutm(totalCout);
+           setModm(totalMaindoeuvre);
     };
     
     
