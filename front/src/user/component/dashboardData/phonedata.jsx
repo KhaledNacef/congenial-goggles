@@ -113,7 +113,7 @@ const Phonedata = () => {
             totalCout += monthlyTotalCout;
             totalMaindoeuvre += monthlyTotalMaindoeuvre;
 
-            return calculateBenefits(totalAccompte, totalCout + totalMaindoeuvre, totalSoldPrice);
+            return calculateBenefits(totalAccompte, monthlyTotalCout + monthlyTotalMaindoeuvre, totalSoldPrice);
         });
         setCoutd(totalCout)
         setModd(totalMaindoeuvre)
