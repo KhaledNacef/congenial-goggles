@@ -55,14 +55,7 @@ const Watpc = ({ searchQuery }) => {
     setPage(0);
   };
 
-  const updateStatus = async (id, status) => {
-    try {
-      await axios.put(`https://api.deviceshopleader.com/api/pc/statusup/${userIdFromCookie}/${id}`, { status });
-      getBstatus('waiting'); // Refresh data after status update
-    } catch (error) {
-      console.error('Erreur lors de la mise à jour du statut :', error);
-    }
-  };
+ 
 
   const getBstatus = async (status) => {
     try {
@@ -70,6 +63,16 @@ const Watpc = ({ searchQuery }) => {
       setData(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des données de statut :', error);
+    }
+  };
+
+
+  const updateStatus = async (id, status) => {
+    try {
+      await axios.put(`https://api.deviceshopleader.com/api/pc/statusup/${userIdFromCookie}/${id}`, { status });
+      getBstatus('waiting'); // Refresh data after status update
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du statut :', error);
     }
   };
 
