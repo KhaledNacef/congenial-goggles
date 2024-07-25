@@ -12,6 +12,10 @@ const Phonedata = () => {
     const [monthlyPhoneRevenue, setMonthlyPhoneRevenue] = useState([]);
     const [monthlyPhoneBenefits, setMonthlyPhoneBenefits] = useState([]);
     const [data, setData] = useState([]);
+    const [coutd, setCoutd] = useState([]);
+    const [modd, setModd] = useState([]);
+    const [coutm, setCoutm] = useState([]);
+    const [modm, setModm] = useState([]);
 
     const fetchData = async () => {
         try {
@@ -103,9 +107,11 @@ const Phonedata = () => {
                             totalCout += cout;
                             totalMaindoeuvre += maindoeuvre;
                         }
+                        
                 }
             });
-    
+            setCoutd(totalCout);
+            setModd(totalMaindoeuvre);
             return calculateBenefits(totalAccompte, totalCout + totalMaindoeuvre, totalSoldPrice);
         });
     
@@ -168,7 +174,8 @@ const Phonedata = () => {
                     }
                 }
             });
-    
+            setCoutm(totalCout);
+            setModm(totalMaindoeuvre);
             return calculateBenefits(totalAccompte, totalCout + totalMaindoeuvre, totalSoldPrice);
         });
     
@@ -183,6 +190,10 @@ const Phonedata = () => {
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices quotidiens des téléphones
+                    </Typography>
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Cout quotidiens des téléphones:{coutd}
+                        Main d'ouevre quotidiens des téléphones:{modd}
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: dayLabels }]}
@@ -207,6 +218,10 @@ const Phonedata = () => {
                 <Box sx={{ height: 500 }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
                         Bénéfices mensuels des téléphones
+                    </Typography>
+                    <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, textAlign: 'center', marginBottom: 2 }}>
+                        Cout mensuels des téléphones:{coutm}
+                        Main d'ouevre mensuels des téléphones:{modm}
                     </Typography>
                     <BarChart
                         xAxis={[{ scaleType: 'band', data: monthLabels }]}
