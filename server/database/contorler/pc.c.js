@@ -40,7 +40,7 @@ exports.updatePcStatus = async (req, res) => {
     }
     pc.status = status;
     await pc.save();
-    res.status(200).json(phone);
+    res.status(200).json(pc);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
