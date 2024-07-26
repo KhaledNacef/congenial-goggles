@@ -210,20 +210,20 @@ const Vetrinedata = () => {
             <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
                 <Box sx={{ padding: 2, textAlign: 'center' }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
-                        Coût quotidien des Vetrine: {dailyPCCost} DT
+                        Coût quotidien des vitrine: {dailyPCCost} DT
                     </Typography>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
-                        Main d'œuvre quotidienne des Vetrine: {dailyPCMaindoeuvre} DT
+                        Main d'œuvre quotidienne des vitrine: {dailyPCMaindoeuvre} DT
                     </Typography>
                 </Box>
             </Grid>
             <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
                 <Box sx={{ padding: 2, textAlign: 'center' }}>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
-                        Coût mensuel des Vetrine: {monthlyPCCost} DT
+                        Coût mensuel des vitrine: {monthlyPCCost} DT
                     </Typography>
                     <Typography variant='h5' sx={{ fontFamily: 'Kanit', fontWeight: 500, marginBottom: 2 }}>
-                        Main d'œuvre mensuelle des Vetrine: {monthlyPCMaindoeuvre} DT
+                        Main d'œuvre mensuelle des vitrine: {monthlyPCMaindoeuvre} DT
                     </Typography>
                 </Box>
             </Grid>
