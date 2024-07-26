@@ -3,7 +3,6 @@ import Cookies from 'js-cookie';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { Typography, Box, Grid } from '@mui/material';
 import axios from 'axios';
-const userIdFromCookie = Cookies.get('token');
 
 const Pcdata = () => {
 
@@ -17,6 +16,7 @@ const Pcdata = () => {
     const [modd, setModd] = useState(0);
     const [coutm, setCoutm] = useState(0);
     const [modm, setModm] = useState(0);
+    const userIdFromCookie = Cookies.get('token');
 
 
     const getallpc = async () => {

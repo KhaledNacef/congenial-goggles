@@ -4,7 +4,6 @@ import Cookies from 'js-cookie';
 import { Grid, Box, Typography } from '@mui/material';
 import { BarChart } from '@mui/x-charts/BarChart';
 
-const userIdFromCookie = Cookies.get('token');
 
 const Phonedata = () => {
     const [dailyPhoneRevenue, setDailyPhoneRevenue] = useState([]);
@@ -16,6 +15,9 @@ const Phonedata = () => {
     const [modd, setModd] = useState(0);
     const [coutm, setCoutm] = useState(0);
     const [modm, setModm] = useState(0);
+        const userIdFromCookie = Cookies.get('token');
+
+
     const fetchData = async () => {
         try {
             const response = await axios.get(`https://api.deviceshopleader.com/api/phone/all/${userIdFromCookie}`);
