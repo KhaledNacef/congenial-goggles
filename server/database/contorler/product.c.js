@@ -138,11 +138,9 @@ exports.getProductByName = async (req, res) => {
         const discountedPrice = product.price * (1 - discountRate);
 
         // Find if the product has already been sold with the same discounted price
-        let soldProduct = await Solded.findOne({ where: { name: product.name, price: product.price, userId: userId } });
-
-        if (!soldProduct) {
+        
             // If the product hasn't been sold before with the same price, create a new entry in the Solded model
-            soldProduct = await Solded.create({
+         const  soldProduct = await Solded.create({
                 ref: product.ref,
                 name: product.name,
                 price: discountedPrice,
@@ -151,17 +149,12 @@ exports.getProductByName = async (req, res) => {
                 image: product.image,
                 userId: userId
             });
-        } else {
-            // If the product has been sold before with the same price, update the quantity by adding the new quantity
-            soldProduct.quantity += sellQuantity;
-            await soldProduct.save();
-        }
-
+        
         // Decrement the product quantity
         product.quantity -= sellQuantity;
         await product.save();
 
-        res.status(200).json({ message: 'Product sold successfully', product });
+        res.status(200).json({ message: 'Product sold successfully', soldProduct });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
