@@ -50,7 +50,22 @@ export default function Dashboard() {
     const getBstatusf = async (status) => {
         try {
           const response = await axios.get(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${status}`);
-          setDataf(response.data);
+          const today = new Date();
+          const todayYear = today.getFullYear();
+          const todayMonth = today.getMonth();
+          const todayDate = today.getDate();
+
+          const pcUpdatedToday = response.data.filter(phone => {
+              const updatedDate = new Date(phone.updatedAt);
+              return (
+                  updatedDate.getFullYear() === todayYear &&
+                  updatedDate.getMonth() === todayMonth &&
+                  updatedDate.getDate() === todayDate
+              );
+          });
+
+
+          setDataf(pcUpdatedToday);
         } catch (error) {
           console.error('Erreur lors de la récupération des données de statut :', error);
         }
@@ -59,7 +74,22 @@ export default function Dashboard() {
     const getBstatusr = async (status) => {
         try {
           const response = await axios.get(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${status}`);
-          setDatar(response.data);
+
+          const today = new Date();
+          const todayYear = today.getFullYear();
+          const todayMonth = today.getMonth();
+          const todayDate = today.getDate();
+
+          const pcUpdatedToday = response.data.filter(phone => {
+              const updatedDate = new Date(phone.updatedAt);
+              return (
+                  updatedDate.getFullYear() === todayYear &&
+                  updatedDate.getMonth() === todayMonth &&
+                  updatedDate.getDate() === todayDate
+              );
+          });
+
+          setDatar(pcUpdatedToday);
         } catch (error) {
           console.error('Erreur lors de la récupération des données de statut :', error);
         }
@@ -68,7 +98,23 @@ export default function Dashboard() {
     const getBstatusw = async (status) => {
         try {
           const response = await axios.get(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${status}`);
-          setDataw(response.data);
+
+          const today = new Date();
+          const todayYear = today.getFullYear();
+          const todayMonth = today.getMonth();
+          const todayDate = today.getDate();
+
+          const pcUpdatedToday = response.data.filter(phone => {
+              const updatedDate = new Date(phone.updatedAt);
+              return (
+                  updatedDate.getFullYear() === todayYear &&
+                  updatedDate.getMonth() === todayMonth &&
+                  updatedDate.getDate() === todayDate
+              );
+          });
+
+
+          setDataw(pcUpdatedToday);
         } catch (error) {
           console.error('Erreur lors de la récupération des données de statut :', error);
         }
@@ -112,8 +158,8 @@ export default function Dashboard() {
         fetchinActive('Refused');
         fetchActive('Fixed');
         watingg();
-        getBstatusw('Fixed');
-        getBstatusw("Refused");
+        getBstatusf('Fixed');
+        getBstatusr("Refused");
         getBstatusw('waiting');
     }, []);
 
