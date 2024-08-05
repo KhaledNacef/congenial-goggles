@@ -380,7 +380,7 @@ export default function Dashboard() {
 
             <Grid container spacing={3} sx={{ marginTop: 3 }}>
                
-                <Grid item xs={12} md={4} sx={{ marginBottom: 4 }}>
+                <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
                     <Box sx={{ height: 100 }}>
                         <Box
                             sx={{
@@ -393,7 +393,6 @@ export default function Dashboard() {
                                 boxShadow: 15,
                             }}
                         >
-                            <CancelIcon />
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                             Pc soldé aujourd'hui
                             </Typography>
@@ -403,7 +402,7 @@ export default function Dashboard() {
                         </Box>
                     </Box>
                 </Grid>
-                <Grid item xs={12} md={4} sx={{ marginBottom: 4 }}>
+                <Grid item xs={12} md={6} sx={{ marginBottom: 4 }}>
                     <Box sx={{ height: 100 }}>
                         <Box
                             sx={{
@@ -416,7 +415,6 @@ export default function Dashboard() {
                                 boxShadow: 15,
                             }}
                         >
-                            <HourglassEmptyIcon />
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                             telephones soldé aujourd'hui
                             </Typography>
