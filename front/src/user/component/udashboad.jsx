@@ -186,7 +186,7 @@ export default function Dashboard() {
                         >
                             <HourglassEmptyIcon />
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                En attente de traitement
+                            Téléphones En attente de traitement
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                                 {wating.length}
@@ -219,7 +219,7 @@ export default function Dashboard() {
                         >
                             <PhoneIcon />
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                Téléphones réparés aujourd'hui
+                                Pc réparés aujourd'hui
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                                 {dataf.length}
@@ -242,7 +242,7 @@ export default function Dashboard() {
                         >
                             <CancelIcon />
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                Téléphones refusés aujourd'hui
+                            Pc refusés aujourd'hui
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                                 {datar.length}
@@ -265,7 +265,7 @@ export default function Dashboard() {
                         >
                             <HourglassEmptyIcon />
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                En attente de traitement
+                            Pc En attente de traitement
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
                                 {dataw.length}
