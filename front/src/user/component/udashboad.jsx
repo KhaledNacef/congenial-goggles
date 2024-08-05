@@ -15,6 +15,10 @@ export default function Dashboard() {
     const [inActive, setInActive] = useState([]);
     const [wating, setWating] = useState([]);
     const [view, setView] = useState('phone'); // State to manage the view
+    const[dataf,setDataf]=useState('')
+    const[dataw,setDataw]=useState('')
+
+    const[datar,setDatar]=useState('')
 
     const userIdFromCookie = Cookies.get('token');
     const baseUrl = 'https://api.deviceshopleader.com/api';
@@ -42,6 +46,34 @@ export default function Dashboard() {
             console.error("Error fetching active phones:", error);
         }
     };
+
+    const getBstatusf = async (status) => {
+        try {
+          const response = await axios.get(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${status}`);
+          setDataf(response.data);
+        } catch (error) {
+          console.error('Erreur lors de la récupération des données de statut :', error);
+        }
+      };
+      
+    const getBstatusr = async (status) => {
+        try {
+          const response = await axios.get(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${status}`);
+          setDatar(response.data);
+        } catch (error) {
+          console.error('Erreur lors de la récupération des données de statut :', error);
+        }
+      };
+      
+    const getBstatusw = async (status) => {
+        try {
+          const response = await axios.get(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${status}`);
+          setDataw(response.data);
+        } catch (error) {
+          console.error('Erreur lors de la récupération des données de statut :', error);
+        }
+      };
+    
 
     const watingg = async () => {
         try {
@@ -80,6 +112,9 @@ export default function Dashboard() {
         fetchinActive('Refused');
         fetchActive('Fixed');
         watingg();
+        getBstatusw('Fixed');
+        getBstatusw("Refused");
+        getBstatusw('waiting');
     }, []);
 
     return (
@@ -160,6 +195,108 @@ export default function Dashboard() {
                     </Box>
                 </Grid>
             </Grid>
+
+
+
+
+
+
+
+            <Grid container spacing={3} sx={{ marginTop: 3 }}>
+                {/* Overview Boxes */}
+                <Grid item xs={12} md={4} sx={{ marginBottom: 4 }}>
+                    <Box sx={{ height: 100 }}>
+                        <Box
+                            sx={{
+                                padding: 2,
+                                height: '100%',
+                                border: '1px solid grey',
+                                borderRadius: 3,
+                                backgroundColor: '#89ABE3FF',
+                                textAlign: 'center',
+                                boxShadow: 15,
+                            }}
+                        >
+                            <PhoneIcon />
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
+                                Téléphones réparés aujourd'hui
+                            </Typography>
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
+                                {dataf.length}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Grid>
+                <Grid item xs={12} md={4} sx={{ marginBottom: 4 }}>
+                    <Box sx={{ height: 100 }}>
+                        <Box
+                            sx={{
+                                padding: 2,
+                                height: '100%',
+                                border: '1px solid grey',
+                                borderRadius: 3,
+                                backgroundColor: '#89ABE3FF',
+                                textAlign: 'center',
+                                boxShadow: 15,
+                            }}
+                        >
+                            <CancelIcon />
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
+                                Téléphones refusés aujourd'hui
+                            </Typography>
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
+                                {datar.length}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Grid>
+                <Grid item xs={12} md={4} sx={{ marginBottom: 4 }}>
+                    <Box sx={{ height: 100 }}>
+                        <Box
+                            sx={{
+                                padding: 2,
+                                height: '100%',
+                                border: '1px solid grey',
+                                borderRadius: 3,
+                                backgroundColor: '#89ABE3FF',
+                                textAlign: 'center',
+                                boxShadow: 15,
+                            }}
+                        >
+                            <HourglassEmptyIcon />
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
+                                En attente de traitement
+                            </Typography>
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
+                                {dataw.length}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             {/* Buttons for viewing different components */}
             <Grid container spacing={2} sx={{ marginTop: 3, justifyContent: 'center' }}>
