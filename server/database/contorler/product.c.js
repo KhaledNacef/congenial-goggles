@@ -30,12 +30,12 @@ exports.getAllProducts = async (req, res) => {
 exports.getProductByIdadnprice = async (req, res) => {
   const { id,userId,price } = req.params;
   try {
-    const product = await Product.findOne({ where: { ref:id,userId:userId } });
+    const product = await Product.findOne({ where: { id:id,userId:userId } });
     if (!product ) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    product.price=parseInt(price)
-    product.save()
+    product.price=parseInt(price);
+    product.save();
     res.status(200).json(product);
   } catch (error) {
     console.error(error);
@@ -46,12 +46,12 @@ exports.getProductByIdadnprice = async (req, res) => {
 exports.getProductByIdadnpriceu = async (req, res) => {
   const { id,userId,priceu } = req.params;
   try {
-    const product = await Product.findOne({ where: { ref:id,userId:userId } });
+    const product = await Product.findOne({ where: { id:id,userId:userId } });
     if (!product ) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    product.buyprice=parseInt(priceu)
-    product.save()
+    product.buyprice=parseInt(priceu);
+    product.save();
     res.status(200).json(product);
   } catch (error) {
     console.error(error);
@@ -63,7 +63,7 @@ exports.getProductByIdadnpriceu = async (req, res) => {
 exports.updateProductById = async (req, res) => {
   const { id,userId, quantity } = req.params;
   try {
-    const product = await Product.findOne({ where: { ref:id, userId:userId } });
+    const product = await Product.findOne({ where: { id:id, userId:userId } });
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -84,7 +84,7 @@ exports.updateProductById = async (req, res) => {
 exports.deleteProductById = async (req, res) => {
   const { userId,id } = req.params;
   try {
-    const product = await Product.destroy({ where: { ref:id, userId:userId } });
+    const product = await Product.destroy({ where: { id:id, userId:userId } });
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -118,7 +118,7 @@ exports.getProductByName = async (req, res) => {
     const { productId, userId, quantity, discount } = req.params;
     try {
         // Find the product by ID
-        const product = await Product.findOne({ where: { ref: productId, userId: userId } });
+        const product = await Product.findOne({ where: { id: productId, userId: userId } });
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
