@@ -15,10 +15,12 @@ export default function Dashboard() {
     const [inActive, setInActive] = useState([]);
     const [wating, setWating] = useState([]);
     const [view, setView] = useState('phone'); // State to manage the view
-    const[dataf,setDataf]=useState('')
-    const[dataw,setDataw]=useState('')
+    const[dataf,setDataf]=useState([])
+    const[dataw,setDataw]=useState([])
+    const[datas,setDatas]=useState([])
+    const[sold,setSold]=useState([])
 
-    const[datar,setDatar]=useState('')
+    const[datar,setDatar]=useState([])
 
     const userIdFromCookie = Cookies.get('token');
     const baseUrl = 'https://api.deviceshopleader.com/api';
@@ -42,6 +44,31 @@ export default function Dashboard() {
             });
 
             setInActive(phonesUpdatedToday);
+        } catch (error) {
+            console.error("Error fetching active phones:", error);
+        }
+    };
+
+
+    const phonesold = async (status) => {
+        try {
+            const response = await axios.get(`${baseUrl}/phone/status/${userIdFromCookie}/${status}`);
+            
+            const today = new Date();
+            const todayYear = today.getFullYear();
+            const todayMonth = today.getMonth();
+            const todayDate = today.getDate();
+
+            const phonesUpdatedToday = response.data.filter(phone => {
+                const updatedDate = new Date(phone.updatedAt);
+                return (
+                    updatedDate.getFullYear() === todayYear &&
+                    updatedDate.getMonth() === todayMonth &&
+                    updatedDate.getDate() === todayDate
+                );
+            });
+
+            setSold(phonesUpdatedToday);
         } catch (error) {
             console.error("Error fetching active phones:", error);
         }
@@ -120,6 +147,31 @@ export default function Dashboard() {
         }
       };
     
+      const getBstatuss = async (status) => {
+        try {
+          const response = await axios.get(`https://api.deviceshopleader.com/api/pc/status/${userIdFromCookie}/${status}`);
+
+          const today = new Date();
+          const todayYear = today.getFullYear();
+          const todayMonth = today.getMonth();
+          const todayDate = today.getDate();
+
+          const pcUpdatedToday = response.data.filter(phone => {
+              const updatedDate = new Date(phone.updatedAt);
+              return (
+                  updatedDate.getFullYear() === todayYear &&
+                  updatedDate.getMonth() === todayMonth &&
+                  updatedDate.getDate() === todayDate
+              );
+          });
+
+
+          setDatas(pcUpdatedToday);
+        } catch (error) {
+          console.error('Erreur lors de la récupération des données de statut :', error);
+        }
+      };
+    
 
     const watingg = async () => {
         try {
@@ -159,6 +211,8 @@ export default function Dashboard() {
         fetchActive('Fixed');
         watingg();
         getBstatusf('Fixed');
+        getBstatuss('soldé');
+        phonesold('soldé')
         getBstatusr("Refused");
         getBstatusw('waiting');
     }, []);
@@ -189,7 +243,7 @@ export default function Dashboard() {
                                 Téléphones réparés aujourd'hui
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                {active.length}
+                                {active.length+sold.length}
                             </Typography>
                         </Box>
                     </Box>
@@ -268,7 +322,7 @@ export default function Dashboard() {
                                 Pc réparés aujourd'hui
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                {dataf.length}
+                                {dataf.length+datas.length}
                             </Typography>
                         </Box>
                     </Box>
