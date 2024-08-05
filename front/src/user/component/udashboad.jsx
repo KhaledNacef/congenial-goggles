@@ -243,7 +243,7 @@ export default function Dashboard() {
                                 Téléphones réparés aujourd'hui
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                {active.length+sold.length}
+                                {active.length}
                             </Typography>
                         </Box>
                     </Box>
@@ -322,7 +322,7 @@ export default function Dashboard() {
                                 Pc réparés aujourd'hui
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                {dataf.length+datas.length}
+                                {dataf.length}
                             </Typography>
                         </Box>
                     </Box>
@@ -378,22 +378,55 @@ export default function Dashboard() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            <Grid container spacing={3} sx={{ marginTop: 3 }}>
+               
+                <Grid item xs={12} md={4} sx={{ marginBottom: 4 }}>
+                    <Box sx={{ height: 100 }}>
+                        <Box
+                            sx={{
+                                padding: 2,
+                                height: '100%',
+                                border: '1px solid grey',
+                                borderRadius: 3,
+                                backgroundColor: '#89ABE3FF',
+                                textAlign: 'center',
+                                boxShadow: 15,
+                            }}
+                        >
+                            <CancelIcon />
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
+                            Pc soldé aujourd'hui
+                            </Typography>
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
+                                {sold.length}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Grid>
+                <Grid item xs={12} md={4} sx={{ marginBottom: 4 }}>
+                    <Box sx={{ height: 100 }}>
+                        <Box
+                            sx={{
+                                padding: 2,
+                                height: '100%',
+                                border: '1px solid grey',
+                                borderRadius: 3,
+                                backgroundColor: '#89ABE3FF',
+                                textAlign: 'center',
+                                boxShadow: 15,
+                            }}
+                        >
+                            <HourglassEmptyIcon />
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
+                            telephones soldé aujourd'hui
+                            </Typography>
+                            <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
+                                {datas.length}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
 
 
 
