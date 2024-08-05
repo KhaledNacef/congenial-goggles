@@ -175,7 +175,7 @@ const Allpc = ({ searchQuery }) => {
                     <TableCell align="center">{row.remarque}</TableCell>
                     <TableCell align="center">{row.cout}DT</TableCell>
                     <TableCell align="center">{row.maindoeuvre}DT</TableCell>
-                    <TableCell align="center">{row.accompte}</TableCell>
+                    <TableCell align="center">{row.accompte}DT</TableCell>
                     <TableCell align="center" sx={{ color: '#007300', fontWeight: 'bold' }}>
                       {row.price}DT
                     </TableCell>

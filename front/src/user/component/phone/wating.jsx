@@ -116,9 +116,9 @@ const Wat = ({ searchQuery }) => {
                     <TableCell align="center">{row.serie}</TableCell>
                     <TableCell align="center">{row.problem}</TableCell>
                     <TableCell align="center">{row.remarque}</TableCell>
-                    <TableCell align="center">{row.cout}</TableCell>
-                    <TableCell align="center">{row.maindoeuvre}</TableCell>
-                    <TableCell align="center">{row.accompte}</TableCell>
+                    <TableCell align="center">{row.cout} DT</TableCell>
+                    <TableCell align="center">{row.maindoeuvre} DT</TableCell>
+                    <TableCell align="center">{row.accompte} DT</TableCell>
                     <TableCell align="center">{row.price} DT</TableCell>
                     <TableCell align="center">{row.delivredOn.slice(0, 10)}</TableCell>
                     <TableCell align="center" style={{ backgroundColor: '#fbef53', borderRadius: '30px', fontWeight: 'bold', color: 'black' }}>
