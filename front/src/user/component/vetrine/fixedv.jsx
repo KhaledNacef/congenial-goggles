@@ -14,6 +14,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { Box, Typography } from '@mui/material';
 import Cookies from 'js-cookie';
@@ -25,6 +26,7 @@ const Fixeddv = ({ searchQuery }) => {
   const [data, setData] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [inputPrice, setInputPrice] = useState(''); // State to hold the input price
 
   const columns = [
     { id: 'id', label: 'ID', minWidth: 20 },
@@ -65,12 +67,13 @@ const Fixeddv = ({ searchQuery }) => {
   };
 
   const confirmBuy = async () => {
-    if (selectedId === null) return;
+    if (selectedId === null || inputPrice === '') return;
     try {
-      await axios.put(`https://api.deviceshopleader.com/api/vetrine/vetrinesell/${selectedId}/${userIdFromCookie}`);
+      await axios.put(`https://api.deviceshopleader.com/api/vetrine/vetrinesell/${selectedId}/${userIdFromCookie}`, { price: inputPrice });
       getBstatus('Fixed'); // Refresh data after status update
       setView(false); // Close the view after buying
       setOpenDialog(false); // Close the dialog
+      setInputPrice(''); // Reset the price input
     } catch (error) {
       console.error('Erreur lors de la mise à jour du statut :', error);
     }
@@ -126,16 +129,16 @@ const Fixeddv = ({ searchQuery }) => {
                     <TableCell align='center'>{row.serie}</TableCell>
                     <TableCell align='center'>{row.type}</TableCell>
                     <TableCell
-                    align="center"
-                    style={{
-                      whiteSpace: 'normal',  // Allow text to wrap to the next line
-                      wordBreak: 'break-word',  // Break long words to fit within the cell
-                      overflow: 'hidden',  // Hide overflow text
-                      textOverflow: 'ellipsis'  // Add ellipsis for overflowed text
-                    }}
-                  >
-                    {row.problem}
-                  </TableCell>
+                      align="center"
+                      style={{
+                        whiteSpace: 'normal',  // Allow text to wrap to the next line
+                        wordBreak: 'break-word',  // Break long words to fit within the cell
+                        overflow: 'hidden',  // Hide overflow text
+                        textOverflow: 'ellipsis'  // Add ellipsis for overflowed text
+                      }}
+                    >
+                      {row.problem}
+                    </TableCell>
                     <TableCell align='center'>{row.cout} DT</TableCell>
                     <TableCell align='center'>{row.maindoeuvre} DT</TableCell>
                     <TableCell align='center'>{row.price} DT</TableCell>
@@ -147,7 +150,7 @@ const Fixeddv = ({ searchQuery }) => {
                       </IconButton>
                       {view && selectedId === row.ref && (
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
-                          <Button onClick={handleBuy} variant="contained" >
+                          <Button onClick={handleBuy} variant="contained">
                             Buy
                           </Button>
                         </Box>
@@ -173,11 +176,20 @@ const Fixeddv = ({ searchQuery }) => {
       <Dialog open={openDialog} onClose={cancelBuy}>
         <DialogTitle>Confirm Purchase</DialogTitle>
         <DialogContent>
-          <Typography>Are you sure you want to buy this item?</Typography>
+          <Typography>Enter the price for this purchase:</Typography>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Price"
+            type="number"
+            fullWidth
+            value={inputPrice}
+            onChange={(e) => setInputPrice(e.target.value)}
+          />
         </DialogContent>
         <DialogActions>
-          <Button onClick={cancelBuy} color="primary">No</Button>
-          <Button onClick={confirmBuy} color="primary">Yes</Button>
+          <Button onClick={cancelBuy} color="primary">Cancel</Button>
+          <Button onClick={confirmBuy} color="primary">Confirm</Button>
         </DialogActions>
       </Dialog>
     </div>

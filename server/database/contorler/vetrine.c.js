@@ -78,6 +78,7 @@ exports.deleteVetrineById = async (req, res) => {
 // Sell Vetrine
 exports.sellVetrine = async (req, res) => {
   const { vetrineId,userId } = req.params;
+  const {price}=req.body
   try {
     // Find the Vetrine by ID
     const vetrine = await Vetrine.findOne({ where: { ref: vetrineId,userId:userId } });
@@ -92,7 +93,7 @@ exports.sellVetrine = async (req, res) => {
         brand: vetrine.brand,
         type:vetrine.type,
         serie:vetrine.serie,
-        price: vetrine.price,
+        price: price,
         cout:vetrine.cout,
         maindoeuvre:vetrine.maindoeuvre,
         problem:vetrine.problem,

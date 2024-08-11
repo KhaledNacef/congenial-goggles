@@ -24,10 +24,13 @@ const adminRouter = require('./database/route/admin.r.js');
 const userRouter = require('./database/route/user.r.js');
 const productRouter = require('./database/route/product.r.js');
 const phoneRouter = require('./database/route/phone.r.js');
+const credit = require('./database/route/credit.r.js');
 
 // Add your routes as middleware
 app.use('/api/admin', adminRouter);
 app.use('/api/user', userRouter);
+app.use('/api/credit', credit);
+
 app.use('/api/product', productRouter);
 app.use('/api/phone', phoneRouter);
 app.use('/api/sold', soldProductRoutes);

@@ -4,7 +4,9 @@ const User = require('../database/models/users.js');
 const Product = require('../database/models/product.js');
 const Phone = require('../database/models/phone.js');
 const Solded = require('../database/models/solded.js');
-const Pc=require('./models/pc.js')
+const Pc=require('./models/pc.js');
+const Credit=require('./models/credit.js')
+
 const Vetrine=require('./models/vetrine.js');
 const Soldedvetrine = require('./models/vetrine.js');
 const db = new Sequelize('shopy', 'shopyleader', 'K=U3X=Z9z5Dg4yeDmhp6', {
@@ -12,6 +14,7 @@ const db = new Sequelize('shopy', 'shopyleader', 'K=U3X=Z9z5Dg4yeDmhp6', {
   dialect: 'mysql'
 });
 
+const credit=db.define('credit',Credit)
 
 const pc=db.define('pc',Pc)
 const vetrine=db.define('vetrine',Vetrine)
@@ -23,6 +26,8 @@ const phone=db.define('phone',Phone)
 const solded=db.define('solded',Solded)
 user.hasMany(product)
 user.hasMany(phone)
+user.hasMany(credit)
+
 user.hasMany(solded)
 user.hasMany(vetrine)
 user.hasMany(pc)

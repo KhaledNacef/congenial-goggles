@@ -27,6 +27,8 @@ const UserSidebar = ({ changevie }) => {
 
     { text: 'Magasin', icon: <StorefrontIcon sx={{ fontSize: 40 }} />, action: () => changevie('Product') },
     { text: 'Profil', icon: <PersonIcon sx={{ fontSize: 40 }} />, action: () => changevie('Uprofile') },
+    { text: 'Credit', icon: <PersonIcon sx={{ fontSize: 40 }} />, action: () => changevie('Credit') },
+
   ];
 
   const fetchData = async (id) => {
