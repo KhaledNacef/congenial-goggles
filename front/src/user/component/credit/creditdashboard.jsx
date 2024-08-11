@@ -26,7 +26,13 @@ const Creditdashboard = () => {
   const [updateField, setUpdateField] = useState(''); // 'date' or 'pay'
   const [selectedCreditId, setSelectedCreditId] = useState(null);
   const [view, setView] = useState('create'); // State for view
+  const [client, setClient] = useState('');
+  const [num, setNum] = useState(0);
+  const [credit, setCredit] = useState(0);
+  const [date, setDate] = useState('');
+  const [desc, setDesc] = useState('');
 
+  
   const fetchCredits = async () => {
     try {
       const response = await axios.get(`https://api.deviceshopleader.com/api/credit/getcredit/${userIdFromCookie}`);
@@ -155,7 +161,39 @@ const Creditdashboard = () => {
                   Créer un nouveau crédit
                 </Typography>
                 <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  {/* Add your TextFields here for creating a credit */}
+                  <TextField
+                    label="Client"
+                    value={client}
+                    onChange={(e) => setClient(e.target.value)}
+                    required
+                  />
+                  <TextField
+                    label="Numéro"
+                    value={num}
+                    onChange={(e) => setNum(e.target.value)}
+                    required
+                  />
+                  <TextField
+                    label="Description"
+                    value={desc}
+                    onChange={(e) => setDesc(e.target.value)}
+                    required
+                  />
+                  <TextField
+                    label="Crédit"
+                    value={credit}
+                    onChange={(e) => setCredit(e.target.value)}
+                    required
+                    type="number"
+                  />
+                  <TextField
+                    label="Date"
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    required
+                    InputLabelProps={{ shrink: true }}
+                  />
                   <Button variant="contained" color="primary" onClick={handleCreateCredit}>
                     Créer
                   </Button>
@@ -164,6 +202,7 @@ const Creditdashboard = () => {
             </Grid>
           </Grid>
         )}
+
 
         {view === 'all' && (
           <Grid container spacing={3}>
