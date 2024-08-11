@@ -24,8 +24,7 @@ const getCreditsByUserId = async (req, res) => {
 
 // Update a credit entry
 const updatedate = async (req, res) => {
-    const { userId, id } = req.params;
-    const { date } = req.body; // Destructure 'date' from req.body
+    const { userId, id ,date} = req.params;
   
     try {
       const updatedCredit = await Credit.findOne({
@@ -45,8 +44,8 @@ const updatedate = async (req, res) => {
   };
   
   const updateCpay = async (req, res) => {
-    const { userId, id } = req.params;
-    const { pay } = req.body; // Destructure 'pay' from req.body
+    const { userId, id,pay } = req.params;
+      // Destructure 'pay' from req.body
   
     try {
       const updatedCredit = await Credit.findOne({
@@ -57,7 +56,7 @@ const updatedate = async (req, res) => {
         return res.status(404).json({ error: 'Credit not found' });
       }
   
-      updatedCredit.pay = pay;
+      updatedCredit.pay = parseFloat(pay);
       await updatedCredit.save(); // Ensure to save the changes
       res.status(200).json({ message: 'Credit payment updated successfully' });
     } catch (error) {

@@ -63,7 +63,7 @@ const Creditdashboard = () => {
 
   const handleUpdateDate = async (creditId) => {
     try {
-      await axios.put(`https://api.deviceshopleader.com/api/credit/updatedate/${userIdFromCookie}/${creditId}`,inputValues);
+      await axios.put(`https://api.deviceshopleader.com/api/credit/updatedate/${userIdFromCookie}/${creditId}/${inputValues}`);
       alert('Date mise à jour avec succès');
       setInputValues('');
       setSelectedCreditId(null);
@@ -76,7 +76,7 @@ const Creditdashboard = () => {
 
   const handleUpdatePay = async (creditId) => {
     try {
-      await axios.put(`https://api.deviceshopleader.com/api/credit/updatepay/${userIdFromCookie}/${creditId}`, inputValues);
+      await axios.put(`https://api.deviceshopleader.com/api/credit/updatepay/${userIdFromCookie}/${creditId}/${inputValues}` );
       alert('Montant payé mis à jour avec succès');
       setInputValues('');
       setSelectedCreditId(null);

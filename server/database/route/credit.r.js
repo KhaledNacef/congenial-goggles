@@ -10,10 +10,10 @@ router.get('/getcredit/:userId', Credit.getCreditsByUserId);
 
 
 // Update the date of a credit by ID and userId
-router.put('/updatedate/:userId/:id', Credit.updatedate);
+router.put('/updatedate/:userId/:id/:date', Credit.updatedate);
 
 // Update the pay of a credit by ID and userId
-router.put('/updatepay/:userId/:id', Credit.updateCpay);
+router.put('/updatepay/:userId/:id/:pay', Credit.updateCpay);
 
 // Delete a credit by ID
 router.delete('/deletec/:userId/:id', Credit.deleteCredit);
