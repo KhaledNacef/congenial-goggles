@@ -51,13 +51,17 @@ const Creditdashboard = () => {
   }, [userIdFromCookie]);
 
   const handleUpdateCredit = async (creditId) => {
-    if (!updatedDate) {
-      alert('La date est requise.');
-      return;
+    if (updatedDate) {
+        try {
+            await axios.put(`${baseUrl}/updatedate/${userIdFromCookie}/${creditId}`, { date: updatedDate });
+            
+            alert('Crédit mis à jour avec succès');
+          } catch (err) {
+            alert('Échec de la mise à jour du crédit');
+          }
     }
 
     try {
-      await axios.put(`${baseUrl}/updatedate/${userIdFromCookie}/${creditId}`, { date: updatedDate });
       if (updatedPay > 0) {
         await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${creditId}`, { pay: updatedPay });
       }
