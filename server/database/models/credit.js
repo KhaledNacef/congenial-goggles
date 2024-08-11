@@ -32,7 +32,7 @@ const { DataTypes } = require('sequelize');
     },
     date: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     }
   
 

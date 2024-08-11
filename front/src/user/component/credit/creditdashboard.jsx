@@ -31,7 +31,7 @@ const Creditdashboard = () => {
   const [updatedDate, setUpdatedDate] = useState('');
   const [updatedPay, setUpdatedPay] = useState(0);
   const [client, setClient] = useState('');
-  const [num, setNum] = useState('');
+  const [num, setNum] = useState(0);
   const [credit, setCredit] = useState(0);
   const [date, setDate] = useState('');
   const [desc, setDesc] = useState('');
@@ -43,15 +43,28 @@ const Creditdashboard = () => {
   const fetchCredits = async () => {
     try {
       const response = await axios.get(`${baseUrl}/getcredit/${userIdFromCookie}`);
-      setCredits(response.data);
-
-      const today = new Date().toISOString().split('T')[0];
-      const filteredCredits = response.data.filter(credit => credit.date === today);
+      const allCredits = response.data;
+      setCredits(allCredits);
+  
+      // Get current date components
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth() + 1; // Months are zero-based in JavaScript
+  
+      // Filter credits for today
+      const filteredCredits = allCredits.filter(credit => {
+        const creditDate = new Date(credit.date);
+        return creditDate.getDate() === currentDate.getDate() &&
+               creditDate.getMonth() + 1 === currentMonth &&
+               creditDate.getFullYear() === currentYear;
+      });
+  
       setTodayCredits(filteredCredits);
     } catch (err) {
       console.error('Error fetching credits:', err);
     }
   };
+  
 
   useEffect(() => {
     fetchCredits();
@@ -74,7 +87,7 @@ const Creditdashboard = () => {
   };
 
   const handleUpdatePay = async () => {
-    if (updatedPay >= 0) {
+    
       try {
         await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${selectedCreditId}`, { pay: updatedPay });
         alert('Montant payé mis à jour avec succès');
@@ -84,9 +97,7 @@ const Creditdashboard = () => {
       } catch (err) {
         alert('Échec de la mise à jour du montant payé');
       }
-    } else {
-      alert('Le montant payé ne peut pas être négatif.');
-    }
+    
   };
 
   const handleCreateCredit = async () => {
