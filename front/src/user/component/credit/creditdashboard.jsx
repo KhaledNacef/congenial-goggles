@@ -22,7 +22,7 @@ const Creditdashboard = () => {
 
   const [credits, setCredits] = useState([]);
   const [todayCredits, setTodayCredits] = useState([]);
-  const [inputValues, setInputValues] = useState(''); // Stores input values for each row
+  const [inputValues, setInputValues] = useState({}); // Stores input values for each row
   const [updateField, setUpdateField] = useState(''); // 'date' or 'pay'
   const [selectedCreditId, setSelectedCreditId] = useState(null);
   const [view, setView] = useState('create'); // State for view
@@ -61,22 +61,29 @@ const Creditdashboard = () => {
     fetchCredits();
   }, []);
 
-  const handleUpdate = async (creditId) => {
-    
-
+  const handleUpdateDate = async (creditId) => {
     try {
-      if (updateField === 'date') {
-        await axios.put(`https://api.deviceshopleader.com/api/credit/updatedate/${userIdFromCookie}/${creditId}`,inputValues);
-      } else if (updateField === 'pay') {
-        await axios.put(`https://api.deviceshopleader.com/api/credit/updatepay/${userIdFromCookie}/${creditId}`, inputValues);
-      }
-      alert('Mise à jour réussie');
+      await axios.put(`https://api.deviceshopleader.com/api/credit/updatedate/${userIdFromCookie}/${creditId}`,inputValues);
+      alert('Date mise à jour avec succès');
       setInputValues('');
       setSelectedCreditId(null);
       setUpdateField('');
       fetchCredits();
     } catch (err) {
-      alert('Échec de la mise à jour');
+      alert('Échec de la mise à jour de la date');
+    }
+  };
+
+  const handleUpdatePay = async (creditId) => {
+    try {
+      await axios.put(`https://api.deviceshopleader.com/api/credit/updatepay/${userIdFromCookie}/${creditId}`, inputValues);
+      alert('Montant payé mis à jour avec succès');
+      setInputValues('');
+      setSelectedCreditId(null);
+      setUpdateField('');
+      fetchCredits();
+    } catch (err) {
+      alert('Échec de la mise à jour du montant payé');
     }
   };
 
@@ -122,8 +129,7 @@ const Creditdashboard = () => {
     setUpdateField(field);
   };
 
-  const handleInputChange = (creditId, value) => {
-  };
+ 
 
   return (
     <Container>
@@ -239,14 +245,14 @@ const Creditdashboard = () => {
                                   label={updateField === 'date' ? 'Nouvelle Date' : 'Montant Payé'}
                                   type={updateField === 'date' ? 'date' : 'number'}
                                   value={inputValues}
-                                  onChange={(e) => setInputValues( e.target.value)}
+                                  onChange={(e) => setInputValues(e.target.value)}
                                   size="small"
                                   sx={{ mr: 2 }}
                                 />
                                 <Button
                                   variant="contained"
                                   color="primary"
-                                  onClick={() => handleUpdate(credit.id)}
+                                  onClick={() => updateField === 'date' ? handleUpdateDate(credit.id) : handleUpdatePay(credit.id)}
                                 >
                                   Mettre à Jour
                                 </Button>
@@ -324,9 +330,9 @@ const Creditdashboard = () => {
                             {selectedCreditId === credit.id ? (
                               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                 <TextField
-                                  label={updateField === 'date' ? 'Nouvelle Date' : 'Montant Payé'}
+                                  label={updateField === 'date' ? '' : 'Montant Payé'}
                                   type={updateField === 'date' ? 'date' : 'number'}
-                                  value={inputValues[credit.id] || ''}
+                                  value={inputValues}
                                   onChange={(e) => setInputValues( e.target.value)}
                                   size="small"
                                   sx={{ mr: 2 }}
@@ -334,7 +340,7 @@ const Creditdashboard = () => {
                                 <Button
                                   variant="contained"
                                   color="primary"
-                                  onClick={() => handleUpdate(credit.id)}
+                                  onClick={() => updateField === 'date' ? handleUpdateDate(credit.id) : handleUpdatePay(credit.id)}
                                 >
                                   Mettre à Jour
                                 </Button>
