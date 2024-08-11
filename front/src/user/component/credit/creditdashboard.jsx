@@ -68,12 +68,12 @@ const Creditdashboard = () => {
 
   useEffect(() => {
     fetchCredits();
-  }, [userIdFromCookie]);
+  }, []);
 
-  const handleUpdateDate = async () => {
-    if (updatedDate) {
+  const handleUpdateDate = async (updatedDate) => {
+    
       try {
-        await axios.put(`${baseUrl}/updatedate/${userIdFromCookie}/${selectedCreditId}`, { date: updatedDate });
+        await axios.put(`${baseUrl}/updatedate/${userIdFromCookie}/${selectedCreditId}`, {updatedDate });
         alert('Date mise à jour avec succès');
         setOpenDateDialog(false);
         setUpdatedDate('');
@@ -81,16 +81,13 @@ const Creditdashboard = () => {
       } catch (err) {
         alert('Échec de la mise à jour de la date');
       }
-    } else {
-      alert('La date est requise.');
-    }
+    
   };
 
-  const handleUpdatePay = async () => {
+  const handleUpdatePay = async (updatedPay) => {
     
       try {
-        await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${selectedCreditId}`, { pay: updatedPay });
-        alert('Montant payé mis à jour avec succès');
+        await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${selectedCreditId}`, { updatedPay });
         setOpenPayDialog(false);
         setUpdatedPay(0);
         fetchCredits();
@@ -252,7 +249,7 @@ const Creditdashboard = () => {
                           <TableCell>{credit.desc}</TableCell>
                           <TableCell>{credit.credit}</TableCell>
                           <TableCell>{credit.pay}</TableCell>
-                          <TableCell>{credit.rest}</TableCell>
+                          <TableCell>{credit.credit}-{credit.pay}</TableCell>
                           <TableCell>{credit.date}</TableCell>
                           <TableCell>
                             <Button
@@ -317,7 +314,7 @@ const Creditdashboard = () => {
                           <TableCell>{credit.desc}</TableCell>
                           <TableCell>{credit.credit}</TableCell>
                           <TableCell>{credit.pay}</TableCell>
-                          <TableCell>{credit.rest}</TableCell>
+                          <TableCell>{credit.credit}-{credit.pay}</TableCell>
                           <TableCell>{credit.date}</TableCell>
                         </TableRow>
                       ))}
@@ -344,7 +341,7 @@ const Creditdashboard = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenDateDialog(false)}>Annuler</Button>
-          <Button onClick={handleUpdateDate} color="primary">
+          <Button onClick={() =>handleUpdateDate(updatedDate)} color="primary">
             Mettre à jour
           </Button>
         </DialogActions>
@@ -364,7 +361,7 @@ const Creditdashboard = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenPayDialog(false)}>Annuler</Button>
-          <Button onClick={handleUpdatePay} color="primary">
+          <Button onClick={() =>handleUpdatePay(updatedDate)} color="primary">
             Mettre à jour
           </Button>
         </DialogActions>
