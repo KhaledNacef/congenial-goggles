@@ -15,6 +15,10 @@ import {
   Button,
   Box,
   Grid,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   CircularProgress,
   Alert
 } from '@mui/material';
@@ -32,6 +36,9 @@ const Creditdashboard = () => {
   const [credit, setCredit] = useState(0);
   const [date, setDate] = useState('');
   const [desc, setDesc] = useState('');
+  const [selectedCreditId, setSelectedCreditId] = useState(null);
+  const [openDateDialog, setOpenDateDialog] = useState(false);
+  const [openPayDialog, setOpenPayDialog] = useState(false);
 
   useEffect(() => {
     const fetchCredits = async () => {
@@ -50,24 +57,35 @@ const Creditdashboard = () => {
     fetchCredits();
   }, [userIdFromCookie]);
 
-  const handleUpdateCredit = async (creditId) => {
+  const handleUpdateDate = async () => {
     if (updatedDate) {
-        try {
-            await axios.put(`${baseUrl}/updatedate/${userIdFromCookie}/${creditId}`, { date: updatedDate });
-            
-            alert('Crédit mis à jour avec succès');
-          } catch (err) {
-            alert('Échec de la mise à jour du crédit');
-          }
-    }
-
-    try {
-      if (updatedPay > 0) {
-        await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${creditId}`, { pay: updatedPay });
+      try {
+        await axios.put(`${baseUrl}/updatedate/${userIdFromCookie}/${selectedCreditId}`, { date: updatedDate });
+        alert('Date mise à jour avec succès');
+        setOpenDateDialog(false);
+        setUpdatedDate('');
+        // Optionally, refresh data here
+      } catch (err) {
+        alert('Échec de la mise à jour de la date');
       }
-      alert('Crédit mis à jour avec succès');
-    } catch (err) {
-      alert('Échec de la mise à jour du crédit');
+    } else {
+      alert('La date est requise.');
+    }
+  };
+
+  const handleUpdatePay = async () => {
+    if (updatedPay >= 0) {
+      try {
+        await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${selectedCreditId}`, { pay: updatedPay });
+        alert('Montant payé mis à jour avec succès');
+        setOpenPayDialog(false);
+        setUpdatedPay(0);
+        // Optionally, refresh data here
+      } catch (err) {
+        alert('Échec de la mise à jour du montant payé');
+      }
+    } else {
+      alert('Le montant payé ne peut pas être négatif.');
     }
   };
 
@@ -90,6 +108,7 @@ const Creditdashboard = () => {
     try {
       await axios.post(`${baseUrl}/createc`, data);
       alert('Crédit créé avec succès');
+      // Optionally, refresh data here
     } catch (err) {
       alert('Échec de la création du crédit');
     }
@@ -98,11 +117,23 @@ const Creditdashboard = () => {
   const handleDeleteCredit = async (creditId) => {
     try {
       await axios.delete(`${baseUrl}/deletec/${userIdFromCookie}/${creditId}`);
-      
+      setCredits(credits.filter(credit => credit.id !== creditId));
+      setTodayCredits(todayCredits.filter(credit => credit.id !== creditId));
       alert('Crédit supprimé avec succès');
+      // Optionally, refresh data here
     } catch (err) {
       alert('Échec de la suppression du crédit');
     }
+  };
+
+  const openDateDialogHandler = (creditId) => {
+    setSelectedCreditId(creditId);
+    setOpenDateDialog(true);
+  };
+
+  const openPayDialogHandler = (creditId) => {
+    setSelectedCreditId(creditId);
+    setOpenPayDialog(true);
   };
 
   return (
@@ -194,6 +225,22 @@ const Creditdashboard = () => {
                           >
                             Supprimer
                           </Button>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => openDateDialogHandler(credit.id)}
+                            sx={{ ml: 2 }}
+                          >
+                            Modifier Date
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => openPayDialogHandler(credit.id)}
+                            sx={{ ml: 2 }}
+                          >
+                            Modifier Payé
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -220,7 +267,6 @@ const Creditdashboard = () => {
                       <TableCell>Payé</TableCell>
                       <TableCell>Reste</TableCell>
                       <TableCell>Date</TableCell>
-                      <TableCell>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -233,30 +279,6 @@ const Creditdashboard = () => {
                         <TableCell>{credit.pay}</TableCell>
                         <TableCell>{credit.rest}</TableCell>
                         <TableCell>{credit.date}</TableCell>
-                        <TableCell>
-                          <TextField
-                            type="date"
-                            value={updatedDate}
-                            onChange={(e) => setUpdatedDate(e.target.value)}
-                            size="small"
-                            sx={{ mr: 2 }}
-                          />
-                          <TextField
-                            type="number"
-                            value={updatedPay}
-                            onChange={(e) => setUpdatedPay(e.target.value)}
-                            placeholder="Nouveau paiement"
-                            size="small"
-                            sx={{ mr: 2 }}
-                          />
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => handleUpdateCredit(credit.id)}
-                          >
-                            Mettre à jour
-                          </Button>
-                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -266,6 +288,46 @@ const Creditdashboard = () => {
           </Grid>
         </Grid>
       </Box>
+
+      {/* Date Update Dialog */}
+      <Dialog open={openDateDialog} onClose={() => setOpenDateDialog(false)}>
+        <DialogTitle>Modifier la Date</DialogTitle>
+        <DialogContent>
+          <TextField
+            type="date"
+            value={updatedDate}
+            onChange={(e) => setUpdatedDate(e.target.value)}
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDateDialog(false)}>Annuler</Button>
+          <Button onClick={handleUpdateDate} color="primary">
+            Mettre à jour
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Pay Update Dialog */}
+      <Dialog open={openPayDialog} onClose={() => setOpenPayDialog(false)}>
+        <DialogTitle>Modifier le Montant Payé</DialogTitle>
+        <DialogContent>
+          <TextField
+            type="number"
+            value={updatedPay}
+            onChange={(e) => setUpdatedPay(e.target.value)}
+            fullWidth
+            placeholder="Nouveau montant payé"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenPayDialog(false)}>Annuler</Button>
+          <Button onClick={handleUpdatePay} color="primary">
+            Mettre à jour
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };
