@@ -22,7 +22,7 @@ const Creditdashboard = () => {
 
   const [credits, setCredits] = useState([]);
   const [todayCredits, setTodayCredits] = useState([]);
-  const [inputValues, setInputValues] = useState({}); // Stores input values for each row
+  const [inputValues, setInputValues] = useState(""); // Stores input values for each row
   const [updateField, setUpdateField] = useState(''); // 'date' or 'pay'
   const [selectedCreditId, setSelectedCreditId] = useState(null);
   const [view, setView] = useState('create'); // State for view
