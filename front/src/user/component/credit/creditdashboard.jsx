@@ -68,7 +68,7 @@ const Creditdashboard = () => {
 
   const handleCreateCredit = async () => {
     const data={
-        Client:client,
+        client:client,
         num:num,
         credit:credit,
         pay:0,
