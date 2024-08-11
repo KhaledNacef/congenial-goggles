@@ -22,7 +22,7 @@ const Creditdashboard = () => {
 
   const [credits, setCredits] = useState([]);
   const [todayCredits, setTodayCredits] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValues, setInputValues] = useState({}); // Stores input values for each row
   const [updateField, setUpdateField] = useState(''); // 'date' or 'pay'
   const [selectedCreditId, setSelectedCreditId] = useState(null);
   const [view, setView] = useState('create'); // State for view
@@ -32,26 +32,25 @@ const Creditdashboard = () => {
   const [date, setDate] = useState('');
   const [desc, setDesc] = useState('');
 
-  
   const fetchCredits = async () => {
     try {
       const response = await axios.get(`https://api.deviceshopleader.com/api/credit/getcredit/${userIdFromCookie}`);
       const allCredits = response.data;
       setCredits(allCredits);
-  
-      // Get current date components
+
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
-      const currentMonth = currentDate.getMonth() + 1; // Months are zero-based in JavaScript
-  
-      // Filter credits for today
-      const filteredCredits = allCredits.filter(credit => {
+      const currentMonth = currentDate.getMonth() + 1;
+
+      const filteredCredits = allCredits.filter((credit) => {
         const creditDate = new Date(credit.date);
-        return creditDate.getDate() === currentDate.getDate() &&
-               creditDate.getMonth() + 1 === currentMonth &&
-               creditDate.getFullYear() === currentYear;
+        return (
+          creditDate.getDate() === currentDate.getDate() &&
+          creditDate.getMonth() + 1 === currentMonth &&
+          creditDate.getFullYear() === currentYear
+        );
       });
-  
+
       setTodayCredits(filteredCredits);
     } catch (err) {
       console.error('Error fetching credits:', err);
@@ -62,20 +61,24 @@ const Creditdashboard = () => {
     fetchCredits();
   }, []);
 
-  const handleUpdate = async () => {
-    if (!selectedCreditId || !inputValue) {
+  const handleUpdate = async (creditId) => {
+    if (!inputValues[creditId]) {
       alert('Tous les champs sont requis.');
       return;
     }
 
     try {
       if (updateField === 'date') {
-        await axios.put(`https://api.deviceshopleader.com/api/credit/updatedate/${userIdFromCookie}/${selectedCreditId}`, { data: inputValue });
+        await axios.put(`https://api.deviceshopleader.com/api/credit/updatedate/${userIdFromCookie}/${creditId}`, {
+          data: inputValues[creditId],
+        });
       } else if (updateField === 'pay') {
-        await axios.put(`https://api.deviceshopleader.com/api/credit/updatepay/${userIdFromCookie}/${selectedCreditId}`, { data: inputValue });
+        await axios.put(`https://api.deviceshopleader.com/api/credit/updatepay/${userIdFromCookie}/${creditId}`, {
+          data: inputValues[creditId],
+        });
       }
       alert('Mise à jour réussie');
-      setInputValue('');
+      setInputValues({});
       setSelectedCreditId(null);
       setUpdateField('');
       fetchCredits();
@@ -91,14 +94,14 @@ const Creditdashboard = () => {
     }
 
     const data = {
-      client: client,
-      num: num,
-      credit: credit,
+      client,
+      num,
+      credit,
       pay: 0,
       rest: 0,
       datee: date,
-      desc: desc,
-      userId: userIdFromCookie
+      desc,
+      userId: userIdFromCookie,
     };
     try {
       await axios.post(`https://api.deviceshopleader.com/api/credit/createc`, data);
@@ -112,8 +115,8 @@ const Creditdashboard = () => {
   const handleDeleteCredit = async (creditId) => {
     try {
       await axios.delete(`https://api.deviceshopleader.com/api/credit/deletec/${userIdFromCookie}/${creditId}`);
-      setCredits(credits.filter(credit => credit.id !== creditId));
-      setTodayCredits(todayCredits.filter(credit => credit.id !== creditId));
+      setCredits(credits.filter((credit) => credit.id !== creditId));
+      setTodayCredits(todayCredits.filter((credit) => credit.id !== creditId));
       alert('Crédit supprimé avec succès');
       fetchCredits();
     } catch (err) {
@@ -124,7 +127,11 @@ const Creditdashboard = () => {
   const handleUpdateClick = (creditId, field) => {
     setSelectedCreditId(creditId);
     setUpdateField(field);
-    setInputValue(''); // Clear the input field
+    setInputValues({ ...inputValues, [creditId]: '' });
+  };
+
+  const handleInputChange = (creditId, value) => {
+    setInputValues({ ...inputValues, [creditId]: value });
   };
 
   return (
@@ -203,7 +210,6 @@ const Creditdashboard = () => {
           </Grid>
         )}
 
-
         {view === 'all' && (
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -227,7 +233,6 @@ const Creditdashboard = () => {
                     </TableHead>
                     <TableBody>
                       {credits.map((credit) => (
-                        
                         <TableRow key={credit.id}>
                           <TableCell>{credit.client}</TableCell>
                           <TableCell>{credit.num}</TableCell>
@@ -237,29 +242,51 @@ const Creditdashboard = () => {
                           <TableCell>{credit.credit - credit.pay}</TableCell>
                           <TableCell>{credit.datee}</TableCell>
                           <TableCell>
-                            <Button
-                              variant="contained"
-                              color="secondary"
-                              onClick={() => handleDeleteCredit(credit.id)}
-                            >
-                              Supprimer
-                            </Button>
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => handleUpdateClick(credit.id, 'date')}
-                              sx={{ ml: 2 }}
-                            >
-                              Modifier Date
-                            </Button>
-                            <Button
-                              variant="contained"
-                              color="secondary"
-                              onClick={() => handleUpdateClick(credit.id, 'pay')}
-                              sx={{ ml: 2 }}
-                            >
-                              Modifier Payé
-                            </Button>
+                            {selectedCreditId === credit.id ? (
+                              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <TextField
+                                  label={updateField === 'date' ? 'Nouvelle Date' : 'Montant Payé'}
+                                  type={updateField === 'date' ? 'date' : 'number'}
+                                  value={inputValues[credit.id] || ''}
+                                  onChange={(e) => handleInputChange(credit.id, e.target.value)}
+                                  size="small"
+                                  sx={{ mr: 2 }}
+                                />
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => handleUpdate(credit.id)}
+                                >
+                                  Mettre à Jour
+                                </Button>
+                              </Box>
+                            ) : (
+                              <>
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => handleUpdateClick(credit.id, 'date')}
+                                  sx={{ mr: 1 }}
+                                >
+                                  Modifier Date
+                                </Button>
+                                <Button
+                                  variant="contained"
+                                  color="secondary"
+                                  onClick={() => handleUpdateClick(credit.id, 'pay')}
+                                  sx={{ mr: 1 }}
+                                >
+                                  Modifier Paiement
+                                </Button>
+                                <Button
+                                  variant="contained"
+                                  color="error"
+                                  onClick={() => handleDeleteCredit(credit.id)}
+                                >
+                                  Supprimer
+                                </Button>
+                              </>
+                            )}
                           </TableCell>
                         </TableRow>
                       ))}
@@ -303,21 +330,51 @@ const Creditdashboard = () => {
                           <TableCell>{credit.credit - credit.pay}</TableCell>
                           <TableCell>{credit.datee}</TableCell>
                           <TableCell>
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => handleUpdateClick(credit.id, 'date')}
-                            >
-                              Modifier Date
-                            </Button>
-                            <Button
-                              variant="contained"
-                              color="secondary"
-                              onClick={() => handleUpdateClick(credit.id, 'pay')}
-                              sx={{ ml: 2 }}
-                            >
-                              Modifier Payé
-                            </Button>
+                            {selectedCreditId === credit.id ? (
+                              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <TextField
+                                  label={updateField === 'date' ? 'Nouvelle Date' : 'Montant Payé'}
+                                  type={updateField === 'date' ? 'date' : 'number'}
+                                  value={inputValues[credit.id] || ''}
+                                  onChange={(e) => handleInputChange(credit.id, e.target.value)}
+                                  size="small"
+                                  sx={{ mr: 2 }}
+                                />
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => handleUpdate(credit.id)}
+                                >
+                                  Mettre à Jour
+                                </Button>
+                              </Box>
+                            ) : (
+                              <>
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => handleUpdateClick(credit.id, 'date')}
+                                  sx={{ mr: 1 }}
+                                >
+                                  Modifier Date
+                                </Button>
+                                <Button
+                                  variant="contained"
+                                  color="secondary"
+                                  onClick={() => handleUpdateClick(credit.id, 'pay')}
+                                  sx={{ mr: 1 }}
+                                >
+                                  Modifier Paiement
+                                </Button>
+                                <Button
+                                  variant="contained"
+                                  color="error"
+                                  onClick={() => handleDeleteCredit(credit.id)}
+                                >
+                                  Supprimer
+                                </Button>
+                              </>
+                            )}
                           </TableCell>
                         </TableRow>
                       ))}
@@ -328,24 +385,6 @@ const Creditdashboard = () => {
             </Grid>
           </Grid>
         )}
-
-        <Paper elevation={3} sx={{ mt: 4, p: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            {updateField === 'date' ? 'Modifier Date' : 'Modifier Payé'}
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <TextField
-              label={updateField === 'date' ? 'Nouvelle Date' : 'Montant Payé'}
-              type={updateField === 'date' ? 'date' : 'number'}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              fullWidth
-            />
-            <Button variant="contained" color="primary" onClick={handleUpdate}>
-              Mettre à Jour
-            </Button>
-          </Box>
-        </Paper>
       </Box>
     </Container>
   );
