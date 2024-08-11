@@ -23,8 +23,6 @@ const Creditdashboard = () => {
 
   const [credits, setCredits] = useState([]);
   const [todayCredits, setTodayCredits] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [updatedDate, setUpdatedDate] = useState('');
   const [updatedPay, setUpdatedPay] = useState('');
  const[client,setClient]=useState('')
@@ -39,14 +37,13 @@ const Creditdashboard = () => {
       try {
         const response = await axios.get(`${baseUrl}/getcredit/${userIdFromCookie}`);
         setCredits(response.data);
-        setLoading(false);
 
-        const today = new Date().toISOString().split('T')[0];
-        const filteredCredits = response.data.filter(credit => credit.date === today);
+        const today = new Date().getFullYear();
+       
+        const filteredCredits = response.data.filter(credit => new Date(credit.date) === today);
         setTodayCredits(filteredCredits);
       } catch (err) {
         setError('Échec du chargement des crédits');
-        setLoading(false);
       }
     };
 
@@ -60,7 +57,6 @@ const Creditdashboard = () => {
       await axios.put(`${baseUrl}/updatedate/${userIdFromCookie}/${creditId}`, { date: updatedDate });
       await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${creditId}`, { pay: updatedPay });
       alert('Crédit mis à jour avec succès');
-      window.location.reload(); // Refresh the page to reflect updates
     } catch (err) {
       alert('Échec de la mise à jour du crédit');
     }
@@ -72,20 +68,19 @@ const Creditdashboard = () => {
         num:num,
         credit:credit,
         pay:0,
+        rest:0,
         date:date,
         userId:userIdFromCookie
     }
     try {
       await axios.post(`${baseUrl}/createc`,data);
       alert('Crédit créé avec succès');
-      window.location.reload(); // Refresh the page to reflect updates
     } catch (err) {
       alert('Échec de la création du crédit');
     }
   };
 
-  if (loading) return <CircularProgress />;
-  if (error) return <Typography color="error">{error}</Typography>;
+  
 
   return (
     <Container>

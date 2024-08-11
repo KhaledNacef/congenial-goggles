@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 
-const Credit = (sequelize) => {
-  const CreditModel = sequelize.define('Credit', {
+  const Credit ={
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -16,35 +15,23 @@ const Credit = (sequelize) => {
       allowNull: false,
     },
     credit: {
-      type: DataTypes.INTEGER, // Use INTEGER instead of NUMBER
+      type: DataTypes.FLOAT, // Use INTEGER instead of NUMBER
       allowNull: false,
     },
     rest: {
-      type: DataTypes.INTEGER, // Use INTEGER instead of NUMBER
+      type: DataTypes.FLOAT, // Use INTEGER instead of NUMBER
       allowNull: true,
     },
     pay: {
-      type: DataTypes.INTEGER, // Use INTEGER instead of NUMBER
+      type: DataTypes.FLOAT, // Use INTEGER instead of NUMBER
       allowNull: true,
     },
     date: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-  }, {
-    hooks: {
-      beforeCreate: (credit) => {
-        // Set `rest` to `credit - pay`
-        credit.rest = credit.credit - (credit.pay || 0);
-      },
-      beforeUpdate: (credit) => {
-        // Recalculate `rest` when `credit` or `pay` is updated
-        credit.rest = credit.credit - (credit.pay || 0);
-      }
     }
-  });
+  
 
-  return CreditModel;
 };
 
 module.exports = Credit;
