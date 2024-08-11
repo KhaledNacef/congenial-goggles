@@ -35,8 +35,8 @@ const Creditdashboard = () => {
 
   useEffect(() => {
     const fetchCredits = async () => {
-      setLoading(true);
-      setError('');
+      
+      
       try {
         const response = await axios.get(`${baseUrl}/getcredit/${userIdFromCookie}`);
         setCredits(response.data);
@@ -59,8 +59,8 @@ const Creditdashboard = () => {
     }
 
     try {
-      setLoading(true);
-      setError('');
+      
+      
       await axios.put(`${baseUrl}/updatedate/${userIdFromCookie}/${creditId}`, { date: updatedDate });
       await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${creditId}`, { pay: updatedPay });
       alert('Crédit mis à jour avec succès');
@@ -84,8 +84,8 @@ const Creditdashboard = () => {
       userId: userIdFromCookie
     };
     try {
-      setLoading(true);
-      setError('');
+      
+      
       await axios.post(`${baseUrl}/createc`, data);
       alert('Crédit créé avec succès');
     } catch (err) {
