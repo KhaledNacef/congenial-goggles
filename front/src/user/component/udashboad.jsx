@@ -397,7 +397,7 @@ export default function Dashboard() {
                             Pc soldé aujourd'hui
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                {sold.length}
+                            {datas.length}
                             </Typography>
                         </Box>
                     </Box>
@@ -419,7 +419,7 @@ export default function Dashboard() {
                             telephones soldé aujourd'hui
                             </Typography>
                             <Typography variant='h4' sx={{ fontFamily: 'Kanit', fontWeight: 500, color: '#FCF6F5FF' }}>
-                                {datas.length}
+                            {sold.length}
                             </Typography>
                         </Box>
                     </Box>
