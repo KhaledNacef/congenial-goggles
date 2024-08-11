@@ -25,19 +25,16 @@ const Creditdashboard = () => {
 
   const [credits, setCredits] = useState([]);
   const [todayCredits, setTodayCredits] = useState([]);
-  const [updatedDate, setUpdatedDate] = useState(0);
+  const [updatedDate, setUpdatedDate] = useState('');
   const [updatedPay, setUpdatedPay] = useState(0);
   const [client, setClient] = useState('');
-  const [num, setNum] = useState(0);
+  const [num, setNum] = useState('');
   const [credit, setCredit] = useState(0);
   const [date, setDate] = useState('');
   const [desc, setDesc] = useState('');
 
-
   useEffect(() => {
     const fetchCredits = async () => {
-      
-      
       try {
         const response = await axios.get(`${baseUrl}/getcredit/${userIdFromCookie}`);
         setCredits(response.data);
@@ -47,25 +44,26 @@ const Creditdashboard = () => {
         setTodayCredits(filteredCredits);
       } catch (err) {
         console.error('Error fetching credits:', err);
-      } 
+      }
     };
 
     fetchCredits();
   }, [userIdFromCookie]);
 
   const handleUpdateCredit = async (creditId) => {
-    if (!updatedPay || updatedPay <= 0) {
-      alert('Le montant payé doit être supérieur à zéro.');
+    if (!updatedDate) {
+      alert('La date est requise.');
       return;
     }
 
     try {
-      
-      
       await axios.put(`${baseUrl}/updatedate/${userIdFromCookie}/${creditId}`, { date: updatedDate });
-      await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${creditId}`, { pay: updatedPay });
+      if (updatedPay > 0) {
+        await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${creditId}`, { pay: updatedPay });
+      }
       alert('Crédit mis à jour avec succès');
     } catch (err) {
+      alert('Échec de la mise à jour du crédit');
     }
   };
 
@@ -82,24 +80,33 @@ const Creditdashboard = () => {
       pay: 0,
       rest: 0,
       date: date,
+      desc: desc,
       userId: userIdFromCookie
     };
     try {
-      
-      
       await axios.post(`${baseUrl}/createc`, data);
       alert('Crédit créé avec succès');
     } catch (err) {
-    } 
+      alert('Échec de la création du crédit');
+    }
+  };
+
+  const handleDeleteCredit = async (creditId) => {
+    try {
+      await axios.delete(`${baseUrl}/deletec/${userIdFromCookie}/${creditId}`);
+      
+      alert('Crédit supprimé avec succès');
+    } catch (err) {
+      alert('Échec de la suppression du crédit');
+    }
   };
 
   return (
     <Container>
       <Box sx={{ my: 4 }}>
-      
         <Grid container spacing={3}>
           {/* Create Credit Section */}
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
               <Typography variant="h6" gutterBottom>
                 Créer un nouveau crédit
@@ -117,8 +124,8 @@ const Creditdashboard = () => {
                   onChange={(e) => setNum(e.target.value)}
                   required
                 />
-                 <TextField
-                  label="description"
+                <TextField
+                  label="Description"
                   value={desc}
                   onChange={(e) => setDesc(e.target.value)}
                   required
@@ -162,6 +169,7 @@ const Creditdashboard = () => {
                       <TableCell>Payé</TableCell>
                       <TableCell>Reste</TableCell>
                       <TableCell>Date</TableCell>
+                      <TableCell>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -174,6 +182,15 @@ const Creditdashboard = () => {
                         <TableCell>{credit.pay}</TableCell>
                         <TableCell>{credit.rest}</TableCell>
                         <TableCell>{credit.date}</TableCell>
+                        <TableCell>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => handleDeleteCredit(credit.id)}
+                          >
+                            Supprimer
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -186,13 +203,13 @@ const Creditdashboard = () => {
           <Grid item xs={12} sm={6}>
             <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
               <Typography variant="h6" gutterBottom>
-                Crédits  d'aujourd'hui
+                Crédits d'aujourd'hui
               </Typography>
               <TableContainer>
                 <Table>
                   <TableHead>
                     <TableRow>
-                    <TableCell>Client</TableCell>
+                      <TableCell>Client</TableCell>
                       <TableCell>Numéro</TableCell>
                       <TableCell>Description</TableCell>
                       <TableCell>Crédit</TableCell>
