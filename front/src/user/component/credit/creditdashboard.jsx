@@ -27,13 +27,12 @@ const Creditdashboard = () => {
   const [error, setError] = useState(null);
   const [updatedDate, setUpdatedDate] = useState('');
   const [updatedPay, setUpdatedPay] = useState('');
-  const [newCredit, setNewCredit] = useState({
-    client: '',
-    num: '',
-    credit: '',
-    pay: 0,
-    date: '',
-  });
+ const[client,setClient]=useState('')
+ const[num,setNum]=useState(0)
+ const[credit,setCredit]=useState(0)
+ const[date,setDate]=useState('')
+
+
 
   useEffect(() => {
     const fetchCredits = async () => {
@@ -68,8 +67,16 @@ const Creditdashboard = () => {
   };
 
   const handleCreateCredit = async () => {
+    const data={
+        Client:client,
+        num:num,
+        credit:credit,
+        pay:0,
+        date:date,
+        userId:userIdFromCookie
+    }
     try {
-      await axios.post(`${baseUrl}/createc`, { ...newCredit, userId: userIdFromCookie });
+      await axios.post(`${baseUrl}/createc`,data);
       alert('Crédit créé avec succès');
       window.location.reload(); // Refresh the page to reflect updates
     } catch (err) {
@@ -91,20 +98,20 @@ const Creditdashboard = () => {
           <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <TextField
               label="Client"
-              value={newCredit.client}
-              onChange={(e) => setNewCredit({ ...newCredit, client: e.target.value })}
+              value={client}
+              onChange={(e) => setClient( e.target.value )}
               required
             />
             <TextField
               label="Numéro"
-              value={newCredit.num}
-              onChange={(e) => setNewCredit({ ...newCredit, num: e.target.value })}
+              value={num}
+              onChange={(e) => setNum(e.target.value)}
               required
             />
             <TextField
               label="Crédit"
-              value={newCredit.credit}
-              onChange={(e) => setNewCredit({ ...newCredit, credit: e.target.value })}
+              value={credit}
+              onChange={(e) => setCredit(e.target.value )}
               required
               type="number"
             />
@@ -113,8 +120,8 @@ const Creditdashboard = () => {
             <TextField
               label="Date"
               type="date"
-              value={newCredit.date}
-              onChange={(e) => setNewCredit({ ...newCredit, date: e.target.value })}
+              value={date}
+              onChange={(e) => setDate( e.target.value )}
               required
               InputLabelProps={{ shrink: true }}
             />
