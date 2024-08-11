@@ -22,7 +22,7 @@ const Creditdashboard = () => {
 
   const [credits, setCredits] = useState([]);
   const [todayCredits, setTodayCredits] = useState([]);
-  const [inputValues, setInputValues] = useState({}); // Stores input values for each row
+  const [inputValues, setInputValues] = useState(''); // Stores input values for each row
   const [updateField, setUpdateField] = useState(''); // 'date' or 'pay'
   const [selectedCreditId, setSelectedCreditId] = useState(null);
   const [view, setView] = useState('create'); // State for view
@@ -43,7 +43,7 @@ const Creditdashboard = () => {
       const currentMonth = currentDate.getMonth() + 1;
 
       const filteredCredits = allCredits.filter((credit) => {
-        const creditDate = new Date(credit.date);
+        const creditDate = new Date(credit.datee);
         return (
           creditDate.getDate() === currentDate.getDate() &&
           creditDate.getMonth() + 1 === currentMonth &&
@@ -62,23 +62,16 @@ const Creditdashboard = () => {
   }, []);
 
   const handleUpdate = async (creditId) => {
-    if (!inputValues[creditId]) {
-      alert('Tous les champs sont requis.');
-      return;
-    }
+    
 
     try {
       if (updateField === 'date') {
-        await axios.put(`https://api.deviceshopleader.com/api/credit/updatedate/${userIdFromCookie}/${creditId}`, {
-          data: inputValues[creditId],
-        });
+        await axios.put(`https://api.deviceshopleader.com/api/credit/updatedate/${userIdFromCookie}/${creditId}`,inputValues);
       } else if (updateField === 'pay') {
-        await axios.put(`https://api.deviceshopleader.com/api/credit/updatepay/${userIdFromCookie}/${creditId}`, {
-          data: inputValues[creditId],
-        });
+        await axios.put(`https://api.deviceshopleader.com/api/credit/updatepay/${userIdFromCookie}/${creditId}`, inputValues);
       }
       alert('Mise à jour réussie');
-      setInputValues({});
+      setInputValues('');
       setSelectedCreditId(null);
       setUpdateField('');
       fetchCredits();
@@ -127,11 +120,9 @@ const Creditdashboard = () => {
   const handleUpdateClick = (creditId, field) => {
     setSelectedCreditId(creditId);
     setUpdateField(field);
-    setInputValues({ ...inputValues, [creditId]: '' });
   };
 
   const handleInputChange = (creditId, value) => {
-    setInputValues({ ...inputValues, [creditId]: value });
   };
 
   return (
@@ -247,8 +238,8 @@ const Creditdashboard = () => {
                                 <TextField
                                   label={updateField === 'date' ? 'Nouvelle Date' : 'Montant Payé'}
                                   type={updateField === 'date' ? 'date' : 'number'}
-                                  value={inputValues[credit.id] || ''}
-                                  onChange={(e) => handleInputChange(credit.id, e.target.value)}
+                                  value={inputValues}
+                                  onChange={(e) => setInputValues( e.target.value)}
                                   size="small"
                                   sx={{ mr: 2 }}
                                 />
@@ -336,7 +327,7 @@ const Creditdashboard = () => {
                                   label={updateField === 'date' ? 'Nouvelle Date' : 'Montant Payé'}
                                   type={updateField === 'date' ? 'date' : 'number'}
                                   value={inputValues[credit.id] || ''}
-                                  onChange={(e) => handleInputChange(credit.id, e.target.value)}
+                                  onChange={(e) => setInputValues( e.target.value)}
                                   size="small"
                                   sx={{ mr: 2 }}
                                 />
