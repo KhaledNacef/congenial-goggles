@@ -39,31 +39,39 @@ const Creditdashboard = () => {
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
-
   const fetchCredits = async () => {
     try {
       const response = await axios.get(`https://api.deviceshopleader.com/api/credit/getcredit/${userIdFromCookie}`);
       const allCredits = response.data;
-      setCredits(allCredits);
-
+      
+      // Filter credits where pay is not equal to credit
+      const filteredCredits = allCredits.filter((credit) => credit.pay !== credit.credit);
+  
+      // Set the filtered credits to state
+      setCredits(filteredCredits);
+  
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
       const currentMonth = currentDate.getMonth() + 1;
-
-      const filteredCredits = allCredits.filter((credit) => {
+  
+      // Filter credits for today
+      const todayCredits = filteredCredits.filter((credit) => {
         const creditDate = new Date(credit.datee);
         return (
           creditDate.getDate() === currentDate.getDate() &&
           creditDate.getMonth() + 1 === currentMonth &&
-          creditDate.getFullYear() === currentYear
+          creditDate.getFullYear() === currentYear&&
+          credit.pay !== credit.credit
         );
       });
-
-      setTodayCredits(filteredCredits);
+  
+      // Set today's credits to state
+      setTodayCredits(todayCredits);
     } catch (err) {
       console.error('Error fetching credits:', err);
     }
   };
+  
 
   useEffect(() => {
     fetchCredits();
