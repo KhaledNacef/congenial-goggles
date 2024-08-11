@@ -14,7 +14,9 @@ import {
   TextField,
   Button,
   Box,
-  Grid
+  Grid,
+  CircularProgress,
+  Alert
 } from '@mui/material';
 
 const Creditdashboard = () => {
@@ -26,12 +28,15 @@ const Creditdashboard = () => {
   const [updatedDate, setUpdatedDate] = useState('');
   const [updatedPay, setUpdatedPay] = useState('');
   const [client, setClient] = useState('');
-  const [num, setNum] = useState(0);
-  const [credit, setCredit] = useState(0);
+  const [num, setNum] = useState('');
+  const [credit, setCredit] = useState('');
   const [date, setDate] = useState('');
+  
 
   useEffect(() => {
     const fetchCredits = async () => {
+      setLoading(true);
+      setError('');
       try {
         const response = await axios.get(`${baseUrl}/getcredit/${userIdFromCookie}`);
         setCredits(response.data);
@@ -41,25 +46,34 @@ const Creditdashboard = () => {
         setTodayCredits(filteredCredits);
       } catch (err) {
         console.error('Error fetching credits:', err);
-      }
+      } 
     };
 
     fetchCredits();
   }, [userIdFromCookie]);
 
   const handleUpdateCredit = async (creditId) => {
-    if (updatedPay === 0) return; // Skip update if pay is 0
+    if (!updatedPay || updatedPay <= 0) {
+      alert('Le montant payé doit être supérieur à zéro.');
+      return;
+    }
 
     try {
+      setLoading(true);
+      setError('');
       await axios.put(`${baseUrl}/updatedate/${userIdFromCookie}/${creditId}`, { date: updatedDate });
       await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${creditId}`, { pay: updatedPay });
       alert('Crédit mis à jour avec succès');
     } catch (err) {
-      alert('Échec de la mise à jour du crédit');
     }
   };
 
   const handleCreateCredit = async () => {
+    if (!client || !num || !credit || !date) {
+      alert('Tous les champs sont requis.');
+      return;
+    }
+
     const data = {
       client: client,
       num: num,
@@ -70,16 +84,18 @@ const Creditdashboard = () => {
       userId: userIdFromCookie
     };
     try {
+      setLoading(true);
+      setError('');
       await axios.post(`${baseUrl}/createc`, data);
       alert('Crédit créé avec succès');
     } catch (err) {
-      alert('Échec de la création du crédit');
-    }
+    } 
   };
 
   return (
     <Container>
       <Box sx={{ my: 4 }}>
+      
         <Grid container spacing={3}>
           {/* Create Credit Section */}
           <Grid item xs={12} sm={6}>
