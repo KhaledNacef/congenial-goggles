@@ -13,8 +13,8 @@ import {
   TableRow,
   TextField,
   Button,
-  CircularProgress,
   Box,
+  Grid
 } from '@mui/material';
 
 const Creditdashboard = () => {
@@ -25,12 +25,10 @@ const Creditdashboard = () => {
   const [todayCredits, setTodayCredits] = useState([]);
   const [updatedDate, setUpdatedDate] = useState('');
   const [updatedPay, setUpdatedPay] = useState('');
- const[client,setClient]=useState('')
- const[num,setNum]=useState(0)
- const[credit,setCredit]=useState(0)
- const[date,setDate]=useState('')
-
-
+  const [client, setClient] = useState('');
+  const [num, setNum] = useState(0);
+  const [credit, setCredit] = useState(0);
+  const [date, setDate] = useState('');
 
   useEffect(() => {
     const fetchCredits = async () => {
@@ -38,12 +36,11 @@ const Creditdashboard = () => {
         const response = await axios.get(`${baseUrl}/getcredit/${userIdFromCookie}`);
         setCredits(response.data);
 
-        const today = new Date().getFullYear();
-       
-        const filteredCredits = response.data.filter(credit => new Date(credit.date) === today);
+        const today = new Date().toISOString().split('T')[0];
+        const filteredCredits = response.data.filter(credit => credit.date === today);
         setTodayCredits(filteredCredits);
       } catch (err) {
-        setError('Échec du chargement des crédits');
+        console.error('Error fetching credits:', err);
       }
     };
 
@@ -63,158 +60,163 @@ const Creditdashboard = () => {
   };
 
   const handleCreateCredit = async () => {
-    const data={
-        client:client,
-        num:num,
-        credit:credit,
-        pay:0,
-        rest:0,
-        date:date,
-        userId:userIdFromCookie
-    }
+    const data = {
+      client: client,
+      num: num,
+      credit: credit,
+      pay: 0,
+      rest: 0,
+      date: date,
+      userId: userIdFromCookie
+    };
     try {
-      await axios.post(`${baseUrl}/createc`,data);
+      await axios.post(`${baseUrl}/createc`, data);
       alert('Crédit créé avec succès');
     } catch (err) {
       alert('Échec de la création du crédit');
     }
   };
 
-  
-
   return (
     <Container>
       <Box sx={{ my: 4 }}>
-        {/* Create Credit Section */}
-        <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            Créer un nouveau crédit
-          </Typography>
-          <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <TextField
-              label="Client"
-              value={client}
-              onChange={(e) => setClient( e.target.value )}
-              required
-            />
-            <TextField
-              label="Numéro"
-              value={num}
-              onChange={(e) => setNum(e.target.value)}
-              required
-            />
-            <TextField
-              label="Crédit"
-              value={credit}
-              onChange={(e) => setCredit(e.target.value )}
-              required
-              type="number"
-            />
-           
-           
-            <TextField
-              label="Date"
-              type="date"
-              value={date}
-              onChange={(e) => setDate( e.target.value )}
-              required
-              InputLabelProps={{ shrink: true }}
-            />
-            <Button variant="contained" color="primary" onClick={handleCreateCredit}>
-              Créer
-            </Button>
-          </Box>
-        </Paper>
+        <Grid container spacing={3}>
+          {/* Create Credit Section */}
+          <Grid item xs={12} sm={6}>
+            <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Créer un nouveau crédit
+              </Typography>
+              <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <TextField
+                  label="Client"
+                  value={client}
+                  onChange={(e) => setClient(e.target.value)}
+                  required
+                />
+                <TextField
+                  label="Numéro"
+                  value={num}
+                  onChange={(e) => setNum(e.target.value)}
+                  required
+                />
+                <TextField
+                  label="Crédit"
+                  value={credit}
+                  onChange={(e) => setCredit(e.target.value)}
+                  required
+                  type="number"
+                />
+                <TextField
+                  label="Date"
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  required
+                  InputLabelProps={{ shrink: true }}
+                />
+                <Button variant="contained" color="primary" onClick={handleCreateCredit}>
+                  Créer
+                </Button>
+              </Box>
+            </Paper>
+          </Grid>
 
-        {/* First Section: All Credits */}
-        <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            Tous les crédits
-          </Typography>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Client</TableCell>
-                  <TableCell>Numéro</TableCell>
-                  <TableCell>Crédit</TableCell>
-                  <TableCell>Payé</TableCell>
-                  <TableCell>Reste</TableCell>
-                  <TableCell>Date</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {credits.map((credit) => (
-                  <TableRow key={credit.id}>
-                    <TableCell>{credit.client}</TableCell>
-                    <TableCell>{credit.num}</TableCell>
-                    <TableCell>{credit.credit}</TableCell>
-                    <TableCell>{credit.pay}</TableCell>
-                    <TableCell>{credit.rest}</TableCell>
-                    <TableCell>{credit.date}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
+          {/* First Section: All Credits */}
+          <Grid item xs={12} sm={6}>
+            <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Tous les crédits
+              </Typography>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Client</TableCell>
+                      <TableCell>Numéro</TableCell>
+                      <TableCell>Crédit</TableCell>
+                      <TableCell>Payé</TableCell>
+                      <TableCell>Reste</TableCell>
+                      <TableCell>Date</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {credits.map((credit) => (
+                      <TableRow key={credit.id}>
+                        <TableCell>{credit.client}</TableCell>
+                        <TableCell>{credit.num}</TableCell>
+                        <TableCell>{credit.credit}</TableCell>
+                        <TableCell>{credit.pay}</TableCell>
+                        <TableCell>{credit.rest}</TableCell>
+                        <TableCell>{credit.date}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </Grid>
 
-        {/* Second Section: Today's Credits */}
-        <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            Crédits d'aujourd'hui
-          </Typography>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Client</TableCell>
-                  <TableCell>Numéro</TableCell>
-                  <TableCell>Crédit</TableCell>
-                  <TableCell>Payé</TableCell>
-                  <TableCell>Reste</TableCell>
-                  <TableCell>Date</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {todayCredits.map((credit) => (
-                  <TableRow key={credit.id}>
-                    <TableCell>{credit.client}</TableCell>
-                    <TableCell>{credit.num}</TableCell>
-                    <TableCell>{credit.credit}</TableCell>
-                    <TableCell>{credit.pay}</TableCell>
-                    <TableCell>{credit.rest}</TableCell>
-                    <TableCell>{credit.date}</TableCell>
-                    <TableCell>
-                      <TextField
-                        type="date"
-                        value={updatedDate}
-                        onChange={(e) => setUpdatedDate(e.target.value)}
-                        size="small"
-                        sx={{ mr: 2 }}
-                      />
-                      <TextField
-                        type="number"
-                        value={updatedPay}
-                        onChange={(e) => setUpdatedPay(e.target.value)}
-                        placeholder="Nouveau paiement"
-                        size="small"
-                        sx={{ mr: 2 }}
-                      />
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleUpdateCredit(credit.id)}
-                      >
-                        Mettre à jour
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
+          {/* Second Section: Today's Credits */}
+          <Grid item xs={12} sm={6}>
+            <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Crédits d'aujourd'hui
+              </Typography>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Client</TableCell>
+                      <TableCell>Numéro</TableCell>
+                      <TableCell>Crédit</TableCell>
+                      <TableCell>Payé</TableCell>
+                      <TableCell>Reste</TableCell>
+                      <TableCell>Date</TableCell>
+                      <TableCell>Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {todayCredits.map((credit) => (
+                      <TableRow key={credit.id}>
+                        <TableCell>{credit.client}</TableCell>
+                        <TableCell>{credit.num}</TableCell>
+                        <TableCell>{credit.credit}</TableCell>
+                        <TableCell>{credit.pay}</TableCell>
+                        <TableCell>{credit.rest}</TableCell>
+                        <TableCell>{credit.date}</TableCell>
+                        <TableCell>
+                          <TextField
+                            type="date"
+                            value={updatedDate}
+                            onChange={(e) => setUpdatedDate(e.target.value)}
+                            size="small"
+                            sx={{ mr: 2 }}
+                          />
+                          <TextField
+                            type="number"
+                            value={updatedPay}
+                            onChange={(e) => setUpdatedPay(e.target.value)}
+                            placeholder="Nouveau paiement"
+                            size="small"
+                            sx={{ mr: 2 }}
+                          />
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => handleUpdateCredit(credit.id)}
+                          >
+                            Mettre à jour
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   );
