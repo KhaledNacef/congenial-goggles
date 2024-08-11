@@ -36,7 +36,7 @@ const updatedate = async (req, res) => {
         return res.status(404).json({ error: 'Credit not found' });
       }
   
-      updatedCredit.date = date;
+      updatedCredit.datee = date;
       await updatedCredit.save(); // Ensure to save the changes
       res.status(200).json({ message: 'Credit date updated successfully' });
     } catch (error) {

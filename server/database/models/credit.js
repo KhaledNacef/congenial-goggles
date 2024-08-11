@@ -30,7 +30,7 @@ const { DataTypes } = require('sequelize');
       type: DataTypes.FLOAT, // Use INTEGER instead of NUMBER
       allowNull: true,
     },
-    date: {
+    datee: {
       type: DataTypes.STRING,
       allowNull: true,
     }

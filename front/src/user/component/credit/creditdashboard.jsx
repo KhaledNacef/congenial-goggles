@@ -42,7 +42,7 @@ const Creditdashboard = () => {
 
   const fetchCredits = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/getcredit/${userIdFromCookie}`);
+      const response = await axios.get(`https://api.deviceshopleader.com/api/credit/getcredit/${userIdFromCookie}`);
       const allCredits = response.data;
       setCredits(allCredits);
   
@@ -73,7 +73,7 @@ const Creditdashboard = () => {
   const handleUpdateDate = async (updatedDate) => {
     
       try {
-        await axios.put(`${baseUrl}/updatedate/${userIdFromCookie}/${selectedCreditId}`, {updatedDate });
+        await axios.put(`https://api.deviceshopleader.com/api/credit/updatedate/${userIdFromCookie}/${selectedCreditId}`, {updatedDate });
         alert('Date mise à jour avec succès');
         setOpenDateDialog(false);
         setUpdatedDate('');
@@ -87,7 +87,7 @@ const Creditdashboard = () => {
   const handleUpdatePay = async (updatedPay) => {
     
       try {
-        await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${selectedCreditId}`, { updatedPay });
+        await axios.put(`https://api.deviceshopleader.com/api/credit/updatepay/${userIdFromCookie}/${selectedCreditId}`, { updatedPay });
         setOpenPayDialog(false);
         setUpdatedPay(0);
         fetchCredits();
@@ -109,7 +109,7 @@ const Creditdashboard = () => {
       credit: credit,
       pay: 0,
       rest: 0,
-      date: date,
+      datee: date,
       desc: desc,
       userId: userIdFromCookie
     };
@@ -124,7 +124,7 @@ const Creditdashboard = () => {
 
   const handleDeleteCredit = async (creditId) => {
     try {
-      await axios.delete(`${baseUrl}/deletec/${userIdFromCookie}/${creditId}`);
+      await axios.delete(`https://api.deviceshopleader.com/api/credit/deletec/${userIdFromCookie}/${creditId}`);
       setCredits(credits.filter(credit => credit.id !== creditId));
       setTodayCredits(todayCredits.filter(credit => credit.id !== creditId));
       alert('Crédit supprimé avec succès');
@@ -250,7 +250,7 @@ const Creditdashboard = () => {
                           <TableCell>{credit.credit}</TableCell>
                           <TableCell>{credit.pay}</TableCell>
                           <TableCell>{credit.credit}-{credit.pay}</TableCell>
-                          <TableCell>{credit.date}</TableCell>
+                          <TableCell>{credit.datee}</TableCell>
                           <TableCell>
                             <Button
                               variant="contained"
@@ -315,7 +315,7 @@ const Creditdashboard = () => {
                           <TableCell>{credit.credit}</TableCell>
                           <TableCell>{credit.pay}</TableCell>
                           <TableCell>{credit.rest}</TableCell>
-                          <TableCell>{credit.date}</TableCell>
+                          <TableCell>{credit.datee}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
