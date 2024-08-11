@@ -314,7 +314,7 @@ const Creditdashboard = () => {
                           <TableCell>{credit.desc}</TableCell>
                           <TableCell>{credit.credit}</TableCell>
                           <TableCell>{credit.pay}</TableCell>
-                          <TableCell>{credit.credit}-{credit.pay}</TableCell>
+                          <TableCell>{credit.rest}</TableCell>
                           <TableCell>{credit.date}</TableCell>
                         </TableRow>
                       ))}

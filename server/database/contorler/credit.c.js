@@ -24,33 +24,47 @@ const getCreditsByUserId = async (req, res) => {
 
 // Update a credit entry
 const updatedate = async (req, res) => {
-    const {userId,id}=req.params 
-    const{data}=req.body
-  try {
-    const updatedCredit = await Credit.findOne({
-      where: { id:id,userId: userId }
-    });
-    updatedCredit.date=data;
-    updatedCredit.save();
-    res.status(200).json({ message: 'Credit updated successfully' });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to update credit' });
-  }
-};
-const updateCpay = async (req, res) => {
-    const {userId,id}=req.params 
-    const{data}=req.body
-  try {
-    const updatedCredit = await Credit.findOne({
-      where: { id:id,userId: userId }
-    });
-    updatedCredit.pay=data;
-    updatedCredit.save();
-    res.status(200).json({ message: 'Credit updated successfully' });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to update credit' });
-  }
-};
+    const { userId, id } = req.params;
+    const { date } = req.body; // Destructure 'date' from req.body
+  
+    try {
+      const updatedCredit = await Credit.findOne({
+        where: { id: id, userId: userId }
+      });
+  
+      if (!updatedCredit) {
+        return res.status(404).json({ error: 'Credit not found' });
+      }
+  
+      updatedCredit.date = date;
+      await updatedCredit.save(); // Ensure to save the changes
+      res.status(200).json({ message: 'Credit date updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to update credit date' });
+    }
+  };
+  
+  const updateCpay = async (req, res) => {
+    const { userId, id } = req.params;
+    const { pay } = req.body; // Destructure 'pay' from req.body
+  
+    try {
+      const updatedCredit = await Credit.findOne({
+        where: { id: id, userId: userId }
+      });
+  
+      if (!updatedCredit) {
+        return res.status(404).json({ error: 'Credit not found' });
+      }
+  
+      updatedCredit.pay = pay;
+      await updatedCredit.save(); // Ensure to save the changes
+      res.status(200).json({ message: 'Credit payment updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to update credit payment' });
+    }
+  };
+  
 
 // Delete a credit entry
 const deleteCredit = async (req, res) => {
