@@ -9,7 +9,7 @@ const Credit=require('./models/credit.js')
 
 const Vetrine=require('./models/vetrine.js');
 const Soldedvetrine = require('./models/vetrine.js');
-const db = new Sequelize('phonik', 'khaleed', 'K=U3X=Z9z5Dg4yeDmhp6', {
+const db = new Sequelize('phon', 'khaledad', 'K=U3X=Z9z5Dg4yeDmhp6', {
   host: '195.200.15.61',
   dialect: 'mysql'
 });

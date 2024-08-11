@@ -14,6 +14,10 @@ const { DataTypes } = require('sequelize');
       type: DataTypes.INTEGER, // Use INTEGER instead of NUMBER
       allowNull: false,
     },
+    desc: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     credit: {
       type: DataTypes.FLOAT, // Use INTEGER instead of NUMBER
       allowNull: false,

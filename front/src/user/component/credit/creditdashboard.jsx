@@ -25,13 +25,14 @@ const Creditdashboard = () => {
 
   const [credits, setCredits] = useState([]);
   const [todayCredits, setTodayCredits] = useState([]);
-  const [updatedDate, setUpdatedDate] = useState('');
-  const [updatedPay, setUpdatedPay] = useState('');
+  const [updatedDate, setUpdatedDate] = useState(0);
+  const [updatedPay, setUpdatedPay] = useState(0);
   const [client, setClient] = useState('');
-  const [num, setNum] = useState('');
-  const [credit, setCredit] = useState('');
+  const [num, setNum] = useState(0);
+  const [credit, setCredit] = useState(0);
   const [date, setDate] = useState('');
-  
+  const [desc, setDesc] = useState('');
+
 
   useEffect(() => {
     const fetchCredits = async () => {
@@ -116,6 +117,12 @@ const Creditdashboard = () => {
                   onChange={(e) => setNum(e.target.value)}
                   required
                 />
+                 <TextField
+                  label="description"
+                  value={desc}
+                  onChange={(e) => setDesc(e.target.value)}
+                  required
+                />
                 <TextField
                   label="Crédit"
                   value={credit}
@@ -150,6 +157,7 @@ const Creditdashboard = () => {
                     <TableRow>
                       <TableCell>Client</TableCell>
                       <TableCell>Numéro</TableCell>
+                      <TableCell>Description</TableCell>
                       <TableCell>Crédit</TableCell>
                       <TableCell>Payé</TableCell>
                       <TableCell>Reste</TableCell>
@@ -161,6 +169,7 @@ const Creditdashboard = () => {
                       <TableRow key={credit.id}>
                         <TableCell>{credit.client}</TableCell>
                         <TableCell>{credit.num}</TableCell>
+                        <TableCell>{credit.desc}</TableCell>
                         <TableCell>{credit.credit}</TableCell>
                         <TableCell>{credit.pay}</TableCell>
                         <TableCell>{credit.rest}</TableCell>
@@ -177,14 +186,15 @@ const Creditdashboard = () => {
           <Grid item xs={12} sm={6}>
             <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
               <Typography variant="h6" gutterBottom>
-                Crédits d'aujourd'hui
+                Crédits  d'aujourd'hui
               </Typography>
               <TableContainer>
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Client</TableCell>
+                    <TableCell>Client</TableCell>
                       <TableCell>Numéro</TableCell>
+                      <TableCell>Description</TableCell>
                       <TableCell>Crédit</TableCell>
                       <TableCell>Payé</TableCell>
                       <TableCell>Reste</TableCell>
@@ -197,6 +207,7 @@ const Creditdashboard = () => {
                       <TableRow key={credit.id}>
                         <TableCell>{credit.client}</TableCell>
                         <TableCell>{credit.num}</TableCell>
+                        <TableCell>{credit.desc}</TableCell>
                         <TableCell>{credit.credit}</TableCell>
                         <TableCell>{credit.pay}</TableCell>
                         <TableCell>{credit.rest}</TableCell>
