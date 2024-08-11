@@ -15,11 +15,6 @@ import {
   Button,
   Box,
   Grid,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Alert
 } from '@mui/material';
 
 const Creditdashboard = () => {
@@ -27,17 +22,10 @@ const Creditdashboard = () => {
 
   const [credits, setCredits] = useState([]);
   const [todayCredits, setTodayCredits] = useState([]);
-  const [updatedDate, setUpdatedDate] = useState('');
-  const [updatedPay, setUpdatedPay] = useState(0);
-  const [client, setClient] = useState('');
-  const [num, setNum] = useState(0);
-  const [credit, setCredit] = useState(0);
-  const [date, setDate] = useState('');
-  const [desc, setDesc] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [updateField, setUpdateField] = useState(''); // 'date' or 'pay'
   const [selectedCreditId, setSelectedCreditId] = useState(null);
-  const [openDateDialog, setOpenDateDialog] = useState(false);
-  const [openPayDialog, setOpenPayDialog] = useState(false);
-  const [view, setView] = useState('create'); // New state for view
+  const [view, setView] = useState('create'); // State for view
 
   const fetchCredits = async () => {
     try {
@@ -63,37 +51,31 @@ const Creditdashboard = () => {
       console.error('Error fetching credits:', err);
     }
   };
-  
 
   useEffect(() => {
     fetchCredits();
   }, []);
 
-  const handleUpdateDate = async (updatedDate) => {
-    
-      try {
-        await axios.put(`https://api.deviceshopleader.com/api/credit/updatedate/${userIdFromCookie}/${selectedCreditId}`, {updatedDate });
-        alert('Date mise à jour avec succès');
-        setOpenDateDialog(false);
-        setUpdatedDate('');
-        fetchCredits();
-      } catch (err) {
-        alert('Échec de la mise à jour de la date');
-      }
-    
-  };
+  const handleUpdate = async () => {
+    if (!selectedCreditId || !inputValue) {
+      alert('Tous les champs sont requis.');
+      return;
+    }
 
-  const handleUpdatePay = async (updatedPay) => {
-    
-      try {
-        await axios.put(`https://api.deviceshopleader.com/api/credit/updatepay/${userIdFromCookie}/${selectedCreditId}`, { updatedPay });
-        setOpenPayDialog(false);
-        setUpdatedPay(0);
-        fetchCredits();
-      } catch (err) {
-        alert('Échec de la mise à jour du montant payé');
+    try {
+      if (updateField === 'date') {
+        await axios.put(`https://api.deviceshopleader.com/api/credit/updatedate/${userIdFromCookie}/${selectedCreditId}`, { data: inputValue });
+      } else if (updateField === 'pay') {
+        await axios.put(`https://api.deviceshopleader.com/api/credit/updatepay/${userIdFromCookie}/${selectedCreditId}`, { data: inputValue });
       }
-    
+      alert('Mise à jour réussie');
+      setInputValue('');
+      setSelectedCreditId(null);
+      setUpdateField('');
+      fetchCredits();
+    } catch (err) {
+      alert('Échec de la mise à jour');
+    }
   };
 
   const handleCreateCredit = async () => {
@@ -113,7 +95,7 @@ const Creditdashboard = () => {
       userId: userIdFromCookie
     };
     try {
-      await axios.post(`${baseUrl}/createc`, data);
+      await axios.post(`https://api.deviceshopleader.com/api/credit/createc`, data);
       alert('Crédit créé avec succès');
       fetchCredits();
     } catch (err) {
@@ -133,14 +115,10 @@ const Creditdashboard = () => {
     }
   };
 
-  const openDateDialogHandler = (creditId) => {
+  const handleUpdateClick = (creditId, field) => {
     setSelectedCreditId(creditId);
-    setOpenDateDialog(true);
-  };
-
-  const openPayDialogHandler = (creditId) => {
-    setSelectedCreditId(creditId);
-    setOpenPayDialog(true);
+    setUpdateField(field);
+    setInputValue(''); // Clear the input field
   };
 
   return (
@@ -177,39 +155,7 @@ const Creditdashboard = () => {
                   Créer un nouveau crédit
                 </Typography>
                 <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <TextField
-                    label="Client"
-                    value={client}
-                    onChange={(e) => setClient(e.target.value)}
-                    required
-                  />
-                  <TextField
-                    label="Numéro"
-                    value={num}
-                    onChange={(e) => setNum(e.target.value)}
-                    required
-                  />
-                  <TextField
-                    label="Description"
-                    value={desc}
-                    onChange={(e) => setDesc(e.target.value)}
-                    required
-                  />
-                  <TextField
-                    label="Crédit"
-                    value={credit}
-                    onChange={(e) => setCredit(e.target.value)}
-                    required
-                    type="number"
-                  />
-                  <TextField
-                    label="Date"
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    required
-                    InputLabelProps={{ shrink: true }}
-                  />
+                  {/* Add your TextFields here for creating a credit */}
                   <Button variant="contained" color="primary" onClick={handleCreateCredit}>
                     Créer
                   </Button>
@@ -242,13 +188,14 @@ const Creditdashboard = () => {
                     </TableHead>
                     <TableBody>
                       {credits.map((credit) => (
+                        
                         <TableRow key={credit.id}>
                           <TableCell>{credit.client}</TableCell>
                           <TableCell>{credit.num}</TableCell>
                           <TableCell>{credit.desc}</TableCell>
                           <TableCell>{credit.credit}</TableCell>
                           <TableCell>{credit.pay}</TableCell>
-                          <TableCell>{credit.credit}-{credit.pay}</TableCell>
+                          <TableCell>{credit.credit - credit.pay}</TableCell>
                           <TableCell>{credit.datee}</TableCell>
                           <TableCell>
                             <Button
@@ -261,7 +208,7 @@ const Creditdashboard = () => {
                             <Button
                               variant="contained"
                               color="primary"
-                              onClick={() => openDateDialogHandler(credit.id)}
+                              onClick={() => handleUpdateClick(credit.id, 'date')}
                               sx={{ ml: 2 }}
                             >
                               Modifier Date
@@ -269,7 +216,7 @@ const Creditdashboard = () => {
                             <Button
                               variant="contained"
                               color="secondary"
-                              onClick={() => openPayDialogHandler(credit.id)}
+                              onClick={() => handleUpdateClick(credit.id, 'pay')}
                               sx={{ ml: 2 }}
                             >
                               Modifier Payé
@@ -303,6 +250,7 @@ const Creditdashboard = () => {
                         <TableCell>Payé</TableCell>
                         <TableCell>Reste</TableCell>
                         <TableCell>Date</TableCell>
+                        <TableCell>Actions</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -313,8 +261,25 @@ const Creditdashboard = () => {
                           <TableCell>{credit.desc}</TableCell>
                           <TableCell>{credit.credit}</TableCell>
                           <TableCell>{credit.pay}</TableCell>
-                          <TableCell>{credit.rest}</TableCell>
+                          <TableCell>{credit.credit - credit.pay}</TableCell>
                           <TableCell>{credit.datee}</TableCell>
+                          <TableCell>
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => handleUpdateClick(credit.id, 'date')}
+                            >
+                              Modifier Date
+                            </Button>
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              onClick={() => handleUpdateClick(credit.id, 'pay')}
+                              sx={{ ml: 2 }}
+                            >
+                              Modifier Payé
+                            </Button>
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -324,47 +289,25 @@ const Creditdashboard = () => {
             </Grid>
           </Grid>
         )}
+
+        <Paper elevation={3} sx={{ mt: 4, p: 2 }}>
+          <Typography variant="h6" gutterBottom>
+            {updateField === 'date' ? 'Modifier Date' : 'Modifier Payé'}
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <TextField
+              label={updateField === 'date' ? 'Nouvelle Date' : 'Montant Payé'}
+              type={updateField === 'date' ? 'date' : 'number'}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              fullWidth
+            />
+            <Button variant="contained" color="primary" onClick={handleUpdate}>
+              Mettre à Jour
+            </Button>
+          </Box>
+        </Paper>
       </Box>
-
-      {/* Date Update Dialog */}
-      <Dialog open={openDateDialog} onClose={() => setOpenDateDialog(false)}>
-        <DialogTitle>Modifier la Date</DialogTitle>
-        <DialogContent>
-          <TextField
-            type="date"
-            value={updatedDate}
-            onChange={(e) => setUpdatedDate(e.target.value)}
-            fullWidth
-            InputLabelProps={{ shrink: true }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenDateDialog(false)}>Annuler</Button>
-          <Button onClick={() =>handleUpdateDate(updatedDate)} color="primary">
-            Mettre à jour
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Pay Update Dialog */}
-      <Dialog open={openPayDialog} onClose={() => setOpenPayDialog(false)}>
-        <DialogTitle>Modifier le Montant Payé</DialogTitle>
-        <DialogContent>
-          <TextField
-            type="number"
-            value={updatedPay}
-            onChange={(e) => setUpdatedPay(e.target.value)}
-            fullWidth
-            placeholder="Nouveau montant payé"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenPayDialog(false)}>Annuler</Button>
-          <Button onClick={() =>handleUpdatePay(updatedDate)} color="primary">
-            Mettre à jour
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Container>
   );
 };
