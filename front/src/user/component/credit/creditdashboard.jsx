@@ -19,7 +19,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  CircularProgress,
   Alert
 } from '@mui/material';
 
@@ -39,21 +38,22 @@ const Creditdashboard = () => {
   const [selectedCreditId, setSelectedCreditId] = useState(null);
   const [openDateDialog, setOpenDateDialog] = useState(false);
   const [openPayDialog, setOpenPayDialog] = useState(false);
+  const [view, setView] = useState('create'); // New state for view
+
+  const fetchCredits = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/getcredit/${userIdFromCookie}`);
+      setCredits(response.data);
+
+      const today = new Date().toISOString().split('T')[0];
+      const filteredCredits = response.data.filter(credit => credit.date === today);
+      setTodayCredits(filteredCredits);
+    } catch (err) {
+      console.error('Error fetching credits:', err);
+    }
+  };
 
   useEffect(() => {
-    const fetchCredits = async () => {
-      try {
-        const response = await axios.get(`${baseUrl}/getcredit/${userIdFromCookie}`);
-        setCredits(response.data);
-
-        const today = new Date().toISOString().split('T')[0];
-        const filteredCredits = response.data.filter(credit => credit.date === today);
-        setTodayCredits(filteredCredits);
-      } catch (err) {
-        console.error('Error fetching credits:', err);
-      }
-    };
-
     fetchCredits();
   }, [userIdFromCookie]);
 
@@ -64,7 +64,7 @@ const Creditdashboard = () => {
         alert('Date mise à jour avec succès');
         setOpenDateDialog(false);
         setUpdatedDate('');
-        // Optionally, refresh data here
+        fetchCredits();
       } catch (err) {
         alert('Échec de la mise à jour de la date');
       }
@@ -80,7 +80,7 @@ const Creditdashboard = () => {
         alert('Montant payé mis à jour avec succès');
         setOpenPayDialog(false);
         setUpdatedPay(0);
-        // Optionally, refresh data here
+        fetchCredits();
       } catch (err) {
         alert('Échec de la mise à jour du montant payé');
       }
@@ -108,7 +108,7 @@ const Creditdashboard = () => {
     try {
       await axios.post(`${baseUrl}/createc`, data);
       alert('Crédit créé avec succès');
-      // Optionally, refresh data here
+      fetchCredits();
     } catch (err) {
       alert('Échec de la création du crédit');
     }
@@ -120,7 +120,7 @@ const Creditdashboard = () => {
       setCredits(credits.filter(credit => credit.id !== creditId));
       setTodayCredits(todayCredits.filter(credit => credit.id !== creditId));
       alert('Crédit supprimé avec succès');
-      // Optionally, refresh data here
+      fetchCredits();
     } catch (err) {
       alert('Échec de la suppression du crédit');
     }
@@ -139,154 +139,184 @@ const Creditdashboard = () => {
   return (
     <Container>
       <Box sx={{ my: 4 }}>
-        <Grid container spacing={3}>
-          {/* Create Credit Section */}
-          <Grid item xs={12}>
-            <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                Créer un nouveau crédit
-              </Typography>
-              <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <TextField
-                  label="Client"
-                  value={client}
-                  onChange={(e) => setClient(e.target.value)}
-                  required
-                />
-                <TextField
-                  label="Numéro"
-                  value={num}
-                  onChange={(e) => setNum(e.target.value)}
-                  required
-                />
-                <TextField
-                  label="Description"
-                  value={desc}
-                  onChange={(e) => setDesc(e.target.value)}
-                  required
-                />
-                <TextField
-                  label="Crédit"
-                  value={credit}
-                  onChange={(e) => setCredit(e.target.value)}
-                  required
-                  type="number"
-                />
-                <TextField
-                  label="Date"
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  required
-                  InputLabelProps={{ shrink: true }}
-                />
-                <Button variant="contained" color="primary" onClick={handleCreateCredit}>
-                  Créer
-                </Button>
-              </Box>
-            </Paper>
-          </Grid>
+        <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            variant={view === 'create' ? 'contained' : 'outlined'}
+            onClick={() => setView('create')}
+            sx={{ mr: 2 }}
+          >
+            Créer un Crédit
+          </Button>
+          <Button
+            variant={view === 'all' ? 'contained' : 'outlined'}
+            onClick={() => setView('all')}
+            sx={{ mr: 2 }}
+          >
+            Voir Tous les Crédits
+          </Button>
+          <Button
+            variant={view === 'today' ? 'contained' : 'outlined'}
+            onClick={() => setView('today')}
+          >
+            Voir Crédits d'Aujourd'hui
+          </Button>
+        </Box>
 
-          {/* First Section: All Credits */}
-          <Grid item xs={12} sm={6}>
-            <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                Tous les crédits
-              </Typography>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Client</TableCell>
-                      <TableCell>Numéro</TableCell>
-                      <TableCell>Description</TableCell>
-                      <TableCell>Crédit</TableCell>
-                      <TableCell>Payé</TableCell>
-                      <TableCell>Reste</TableCell>
-                      <TableCell>Date</TableCell>
-                      <TableCell>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {credits.map((credit) => (
-                      <TableRow key={credit.id}>
-                        <TableCell>{credit.client}</TableCell>
-                        <TableCell>{credit.num}</TableCell>
-                        <TableCell>{credit.desc}</TableCell>
-                        <TableCell>{credit.credit}</TableCell>
-                        <TableCell>{credit.pay}</TableCell>
-                        <TableCell>{credit.rest}</TableCell>
-                        <TableCell>{credit.date}</TableCell>
-                        <TableCell>
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={() => handleDeleteCredit(credit.id)}
-                          >
-                            Supprimer
-                          </Button>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => openDateDialogHandler(credit.id)}
-                            sx={{ ml: 2 }}
-                          >
-                            Modifier Date
-                          </Button>
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={() => openPayDialogHandler(credit.id)}
-                            sx={{ ml: 2 }}
-                          >
-                            Modifier Payé
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Paper>
+        {view === 'create' && (
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
+                <Typography variant="h6" gutterBottom>
+                  Créer un nouveau crédit
+                </Typography>
+                <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <TextField
+                    label="Client"
+                    value={client}
+                    onChange={(e) => setClient(e.target.value)}
+                    required
+                  />
+                  <TextField
+                    label="Numéro"
+                    value={num}
+                    onChange={(e) => setNum(e.target.value)}
+                    required
+                  />
+                  <TextField
+                    label="Description"
+                    value={desc}
+                    onChange={(e) => setDesc(e.target.value)}
+                    required
+                  />
+                  <TextField
+                    label="Crédit"
+                    value={credit}
+                    onChange={(e) => setCredit(e.target.value)}
+                    required
+                    type="number"
+                  />
+                  <TextField
+                    label="Date"
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    required
+                    InputLabelProps={{ shrink: true }}
+                  />
+                  <Button variant="contained" color="primary" onClick={handleCreateCredit}>
+                    Créer
+                  </Button>
+                </Box>
+              </Paper>
+            </Grid>
           </Grid>
+        )}
 
-          {/* Second Section: Today's Credits */}
-          <Grid item xs={12} sm={6}>
-            <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                Crédits d'aujourd'hui
-              </Typography>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Client</TableCell>
-                      <TableCell>Numéro</TableCell>
-                      <TableCell>Description</TableCell>
-                      <TableCell>Crédit</TableCell>
-                      <TableCell>Payé</TableCell>
-                      <TableCell>Reste</TableCell>
-                      <TableCell>Date</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {todayCredits.map((credit) => (
-                      <TableRow key={credit.id}>
-                        <TableCell>{credit.client}</TableCell>
-                        <TableCell>{credit.num}</TableCell>
-                        <TableCell>{credit.desc}</TableCell>
-                        <TableCell>{credit.credit}</TableCell>
-                        <TableCell>{credit.pay}</TableCell>
-                        <TableCell>{credit.rest}</TableCell>
-                        <TableCell>{credit.date}</TableCell>
+        {view === 'all' && (
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
+                <Typography variant="h6" gutterBottom>
+                  Tous les crédits
+                </Typography>
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Client</TableCell>
+                        <TableCell>Numéro</TableCell>
+                        <TableCell>Description</TableCell>
+                        <TableCell>Crédit</TableCell>
+                        <TableCell>Payé</TableCell>
+                        <TableCell>Reste</TableCell>
+                        <TableCell>Date</TableCell>
+                        <TableCell>Actions</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Paper>
+                    </TableHead>
+                    <TableBody>
+                      {credits.map((credit) => (
+                        <TableRow key={credit.id}>
+                          <TableCell>{credit.client}</TableCell>
+                          <TableCell>{credit.num}</TableCell>
+                          <TableCell>{credit.desc}</TableCell>
+                          <TableCell>{credit.credit}</TableCell>
+                          <TableCell>{credit.pay}</TableCell>
+                          <TableCell>{credit.rest}</TableCell>
+                          <TableCell>{credit.date}</TableCell>
+                          <TableCell>
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              onClick={() => handleDeleteCredit(credit.id)}
+                            >
+                              Supprimer
+                            </Button>
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => openDateDialogHandler(credit.id)}
+                              sx={{ ml: 2 }}
+                            >
+                              Modifier Date
+                            </Button>
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              onClick={() => openPayDialogHandler(credit.id)}
+                              sx={{ ml: 2 }}
+                            >
+                              Modifier Payé
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
+        )}
+
+        {view === 'today' && (
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
+                <Typography variant="h6" gutterBottom>
+                  Crédits d'aujourd'hui
+                </Typography>
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Client</TableCell>
+                        <TableCell>Numéro</TableCell>
+                        <TableCell>Description</TableCell>
+                        <TableCell>Crédit</TableCell>
+                        <TableCell>Payé</TableCell>
+                        <TableCell>Reste</TableCell>
+                        <TableCell>Date</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {todayCredits.map((credit) => (
+                        <TableRow key={credit.id}>
+                          <TableCell>{credit.client}</TableCell>
+                          <TableCell>{credit.num}</TableCell>
+                          <TableCell>{credit.desc}</TableCell>
+                          <TableCell>{credit.credit}</TableCell>
+                          <TableCell>{credit.pay}</TableCell>
+                          <TableCell>{credit.rest}</TableCell>
+                          <TableCell>{credit.date}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Paper>
+            </Grid>
+          </Grid>
+        )}
       </Box>
 
       {/* Date Update Dialog */}
