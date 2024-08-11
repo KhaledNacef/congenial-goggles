@@ -257,9 +257,9 @@ const Creditdashboard = () => {
                           <TableCell>{credit.client}</TableCell>
                           <TableCell>{credit.num}</TableCell>
                           <TableCell>{credit.desc}</TableCell>
-                          <TableCell>{credit.credit}</TableCell>
-                          <TableCell>{credit.pay}</TableCell>
-                          <TableCell>{credit.credit - credit.pay}</TableCell>
+                          <TableCell>{credit.credit} DT</TableCell>
+                          <TableCell>{credit.pay} DT</TableCell>
+                          <TableCell>{credit.credit - credit.pay} DT</TableCell>
                           <TableCell>{credit.datee}</TableCell>
                           <TableCell>
                             {selectedCreditId === credit.id ? (
@@ -345,9 +345,9 @@ const Creditdashboard = () => {
                           <TableCell>{credit.client}</TableCell>
                           <TableCell>{credit.num}</TableCell>
                           <TableCell>{credit.desc}</TableCell>
-                          <TableCell>{credit.credit}</TableCell>
-                          <TableCell>{credit.pay}</TableCell>
-                          <TableCell>{credit.credit - credit.pay}</TableCell>
+                          <TableCell>{credit.credit} DT</TableCell>
+                          <TableCell>{credit.pay} DT</TableCell>
+                          <TableCell>{credit.credit - credit.pay} DT</TableCell>
                           <TableCell>{credit.datee}</TableCell>
                           <TableCell>
                             {selectedCreditId === credit.id ? (
