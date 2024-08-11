@@ -24,7 +24,6 @@ import {
 
 const Creditdashboard = () => {
   const userIdFromCookie = Cookies.get('token');
-  const baseUrl = 'https://api.deviceshopleader.com/api/credit';
 
   const [credits, setCredits] = useState([]);
   const [todayCredits, setTodayCredits] = useState([]);
