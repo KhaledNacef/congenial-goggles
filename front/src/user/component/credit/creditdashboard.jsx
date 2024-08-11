@@ -27,6 +27,13 @@ const Creditdashboard = () => {
   const [error, setError] = useState(null);
   const [updatedDate, setUpdatedDate] = useState('');
   const [updatedPay, setUpdatedPay] = useState('');
+  const [newCredit, setNewCredit] = useState({
+    client: '',
+    num: '',
+    credit: '',
+    pay: 0,
+    date: '',
+  });
 
   useEffect(() => {
     const fetchCredits = async () => {
@@ -39,7 +46,7 @@ const Creditdashboard = () => {
         const filteredCredits = response.data.filter(credit => credit.date === today);
         setTodayCredits(filteredCredits);
       } catch (err) {
-        setError('Failed to fetch credits');
+        setError('Échec du chargement des crédits');
         setLoading(false);
       }
     };
@@ -53,10 +60,20 @@ const Creditdashboard = () => {
     try {
       await axios.put(`${baseUrl}/updatedate/${userIdFromCookie}/${creditId}`, { date: updatedDate });
       await axios.put(`${baseUrl}/updatepay/${userIdFromCookie}/${creditId}`, { pay: updatedPay });
-      alert('Credit updated successfully');
+      alert('Crédit mis à jour avec succès');
       window.location.reload(); // Refresh the page to reflect updates
     } catch (err) {
-      alert('Failed to update credit');
+      alert('Échec de la mise à jour du crédit');
+    }
+  };
+
+  const handleCreateCredit = async () => {
+    try {
+      await axios.post(`${baseUrl}/createc`, { ...newCredit, userId: userIdFromCookie });
+      alert('Crédit créé avec succès');
+      window.location.reload(); // Refresh the page to reflect updates
+    } catch (err) {
+      alert('Échec de la création du crédit');
     }
   };
 
@@ -66,14 +83,51 @@ const Creditdashboard = () => {
   return (
     <Container>
       <Box sx={{ my: 4 }}>
-        <Typography variant="h4" gutterBottom>
-          Credit Dashboard
-        </Typography>
+        {/* Create Credit Section */}
+        <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
+          <Typography variant="h6" gutterBottom>
+            Créer un nouveau crédit
+          </Typography>
+          <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <TextField
+              label="Client"
+              value={newCredit.client}
+              onChange={(e) => setNewCredit({ ...newCredit, client: e.target.value })}
+              required
+            />
+            <TextField
+              label="Numéro"
+              value={newCredit.num}
+              onChange={(e) => setNewCredit({ ...newCredit, num: e.target.value })}
+              required
+            />
+            <TextField
+              label="Crédit"
+              value={newCredit.credit}
+              onChange={(e) => setNewCredit({ ...newCredit, credit: e.target.value })}
+              required
+              type="number"
+            />
+           
+           
+            <TextField
+              label="Date"
+              type="date"
+              value={newCredit.date}
+              onChange={(e) => setNewCredit({ ...newCredit, date: e.target.value })}
+              required
+              InputLabelProps={{ shrink: true }}
+            />
+            <Button variant="contained" color="primary" onClick={handleCreateCredit}>
+              Créer
+            </Button>
+          </Box>
+        </Paper>
 
         {/* First Section: All Credits */}
         <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
           <Typography variant="h6" gutterBottom>
-            All Credits
+            Tous les crédits
           </Typography>
           <TableContainer>
             <Table>
@@ -81,9 +135,9 @@ const Creditdashboard = () => {
                 <TableRow>
                   <TableCell>Client</TableCell>
                   <TableCell>Numéro</TableCell>
-                  <TableCell>Credit</TableCell>
-                  <TableCell>Pay</TableCell>
-                  <TableCell>Rest</TableCell>
+                  <TableCell>Crédit</TableCell>
+                  <TableCell>Payé</TableCell>
+                  <TableCell>Reste</TableCell>
                   <TableCell>Date</TableCell>
                 </TableRow>
               </TableHead>
@@ -91,8 +145,8 @@ const Creditdashboard = () => {
                 {credits.map((credit) => (
                   <TableRow key={credit.id}>
                     <TableCell>{credit.client}</TableCell>
-                    <TableCell>{credit.num}</TableCell>   
-                     <TableCell>{credit.credit}</TableCell>
+                    <TableCell>{credit.num}</TableCell>
+                    <TableCell>{credit.credit}</TableCell>
                     <TableCell>{credit.pay}</TableCell>
                     <TableCell>{credit.rest}</TableCell>
                     <TableCell>{credit.date}</TableCell>
@@ -106,17 +160,17 @@ const Creditdashboard = () => {
         {/* Second Section: Today's Credits */}
         <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
           <Typography variant="h6" gutterBottom>
-            Today's Credits
+            Crédits d'aujourd'hui
           </Typography>
           <TableContainer>
             <Table>
               <TableHead>
                 <TableRow>
-                <TableCell>Client</TableCell>
+                  <TableCell>Client</TableCell>
                   <TableCell>Numéro</TableCell>
-                  <TableCell>Credit</TableCell>
-                  <TableCell>Pay</TableCell>
-                  <TableCell>Rest</TableCell>
+                  <TableCell>Crédit</TableCell>
+                  <TableCell>Payé</TableCell>
+                  <TableCell>Reste</TableCell>
                   <TableCell>Date</TableCell>
                 </TableRow>
               </TableHead>
@@ -124,8 +178,8 @@ const Creditdashboard = () => {
                 {todayCredits.map((credit) => (
                   <TableRow key={credit.id}>
                     <TableCell>{credit.client}</TableCell>
-                    <TableCell>{credit.num}</TableCell>   
-                     <TableCell>{credit.credit}</TableCell>
+                    <TableCell>{credit.num}</TableCell>
+                    <TableCell>{credit.credit}</TableCell>
                     <TableCell>{credit.pay}</TableCell>
                     <TableCell>{credit.rest}</TableCell>
                     <TableCell>{credit.date}</TableCell>
@@ -141,7 +195,7 @@ const Creditdashboard = () => {
                         type="number"
                         value={updatedPay}
                         onChange={(e) => setUpdatedPay(e.target.value)}
-                        placeholder="New Pay"
+                        placeholder="Nouveau paiement"
                         size="small"
                         sx={{ mr: 2 }}
                       />
@@ -150,7 +204,7 @@ const Creditdashboard = () => {
                         color="primary"
                         onClick={() => handleUpdateCredit(credit.id)}
                       >
-                        Update
+                        Mettre à jour
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -159,14 +213,6 @@ const Creditdashboard = () => {
             </Table>
           </TableContainer>
         </Paper>
-
-        {/* Third Section: Future Section */}
-        <Paper elevation={3} sx={{ p: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            Future Section
-          </Typography>
-          <Typography>This section can be used for additional features.</Typography>
-        </Paper> 
       </Box>
     </Container>
   );
