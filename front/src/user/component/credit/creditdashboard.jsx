@@ -31,6 +31,14 @@ const Creditdashboard = () => {
   const [credit, setCredit] = useState(0);
   const [date, setDate] = useState('');
   const [desc, setDesc] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+
+
+
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   const fetchCredits = async () => {
     try {
@@ -129,8 +137,14 @@ const Creditdashboard = () => {
     setUpdateField(field);
   };
 
- 
-
+  const filteredData = credits.filter((row) =>
+    row.client.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.num.toString().includes(searchQuery)
+  );
+    const filteredDataT = todayCredits.filter((row) =>
+    row.client.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    row.num.toString().includes(searchQuery)
+  );
   return (
     <Container>
       <Box sx={{ my: 4 }}>
@@ -156,6 +170,7 @@ const Creditdashboard = () => {
             Voir Crédits d'Aujourd'hui
           </Button>
         </Box>
+        <input type="text" onChange={handleSearchChange} placeholder="Rechercher par nom ou numéro" style={{ margin: '10px', padding: '8px', minWidth: '200px' }} />
 
         {view === 'create' && (
           <Grid container spacing={3}>
@@ -229,7 +244,7 @@ const Creditdashboard = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {credits.map((credit) => (
+                      {filteredData.map((credit) => (
                         <TableRow key={credit.id}>
                           <TableCell>{credit.client}</TableCell>
                           <TableCell>{credit.num}</TableCell>
@@ -317,7 +332,7 @@ const Creditdashboard = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {todayCredits.map((credit) => (
+                      {filteredDataT.map((credit) => (
                         <TableRow key={credit.id}>
                           <TableCell>{credit.client}</TableCell>
                           <TableCell>{credit.num}</TableCell>
