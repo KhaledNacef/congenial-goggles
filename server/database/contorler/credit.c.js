@@ -56,7 +56,7 @@ const updatedate = async (req, res) => {
         return res.status(404).json({ error: 'Credit not found' });
       }
   
-      updatedCredit.pay = parseFloat(pay);
+      updatedCredit.pay = parseFloat(pay)+updatedCredit.pay;
       await updatedCredit.save(); // Ensure to save the changes
       res.status(200).json({ message: 'Credit payment updated successfully' });
     } catch (error) {
